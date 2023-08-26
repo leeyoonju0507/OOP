@@ -1,1 +1,1 @@
-console.log('이윤주');
+console.log('Lee yoon ju');
