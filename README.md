@@ -1,1 +1,1 @@
-# Object Oriented Programming with Typescript
+# Object-Oriented Programming with Typescript
