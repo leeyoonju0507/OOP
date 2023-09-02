@@ -20,6 +20,7 @@ export default class Buyer extends User {
     this.history[Buyer.n++] = product;
   }
   //productId를 return
+
   public getHistory(num: number) {
     return this.history[num];
   }
