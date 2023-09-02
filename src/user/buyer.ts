@@ -20,14 +20,15 @@ export default class Buyer extends User {
     this.history[Buyer.n++] = product;
   }
   //productId를 return
-  public getHistory() {
-    return this.history;
+
+  public getHistory(num: number) {
+    return this.history[num];
   }
   public Print_history(num_stuff: number) {
     console.log('========구매한 물건 상세정보========');
     for (let i = 0; i < num_stuff; i++) {
       console.log(`상품${i}번(0번부터 출력)=>`);
-      console.log('상품번호:' + this.getHistory());
+      console.log('상품번호:' + this.getHistory(i));
       Product.description();
       console.log('잔고: ' + this.getMoney());
     }
