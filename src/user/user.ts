@@ -17,13 +17,20 @@ export default class User {
   public getEmail() {
     return this.email;
   }
-  public get Email() {
-    return this.email;
-  }
+
   public setEmail(newEmail: string) {
     this.email = newEmail;
   }
-  public set Email(newEmail: string) {
-    this.email = newEmail;
+
+  public getMoney() {
+    return this.money;
+  }
+
+  public deposit(money: number) {
+    this.money += money;
+  }
+
+  public withdraw(money: number) {
+    this.money -= money;
   }
 }
