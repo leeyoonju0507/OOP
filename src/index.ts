@@ -1,37 +1,31 @@
-import User from './user/user';
-import Seller from './user/seller';
-import Buyer from './user/buyer';
-import Product from './product/product';
+import {inputReceiver} from './utils';
+import Database from './Database/database';
+import Store from './UI/store';
 
-let n: number = 1; //구매할때 몇번째 시도인지 알려줌
-const total: number = 5; //전체물건개수
-const price: number = 10000; //물건가격저장
-const stuff: Product[] = Array(5); //창고에 재고가 5개
-const a = new Seller('x@gmail.com', '1234', 'x', 0, 'aaa'); //판매자 new
+const doExample = async () => {
+  console.log('==================================================');
+  console.log('inputReceiver 예제를 실행합니다');
+  const name = await inputReceiver('이름을 입력하세요: ');
+  const age = await inputReceiver('나이를 입력하세요: ');
+  console.log(`입력받은 이름: ${name}, 입력받은 나이: ${age}`);
+  console.log();
 
-for (let i = 0; i < total; i++) {
-  stuff[i] = new Product(price); //물건가격할당
-}
+  // Database 사용법
+  console.log('Database 예제를 실행합니다');
+  const db = new Database();
+  await db.writeCSV('example.csv', `${name},${age}`);
+  const readContents = await db.readCSV('example.csv');
+  console.log('example.csv에서 읽어온 콘텐츠: ', readContents);
+  console.log('example.csv 파일을 열어보세요');
+  console.log('==================================================');
+};
 
-const b = new Buyer('y@gmail.com', '1234', 'x', 10000, 'bbb'); //구매자 new
+const main = async () => {
+  await doExample();
 
-let num_stuff = 5; //구매자가 구매할 물건개수저장
-function f(): void {
-  //함수구현: 구매가능여부 확인후 구매
-  if (price * num_stuff > b.getMoney()) {
-    console.log(`${n}:잔액부족으로 물건을 구매할 수 없습니다.`);
-  } else {
-    console.log(`${n}:물건을 ${num_stuff}개 구매하였습니다.`);
-    for (var i = 1; i <= num_stuff; i++) {
-      b.BUY(price, stuff[total - i].getproductId()); //구매자는 물건의 productId를 history에 저장, 돈을 withdraw
-      a.SELL(price, stuff[total - i].getproductId()); //판매자는 물건의 productId를 storage에 저장, 돈을 deposit
-      stuff[total - i].setproductId_zero(); //창고에 재고가 1개씩 없어짐
-    }
-  }
-  n++;
-}
-f(); //num_stuff가 5일때
-num_stuff = 1; //구매자가 구매할 물건개수
-f(); //num_stuff가 1일때
+  console.log('store 앱을 실행합니다');
+  const store = new Store();
+  await store.init();
+};
 
-b.Print_history(num_stuff); //구매자의 구매한 물건상세정보
+main();
