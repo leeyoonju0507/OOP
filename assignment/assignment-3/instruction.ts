@@ -1,3 +1,4 @@
+// csv 파일을 읽기 위한 패키지가 package.json에 기록되어 있어요. npm install 명령어를 실행해서 설치해주세요
 // UI, Service, Domain, Database 폴더에 필요한 클래스를 적절하게 생성하고 사용하세요
 // Data 폴더에 csv 파일의 가장 첫 번째 줄은 csv 파일의 컬럼의 이름이에요. 필요한 컬럼이 있는 경우 직접 추가하세요
 // index.ts에 inputReceiver 함수와 Database 클래스의 사용법을 정리해 두었어요
