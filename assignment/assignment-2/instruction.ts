@@ -3,9 +3,9 @@
 // 필요한 메소드가 있다고 판단되면 구현하세요(미구현된 메소드가 반드시 있습니다)
 // 모든 속성은 private, 모든 메소드는 public으로 구현하세요
 // Buyer, Seller 클래스는 User 클래스를 상속받고 있어요
-// Buyer 클래스는 accountId, history 속성을 가지고 있어요
+// Buyer 클래스는 history 속성을 가지고 있어요
 // history는 내가 구매한 product의 productId가 들어있는 배열이에요
-// Seller 클래스는 accountId, storage 속성을 가지고 있어요
+// Seller 클래스는 storage 속성을 가지고 있어요
 // storage는 내가 판매할 product의 productId가 들어있는 배열이에요
 // Product 클래스는 productId, title, price, content, sellerId 속성을 가지고 있어요
 // productId는 Product 객체를 식별하는 고유한 숫자에요
