@@ -7,6 +7,7 @@ const doExample = async () => {
   console.log('inputReceiver 예제를 실행합니다');
   const name = await inputReceiver('이름을 입력하세요: ');
   const age = await inputReceiver('나이를 입력하세요: ');
+
   console.log(`입력받은 이름: ${name}, 입력받은 나이: ${age}`);
   console.log();
 
@@ -21,7 +22,7 @@ const doExample = async () => {
 };
 
 const main = async () => {
-  await doExample();
+  // await doExample();
 
   console.log('store 앱을 실행합니다');
   const store = new Store();
