@@ -1,17 +1,21 @@
 import {inputReceiver} from '../utils';
 import Service from '../Service/service';
-import Store from './store';
+
 class AuthScreen {
+  private service: Service;
+
+  constructor() {
+    this.service = new Service();
+  }
+
   signUpUI = async () => {
-    const s = new Service();
-    const store = new Store();
     console.log('=======회원가입=======');
     const email = await inputReceiver('email 입력하세요: ');
-    // Service로 보내서 data에 저장여부확인
-    if ((await s.read(email, 'e')) !== 'not-email') {
+    const isSignedUp = await this.service.checkSignedUpByEmail(email);
+    if (isSignedUp) {
       console.log('이미 가입이 되어있는 email입니다. 인증스크린으로 돌아갑니다.');
-      await store.init();
-    } else if ((await s.read(email, 'e')) === 'not-email') {
+      return false;
+    } else {
       console.log('사용가능한 이메일 입니다.');
     }
     const password = await inputReceiver('password를 입력하세요: ');
@@ -31,28 +35,21 @@ class AuthScreen {
     const money = await readmoney();
     const usertype = await inputReceiver('구매자 or 판매자: ');
     // 개인정보를 Service에게 시켜서 data저장-> Service는 db를 시켜서 저장
-    await s.write({email, password, nickname, money, usertype});
+    await this.service.write({email, password, nickname, money, usertype});
     console.log('회원가입완료');
-    store.init();
+    return true;
   };
 
   loginUI = async () => {
-    const s = new Service();
-    const store = new Store();
     console.log('=======로그인=======');
     const email = await inputReceiver('이메일을 입력하세요: ');
-    if ((await s.read(email, 'e')) === 'not-email') {
-      console.log('이메일을 찾을 수 없습니다.');
-      await store.init();
-    }
     const password = await inputReceiver('비밀번호를 입력하세요: ');
-    if ((await s.read(password, 'p')) === 'not-password') {
-      console.log('비밀번호가 일치하지 않습니다.');
-      await store.init();
-    }
-    // store에게 로그인화면띄우게하라고 service에서 받은 nickname 넘겨주기
-    else {
-      await store.signin(await s.read(password, 'p'));
+    const user = await this.service.login(email, password);
+    if (!user) {
+      console.log('이메일 또는 비밀번호를 찾을 수 없습니다.');
+      return false;
+    } else {
+      return user;
     }
   };
 }
