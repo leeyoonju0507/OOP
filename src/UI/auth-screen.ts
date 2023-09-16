@@ -44,12 +44,12 @@ class AuthScreen {
     console.log('=======로그인=======');
     const email = await inputReceiver('이메일을 입력하세요: ');
     const password = await inputReceiver('비밀번호를 입력하세요: ');
-    const user = await this.service.login(email, password);
-    if (!user) {
+    const UserInfo = await this.service.checkLoginedByEmailandPassword(email, password);
+    if (!UserInfo) {
       console.log('이메일 또는 비밀번호를 찾을 수 없습니다.');
       return false;
     } else {
-      return user;
+      return UserInfo;
     }
   };
 }

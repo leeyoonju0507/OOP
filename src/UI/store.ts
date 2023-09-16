@@ -17,7 +17,7 @@ class Store {
     const sign = await inputReceiver('숫자를 입력하세요: ');
     if (sign === '0') {
       const result = await this.authScreen.signUpUI();
-      if (result) {
+      if (!result) {
         await this.init();
       }
     } else if (sign === '1') {
