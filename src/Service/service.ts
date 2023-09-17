@@ -1,11 +1,13 @@
 import Database from '../Database/database';
 import UserRepository from '../Repository/user-repository';
+import * as path from 'path';
+import {IUserData} from '../Specification/interfaces';
 export interface IService {
-  checkSignedUpByEmail(email: string): boolean;
-  login(email: string, password: string): string;
+  checkSignedUpByEmail(email: string): Promise<boolean>;
+  login(email: string, password: string): Promise<IUserData | undefined>;
 }
 
-class Service {
+class Service implements IService {
   private userRepository: UserRepository;
 
   constructor() {
@@ -13,36 +15,30 @@ class Service {
   }
 
   checkSignedUpByEmail = async (email: string) => {
-    return await this.userRepository.findUserByEmail(email);
+    return !!(await this.userRepository.findUserByEmail(email));
   };
-
-  checkLoginedByEmailandPassword = async (email: string, password: string) => {
-    //이 호갱님이 우리 회원맞아?
-    const isEmailExist: true | false = await this.userRepository.findUserByEmail(email);
-    if (!isEmailExist) {
-      return false;
-    }
-    const isPasswordExist: true | false = await this.userRepository.findUserByPassword(password);
-    if (!isPasswordExist) {
-      return false;
-    }
-    //email의 인덱스와 password의 인덱스가 같아야한다.
-    if (
-      (await this.userRepository.findEmailIndex(email)) ===
-      (await this.userRepository.findPasswordIndex(password))
-    ) {
-      return await this.userRepository.findUserByPassword(password);
-    } else {
-      return;
-    }
-  };
-
-  write = async (a: any) => {
+  signUp = async (userData: {
+    email: string;
+    password: string;
+    nickname: string;
+    money: number;
+    userType: string;
+  }) => {
     const db: Database = new Database();
     await db.writeCSV(
       'users.csv',
-      `${a.email},${a.password},${a.nickname},${a.money},${a.usertype}`,
+      `${userData.email},${userData.password},${userData.nickname},${userData.money},${userData.userType}`,
     );
+  };
+  login = async (email: string, password: string) => {
+    const user = await this.userRepository.findUserByEmail(email);
+    if (!user) {
+      return;
+    }
+    if (user.password === password) {
+      return;
+    }
+    return user;
   };
 }
 
