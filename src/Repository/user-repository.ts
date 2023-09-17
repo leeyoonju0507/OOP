@@ -22,6 +22,14 @@ class UserRepository implements IUserRepository {
     }
     return;
   };
+
+  write = async (thing: any) => {
+    const db: Database = new Database();
+    await db.writeCSV(
+      'users.csv',
+      `${thing.email},${thing.password},${thing.nickname},${thing.money},${thing.usertype}`,
+    );
+  };
 }
 
 export default UserRepository;

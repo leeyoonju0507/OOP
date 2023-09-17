@@ -1,4 +1,3 @@
-import Database from '../Database/database';
 import UserRepository from '../Repository/user-repository';
 import * as path from 'path';
 import {IUserData} from '../Specification/interfaces';
