@@ -16,6 +16,7 @@ class Service implements IService {
   checkSignedUpByEmail = async (email: string) => {
     return !!(await this.userRepository.findUserByEmail(email));
   };
+
   signUp = async (userData: {
     email: string;
     password: string;
@@ -23,12 +24,9 @@ class Service implements IService {
     money: number;
     userType: string;
   }) => {
-    const db: Database = new Database();
-    await db.writeCSV(
-      'users.csv',
-      `${userData.email},${userData.password},${userData.nickname},${userData.money},${userData.userType}`,
-    );
+    this.userRepository.write(userData);
   };
+
   login = async (email: string, password: string) => {
     const user = await this.userRepository.findUserByEmail(email);
     if (!user) {

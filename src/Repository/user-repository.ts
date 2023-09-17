@@ -7,10 +7,9 @@ export interface IUserRepository {
 
 class UserRepository implements IUserRepository {
   private db: Database;
-  // private userRows: any;
+
   constructor() {
     this.db = new Database();
-    // this.userRows = this.db.readCSV('users.csv');
   }
 
   findUserByEmail = async (email: string) => {
