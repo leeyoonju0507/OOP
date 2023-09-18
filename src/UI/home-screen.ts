@@ -6,7 +6,7 @@ class HomeScreen {
       user.nickname +
         '님 환영합니다~^^  ====>  ' +
         'UserType:' +
-        user.usertype +
+        user.userType +
         '   ' +
         '잔액:' +
         user.money +

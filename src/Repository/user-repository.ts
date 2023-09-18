@@ -3,6 +3,7 @@ import {IUserData} from '../Specification/interfaces';
 
 export interface IUserRepository {
   findUserByEmail(email: string): any;
+  storeUserData(thing: any): any;
 }
 
 class UserRepository implements IUserRepository {
@@ -22,11 +23,11 @@ class UserRepository implements IUserRepository {
     return;
   };
 
-  write = async (thing: any) => {
+  storeUserData = async (thing: any) => {
     const db: Database = new Database();
     await db.writeCSV(
       'users.csv',
-      `${thing.email},${thing.password},${thing.nickname},${thing.money},${thing.usertype}`,
+      `${thing.email},${thing.password},${thing.nickname},${thing.money},${thing.userType}`,
     );
   };
 }

@@ -1,7 +1,13 @@
 import {inputReceiver} from '../utils';
 import Service from '../Service/service';
+import {IUserData} from '../Specification/interfaces';
 
-class AuthScreen {
+export interface IAuthScreen {
+  signUpUI(): Promise<boolean>;
+  loginUI(): Promise<IUserData | undefined>;
+}
+
+class AuthScreen implements IAuthScreen {
   private service: Service;
 
   constructor() {
@@ -9,7 +15,7 @@ class AuthScreen {
   }
 
   signUpUI = async () => {
-    console.log('=======회원가입=======');
+    console.log('=======회원가입 페이지=======');
     const email = await inputReceiver('email 입력하세요: ');
     const isSignedUp = await this.service.checkSignedUpByEmail(email);
     if (isSignedUp) {
@@ -22,14 +28,13 @@ class AuthScreen {
     const nickname = await inputReceiver('nickname을 입력하세요: ');
     const moneyString: string = await inputReceiver('money를 입력하세요: ');
     const money = parseInt(moneyString);
-    const userType = await inputReceiver('구매자 or 판매자: ');
+    const userType = await inputReceiver('buyer or seller: ');
     await this.service.signUp({email, password, nickname, money, userType});
-    console.log('회원가입완료');
     return true;
   };
 
   loginUI = async () => {
-    console.log('=======로그인=======');
+    console.log('=======로그인 페이지=======');
     const email = await inputReceiver('이메일을 입력하세요: ');
     const password = await inputReceiver('비밀번호를 입력하세요: ');
     const userInfo = await this.service.login(email, password);
@@ -37,7 +42,6 @@ class AuthScreen {
       console.log('이메일 또는 비밀번호를 찾을 수 없습니다.');
       return;
     }
-
     return userInfo;
   };
 }

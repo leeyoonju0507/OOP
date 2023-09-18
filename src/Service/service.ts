@@ -24,7 +24,7 @@ class Service implements IService {
     money: number;
     userType: string;
   }) => {
-    this.userRepository.write(userData);
+    this.userRepository.storeUserData(userData);
   };
 
   login = async (email: string, password: string) => {
@@ -33,9 +33,9 @@ class Service implements IService {
       return;
     }
     if (user.password === password) {
-      return;
+      return user;
     }
-    return user;
+    return;
   };
 }
 
