@@ -2,8 +2,8 @@ import Database from '../Database/database';
 import {IUserData} from '../Specification/interfaces';
 
 export interface IUserRepository {
-  findUserByEmail(email: string): any;
-  storeUserData(thing: any): any;
+  findUserByEmail(email: string): Promise<IUserData | undefined>;
+  storeUser(thing: any): any;
 }
 
 class UserRepository implements IUserRepository {
@@ -13,6 +13,13 @@ class UserRepository implements IUserRepository {
     this.db = new Database();
   }
 
+  storeUser = async (thing: any) => {
+    const db: Database = new Database();
+    await db.writeCSV(
+      'users.csv',
+      `${thing.email},${thing.password},${thing.nickname},${thing.money},${thing.userType}`,
+    );
+  };
   findUserByEmail = async (email: string) => {
     const userRows: any = await this.db.readCSV('users.csv');
     for (let i: number = 0; i < userRows.length; i++) {
@@ -21,14 +28,6 @@ class UserRepository implements IUserRepository {
       }
     }
     return;
-  };
-
-  storeUserData = async (thing: any) => {
-    const db: Database = new Database();
-    await db.writeCSV(
-      'users.csv',
-      `${thing.email},${thing.password},${thing.nickname},${thing.money},${thing.userType}`,
-    );
   };
 }
 

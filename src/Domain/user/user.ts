@@ -1,3 +1,5 @@
+export interface IUser {}
+
 export default class User {
   // 데이터: 인스턴스 속성
   private email: string;

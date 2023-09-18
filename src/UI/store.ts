@@ -1,4 +1,4 @@
-import AuthScreen from './auth-screen';
+import AuthScreen, {IAuthScreen} from './auth-screen';
 import {inputReceiver} from '../utils';
 import HomeScreen from './home-screen';
 

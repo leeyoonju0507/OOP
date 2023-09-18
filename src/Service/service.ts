@@ -1,9 +1,16 @@
-import UserRepository from '../Repository/user-repository';
+import UserRepository, {IUserRepository} from '../Repository/user-repository';
 import * as path from 'path';
 import {IUserData} from '../Specification/interfaces';
 export interface IService {
   checkSignedUpByEmail(email: string): Promise<boolean>;
   login(email: string, password: string): Promise<IUserData | undefined>;
+  signUp(userData: {
+    email: string;
+    password: string;
+    nickname: string;
+    money: number;
+    userType: string;
+  }): Promise<void>;
 }
 
 class Service implements IService {
@@ -24,7 +31,7 @@ class Service implements IService {
     money: number;
     userType: string;
   }) => {
-    this.userRepository.storeUserData(userData);
+    await this.userRepository.storeUser(userData);
   };
 
   login = async (email: string, password: string) => {
@@ -32,10 +39,10 @@ class Service implements IService {
     if (!user) {
       return;
     }
-    if (user.password === password) {
-      return user;
+    if (user.password !== password) {
+      return;
     }
-    return;
+    return user;
   };
 }
 

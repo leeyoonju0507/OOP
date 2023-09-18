@@ -1,5 +1,5 @@
 import {inputReceiver} from '../utils';
-import Service from '../Service/service';
+import Service, {IService} from '../Service/service';
 import {IUserData} from '../Specification/interfaces';
 
 export interface IAuthScreen {
@@ -8,7 +8,7 @@ export interface IAuthScreen {
 }
 
 class AuthScreen implements IAuthScreen {
-  private service: Service;
+  private service: IService;
 
   constructor() {
     this.service = new Service();
@@ -26,7 +26,7 @@ class AuthScreen implements IAuthScreen {
     console.log('사용가능한 이메일 입니다.');
     const password = await inputReceiver('password를 입력하세요: ');
     const nickname = await inputReceiver('nickname을 입력하세요: ');
-    const moneyString: string = await inputReceiver('money를 입력하세요: ');
+    const moneyString = await inputReceiver('money를 입력하세요: ');
     const money = parseInt(moneyString);
     const userType = await inputReceiver('buyer or seller: ');
     await this.service.signUp({email, password, nickname, money, userType});
