@@ -1,3 +1,5 @@
+import UserRepository from '../../Repository/user-repository';
+
 export interface IUser {}
 
 export default class User {

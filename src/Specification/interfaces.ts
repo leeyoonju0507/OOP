@@ -4,4 +4,5 @@ export interface IUserData {
   nickname: string;
   money: number;
   userType: 'seller' | 'buyer';
+  accountId: any;
 }
