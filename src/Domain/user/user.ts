@@ -26,6 +26,10 @@ export default class User {
     this.email = newEmail;
   }
 
+  public setMoneyByStorage(money: number) {
+    this.money -= 10000;
+  }
+
   public getMoney() {
     return this.money;
   }

@@ -14,8 +14,13 @@ export default class Seller extends User {
 
   //seller는 buyer에게 판매하기 전에 창고(storage)에 product을 미리 사놔야함
   public addStorage() {
-    const p: Product = new Product(this.accountId);
-    this.setStorage(p.getproductId());
+    if (this.getMoney() < 10000) {
+      console.log('seller의 돈이 부족합니다.');
+    } else {
+      const product = new Product(this.accountId);
+      this.setStorage(product.getproductId());
+      this.setMoneyByStorage(10000);
+    }
   }
   //seller가 buyer에게 판매할때
   public SELL(price: number, productId: string) {
