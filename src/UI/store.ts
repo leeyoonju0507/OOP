@@ -22,9 +22,12 @@ class Store {
       }
     } else if (sign === '1') {
       const user = await this.authScreen.loginUI();
+      // 로그인이 안될때(이메일 또는 비번을 못찾을때)
       if (!user) {
         await this.init();
-      } else {
+      }
+      // 로그인 성공할 때
+      else {
         await this.homeScreen.mainUI(user);
       }
     } else {

@@ -1,19 +1,19 @@
+import UserRepository from '../../Repository/user-repository';
+import Database from '../../Database/database';
+
 export default class Product {
-  private static autoIncrementNumber: number = 0;
+  static autoIncrementNumber: number = 0;
   private productId: any;
   private title: string = '타입스크립트';
-  private price: number;
+  private price: number = 10000;
   private content: string = '도서';
-  private sellerId: string = 'cuppang';
+  private sellerId: string; //sellerId는 seller의 accountId로 정의
 
-  constructor(price: number) {
+  constructor(sellerId: string) {
     this.productId = 'sss_product_' + Product.autoIncrementNumber++;
-    this.price = price;
+    this.sellerId = sellerId;
   }
-  //구매자가 물건을 사면 창고에 물거이 없어지므로 productId를 null로 만든다.
-  public setproductId_zero() {
-    this.productId = null;
-  }
+
   public getproductId() {
     return this.productId;
   }
@@ -22,9 +22,16 @@ export default class Product {
     return this.price;
   }
 
+  public getTitle() {
+    return this.title;
+  }
+  public getContent() {
+    return this.content;
+  }
+
   static description() {
     console.log('상품종류: 도서');
     console.log('상품이름: 타입스크립트');
-    console.log('판매자: cuppang');
+    console.log('가격: 10000원');
   }
 }

@@ -29,7 +29,11 @@ class AuthScreen implements IAuthScreen {
     const moneyString = await inputReceiver('money를 입력하세요: ');
     const money = parseInt(moneyString);
     const userType = await inputReceiver('buyer or seller: ');
-    await this.service.signUp({email, password, nickname, money, userType});
+    // if (userType === 'seller') {
+    //   await this.service.addProductInSellerStore(email, password, nickname, money);
+    // }
+    const accountId = await inputReceiver('accountId를 입력하세요: ');
+    await this.service.signUp({email, password, nickname, money, userType, accountId});
     return true;
   };
 

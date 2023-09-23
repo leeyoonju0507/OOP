@@ -1,6 +1,9 @@
 import UserRepository, {IUserRepository} from '../Repository/user-repository';
 import * as path from 'path';
 import {IUserData} from '../Specification/interfaces';
+import Buyer from '../Domain/user/buyer';
+import Seller from '../Domain/user/seller';
+
 export interface IService {
   checkSignedUpByEmail(email: string): Promise<boolean>;
   login(email: string, password: string): Promise<IUserData | undefined>;
@@ -10,7 +13,16 @@ export interface IService {
     nickname: string;
     money: number;
     userType: string;
+    accountId: any;
   }): Promise<void>;
+  showProductInStorage(user: IUserData): Promise<Seller>;
+  // buyProduct(): Promise<boolean>;
+  // addProductInSellerStore(
+  //   email: string,
+  //   password: string,
+  //   nickname: string,
+  //   money: number,
+  // ): Promise<void>;
 }
 
 class Service implements IService {
@@ -30,6 +42,7 @@ class Service implements IService {
     nickname: string;
     money: number;
     userType: string;
+    accountId: any;
   }) => {
     await this.userRepository.storeUser(userData);
   };
@@ -43,6 +56,23 @@ class Service implements IService {
       return;
     }
     return user;
+  };
+
+  // addProductInSellerStore = async (
+  //   email: string,
+  //   password: string,
+  //   nickname: string,
+  //   money: number,
+  // ) => {
+  //   this.userRepository.SellerBuyProduct(email, password, nickname, money);
+  // };
+
+  // buyProduct = async () => {
+  //   return true;
+  // };
+  showProductInStorage = async (user: IUserData) => {
+    const seller: Seller = await this.userRepository.makeSellerObject(user);
+    return seller;
   };
 }
 
