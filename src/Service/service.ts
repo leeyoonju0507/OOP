@@ -16,13 +16,6 @@ export interface IService {
     accountId: any;
   }): Promise<void>;
   showProductInStorage(user: IUserData): Promise<Seller>;
-  // buyProduct(): Promise<boolean>;
-  // addProductInSellerStore(
-  //   email: string,
-  //   password: string,
-  //   nickname: string,
-  //   money: number,
-  // ): Promise<void>;
 }
 
 class Service implements IService {
@@ -58,18 +51,6 @@ class Service implements IService {
     return user;
   };
 
-  // addProductInSellerStore = async (
-  //   email: string,
-  //   password: string,
-  //   nickname: string,
-  //   money: number,
-  // ) => {
-  //   this.userRepository.SellerBuyProduct(email, password, nickname, money);
-  // };
-
-  // buyProduct = async () => {
-  //   return true;
-  // };
   showProductInStorage = async (user: IUserData) => {
     const seller: Seller = await this.userRepository.makeSellerObject(user);
     return seller;
