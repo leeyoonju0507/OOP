@@ -4,17 +4,19 @@ export interface IUser {}
 
 export default class User {
   // 데이터: 인스턴스 속성
-  private email: string;
-  private password: string;
-  private nickname: string;
-  private money: number;
+  protected email: string;
+  protected password: string;
+  protected nickname: string;
+  protected money: number;
+  protected userType: any;
 
   // 생성자
-  constructor(email: string, password: string, nickname: string, money: number) {
+  constructor(email: string, password: string, nickname: string, money: number, userType: string) {
     this.email = email;
     this.password = password;
     this.nickname = nickname;
     this.money = money;
+    this.userType = userType;
   }
 
   // 함수: 인스턴스 메소드
@@ -40,5 +42,15 @@ export default class User {
 
   public withdraw(money: number) {
     this.money -= money;
+  }
+  public getPassword() {
+    return this.password;
+  }
+
+  public getNickname() {
+    return this.nickname;
+  }
+  public getUserType() {
+    return this.userType;
   }
 }

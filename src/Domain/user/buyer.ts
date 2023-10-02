@@ -3,13 +3,11 @@ import Product from '../product/product';
 import UserRepository from '../../Repository/user-repository';
 
 export default class Buyer extends User {
-  private accountId: string;
   private history: any[] = [];
   private n: number = 0;
 
-  constructor(email: string, password: string, nickname: string, money: number, accountId: string) {
-    super(email, password, nickname, money);
-    this.accountId = accountId;
+  constructor(email: string, password: string, nickname: string, money: number, userType: string) {
+    super(email, password, nickname, money, userType);
   }
 
   public BUY(price: number, productId: any) {
@@ -32,5 +30,8 @@ export default class Buyer extends User {
       Product.description();
       console.log('잔고: ' + this.getMoney());
     }
+  }
+  public getNumStoredProduct() {
+    return this.n;
   }
 }

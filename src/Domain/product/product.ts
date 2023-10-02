@@ -7,11 +7,9 @@ export default class Product {
   private title: string = '타입스크립트';
   private price: number = 10000;
   private content: string = '도서';
-  private sellerId: string; //sellerId는 seller의 accountId로 정의
 
-  constructor(sellerId: string) {
+  constructor() {
     this.productId = 'sss_product_' + Product.autoIncrementNumber++;
-    this.sellerId = sellerId;
   }
 
   public getproductId() {

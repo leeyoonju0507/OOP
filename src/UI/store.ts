@@ -1,6 +1,7 @@
 import AuthScreen, {IAuthScreen} from './auth-screen';
 import {inputReceiver} from '../utils';
 import HomeScreen from './home-screen';
+import {ILoginData} from '../Specification/interfaces';
 
 class Store {
   private authScreen: AuthScreen;
@@ -17,12 +18,13 @@ class Store {
     const sign = await inputReceiver('숫자를 입력하세요: ');
     if (sign === '0') {
       const result = await this.authScreen.signUpUI();
+      //회원가입이 실패시
       if (!result) {
         await this.init();
       }
     } else if (sign === '1') {
-      const user = await this.authScreen.loginUI();
-      // 로그인이 안될때(이메일 또는 비번을 못찾을때)
+      const user: ILoginData | undefined = await this.authScreen.loginUI();
+      // 로그인이 실패시(이메일 또는 비번을 못찾을때)
       if (!user) {
         await this.init();
       }
