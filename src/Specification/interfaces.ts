@@ -13,3 +13,9 @@ export interface ILoginData {
   money: number;
   userType: 'seller' | 'buyer';
 }
+
+export interface IProductData {
+  title: string;
+  price: number;
+  content: string;
+}

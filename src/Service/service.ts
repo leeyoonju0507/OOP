@@ -4,6 +4,7 @@ import {IUserData} from '../Specification/interfaces';
 import Buyer from '../Domain/user/buyer';
 import Seller from '../Domain/user/seller';
 import {ILoginData} from '../Specification/interfaces';
+import {IProductData} from '../Specification/interfaces';
 
 export interface IService {
   checkSignedUpByEmail(email: string): Promise<boolean>;
@@ -16,12 +17,17 @@ export interface IService {
     userType: string;
     accountId: any;
   }): Promise<void>;
-  buyProduct(user: ILoginData): Promise<true | false>;
-  showProduct(user: ILoginData): Promise<void>;
+  registerProduct(
+    user: ILoginData,
+    title: string,
+    price: number,
+    content: string,
+  ): Promise<boolean>;
+  getSellerProducts(user: ILoginData): Promise<IProductData[]>;
 }
 
 class Service implements IService {
-  private userRepository: UserRepository;
+  private userRepository: IUserRepository;
 
   constructor() {
     this.userRepository = new UserRepository();
@@ -57,23 +63,34 @@ class Service implements IService {
     };
   };
 
-  buyProduct = async (user: ILoginData) => {
+  registerProduct = async (user: ILoginData, title: string, price: number, content: string) => {
     //이 고객이 회원인지 아닌지 검사
-    const checkmember = await this.userRepository.checkUserByData(user);
-    if (!checkmember) {
+    const checkIsMember = await this.userRepository.checkUserByData(user);
+    if (!checkIsMember) {
+      return false;
+    }
+    //상품을 등록하고 등록성공 여부 return
+    const isRegister = await this.userRepository.registerProduct(user, title, content, price);
+    if (!isRegister) {
       return false;
     }
     //구매가능한지
-    return !!(await this.userRepository.plusNumOfProduct());
+    return true;
   };
-
-  showProduct = async (user: ILoginData) => {
-    const member: Seller | Buyer | undefined = await this.userRepository.findUserByEmail(
-      user.email,
-    );
-    if (member instanceof Seller) {
-      return await this.userRepository.showProductInStorage(member);
+  //유저가 판매하는 모든 상품목록배열을 return
+  getSellerProducts = async (user: ILoginData) => {
+    //검증,로직처리,가공해서 리턴
+    //user가 회원이 맞는지 또 검증
+    //user의 상품목록을 가져온다->리턴
+    const checkIsMember = await this.userRepository.checkUserByData(user);
+    if (!checkIsMember) {
+      return [];
     }
+    const products = await this.userRepository.findSellerProductsInStorage(user);
+
+    // 1
+    c;
+    return products;
   };
 }
 

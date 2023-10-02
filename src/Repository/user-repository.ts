@@ -12,6 +12,13 @@ export interface IUserRepository {
   plusNumOfProduct(user: Seller | Buyer): Promise<true | false>;
   showProductInStorage(member: Seller): Promise<void>;
   checkUserByData(data: ILoginData): Promise<typeof Seller | undefined>;
+  registerProduct(
+    user: ILoginData,
+    title: string,
+    content: string,
+    price: number,
+  ): Promise<boolean>;
+  findSellerProductsInStorage(user: ILoginData): Promise<Product[]>;
 }
 
 class UserRepository implements IUserRepository {
@@ -55,7 +62,7 @@ class UserRepository implements IUserRepository {
     }
   };
 
-  checkUserByData = async (data: any) => {
+  checkUserByData = async (data: ILoginData) => {
     const userRows: any = await this.db.readCSV('users.csv');
     for (let i = 0; i < userRows.length; i++) {
       if (

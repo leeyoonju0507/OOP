@@ -29,16 +29,29 @@ class HomeScreen {
     console.log('(1) 창고에 물건을 추가 vs (2)창고 목록보기 vs (3)로그아웃');
     const select = await inputReceiver('메뉴선택하세요: ');
     if (select === '1') {
-      const canBuy: false | true = await this.service.buyProduct(user);
-      if (!canBuy) {
-        console.log('이 판매자는 존재하지 않거나 구매할 수 없습니다.');
+      const title = await inputReceiver('title을 입력하세요: ');
+      const price = parseInt(await inputReceiver('가격을 입력하세요: '));
+      const content = await inputReceiver('내용을 입력하세요: ');
+      const canRegister = await this.service.registerProduct(user, title, price, content);
+      if (!canRegister) {
+        console.log('이 판매자는 존재하지 않거나 상품을 등록할 수 없습니다..');
         return;
       }
-      console.log('물건을 1개 (창고에) 구매 성공했습니다.');
+      console.log('물건을 1개 (창고에) 등록에 성공했습니다.');
       await this.sellerUI(user);
     } else if (select === '2') {
       console.log('~~~~~판매자가 창고에 저장한 물건목록~~~~~');
-      await this.service.showProduct(user);
+      const listOfProduct = await this.service.getSellerProducts(user);
+      for (let i = 0; i < listOfProduct.length; i++) {
+        console.log(
+          `${i + 1}번` +
+            listOfProduct[i].title +
+            ' ' +
+            listOfProduct[i].content +
+            ' ' +
+            listOfProduct[i].price,
+        );
+      }
       await this.sellerUI(user);
     } else if (select === '3') {
       return;
