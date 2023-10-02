@@ -89,7 +89,7 @@ class Service implements IService {
     const products = await this.userRepository.findSellerProductsInStorage(user);
 
     // 1
-    c;
+
     return products;
   };
 }

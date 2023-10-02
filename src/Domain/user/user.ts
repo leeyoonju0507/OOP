@@ -29,7 +29,7 @@ export default class User {
   }
 
   public setMoneyByStorage(money: number) {
-    this.money -= 10000;
+    this.money -= money;
   }
 
   public getMoney() {
