@@ -1,5 +1,5 @@
 import Database from '../Database/database';
-import {IUserData} from '../Specification/interfaces';
+import {ILoginData, IUserData} from '../Specification/interfaces';
 import Product from '../Domain/product/product';
 import Buyer from '../Domain/user/buyer';
 import Seller from '../Domain/user/seller';
@@ -7,11 +7,11 @@ import User from '../Domain/user/user';
 import {inputReceiver} from '../utils';
 
 export interface IUserRepository {
-  findUserByEmail(email: string): Promise<IUserData | undefined>;
+  findUserByEmail(email: string): Promise<Seller | Buyer | undefined>;
   storeUser(thing: any): any;
-  storeSeller(user: any): void;
-  storeBuyer(user: any): void;
-  makeSellerObject(user: IUserData): any;
+  plusNumOfProduct(user: Seller | Buyer): Promise<true | false>;
+  showProductInStorage(member: Seller): Promise<void>;
+  checkUserByData(data: ILoginData): Promise<typeof Seller | undefined>;
 }
 
 class UserRepository implements IUserRepository {
@@ -24,45 +24,68 @@ class UserRepository implements IUserRepository {
   storeUser = async (user: any) => {
     await this.db.writeCSV(
       'users.csv',
-      `${user.email},${user.password},${user.nickname},${user.money},${user.userType},${user.accountId}`,
+      `${user.email},${user.password},${user.nickname},${user.money},${user.userType}`,
     );
-    //구매자인지 판매자인지에 따라 또 CSV를 저장한다.
-    if (user.userType === 'seller') {
-      await this.storeSeller(user);
-      // await this.makeSellerObject(user);
-    } else if (user.userType === 'buyer') {
-      await this.storeBuyer(user);
-      // await this.makeBuyerObject(user);
-    }
   };
 
   findUserByEmail = async (email: string) => {
     const userRows: any = await this.db.readCSV('users.csv');
     for (let i: number = 0; i < userRows.length; i++) {
-      if (email === userRows[i].email) {
-        return userRows[i] as IUserData;
+      // if (email === userRows[i].email) {
+      //   return userRows[i] as IUserData;
+      // }
+      const userObject: IUserData = userRows[i];
+      if (userObject.userType === 'seller') {
+        return new Seller(
+          userObject.email,
+          userObject.password,
+          userObject.nickname,
+          userObject.money,
+          userObject.userType,
+        );
+      } else {
+        return new Buyer(
+          userObject.email,
+          userObject.password,
+          userObject.nickname,
+          userObject.money,
+          userObject.userType,
+        );
       }
     }
-    return;
   };
 
-  //CSV에 저장
-  storeSeller = async (user: any) => {
-    await this.db.writeCSV(
-      'seller.csv',
-      `${user.email},${user.password},${user.nickname},${user.money},${user.accountId},${user.numStoredProduct},${user.numSelledProduct}`,
-    );
+  checkUserByData = async (data: any) => {
+    const userRows: any = await this.db.readCSV('users.csv');
+    for (let i = 0; i < userRows.length; i++) {
+      if (
+        userRows[i].email === data.email &&
+        userRows[i].nickname === data.nickname &&
+        userRows[i].userType === data.userType &&
+        userRows[i].money === data.money
+      ) {
+        return Seller.getInstance();
+      }
+    }
   };
-  storeBuyer = async (user: any) => {
-    await this.db.writeCSV(
-      'buyer.csv',
-      `${user.email},${user.password},${user.nickname},${user.money},${user.accountId}`,
-    );
+
+  //회원이 물건을 창고에 구매할수있는지 여부 확인 후 가능하면 true리턴
+  plusNumOfProduct = async (member: Seller | Buyer) => {
+    if (member instanceof Seller) {
+      return member.addStorage();
+    }
+    return false;
   };
-  //seller객체를 만든다.
-  makeSellerObject = async (user: IUserData) => {
-    const seller = new Seller(user.email, user.password, user.nickname, user.money, user.accountId);
-    return seller;
+
+  //회원의 물건을 보여주기
+  showProductInStorage = async (member: Seller) => {
+    if (!member.getNumStoredProduct()) {
+      return;
+    }
+    console.log(Product.description());
+    for (let i = 0; i < member.getNumStoredProduct(); i++) {
+      console.log([i + 1] + '번) ' + member.getStorageBefore(i));
+    }
   };
 }
 
