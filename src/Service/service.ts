@@ -1,10 +1,7 @@
 import UserRepository, {IUserRepository} from '../Repository/user-repository';
-import * as path from 'path';
-import {IUserData} from '../Specification/interfaces';
+import {ILoginData, IProductData} from '../Specification/interfaces';
 import Buyer from '../Domain/user/buyer';
 import Seller from '../Domain/user/seller';
-import {ILoginData} from '../Specification/interfaces';
-import {IProductData} from '../Specification/interfaces';
 
 export interface IService {
   checkSignedUpByEmail(email: string): Promise<boolean>;
@@ -88,9 +85,38 @@ class Service implements IService {
     }
     const products = await this.userRepository.findSellerProductsInStorage(user);
 
-    // 1
+    // Product[] => IProductData[]
+    // 방법1
+    // const result: IProductData[] = [];
+    // for (let i = 0; i < products.length; i++) {
+    //   const product = products[i];
+    //   result.push({
+    //     title: product.getTitle(),
+    //     price: product.getPrice(),
+    //     content: product.getContent(),
+    //   });
+    // }
+    // return result;
 
-    return products;
+    // 방법2
+    // const result: IProductData[] = [];
+    // products.forEach((product) => {
+    //   result.push({
+    //     title: product.getTitle(),
+    //     price: product.getPrice(),
+    //     content: product.getContent(),
+    //   });
+    // });
+    // return result;
+
+    // 방법3
+    return products.map((product) => {
+      return {
+        title: product.getTitle(),
+        price: product.getPrice(),
+        content: product.getContent(),
+      };
+    });
   };
 }
 
