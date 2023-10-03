@@ -74,11 +74,15 @@ class Service implements IService {
     //검증,로직처리,가공해서 리턴
     //user가 회원이 맞는지 또 검증
     //user의 상품목록을 가져온다->리턴
-    const checkIsMember = await this.userRepository.checkUserByData(email);
-    if (!checkIsMember) {
+    const seller = await this.userRepository.findUserByEmail(email);
+    if (!seller) {
       return [];
     }
-    const products = await this.userRepository.findSellerProductsInStorage(email);
+    // 방법1
+    const products = seller.getStorage();
+
+    // 방법2
+    const products = await this.productRepository.findSellerProductsInStorage(email);
 
     // Product[] => IProductData[]
     // 방법1

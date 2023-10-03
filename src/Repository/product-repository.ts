@@ -21,7 +21,6 @@ class ProductRepository implements IProductRepository {
   registerProduct = async (email: string, title: string, content: string, price: number) => {
     return true;
   };
-
   findSellerProductsInStorage = async (email: string) => {
     const products = [];
 

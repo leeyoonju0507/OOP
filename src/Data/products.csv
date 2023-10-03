@@ -1,0 +1,3 @@
+productId,title,content,price,sellerEmail,isSoldOut
+1,맥북,애플 맥북 15인치,200,dldbswn,false
+2,그램,그램 18인치,180,dldbswn,true

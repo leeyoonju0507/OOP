@@ -7,6 +7,7 @@ export default class Product {
   private title: string = '타입스크립트';
   private price: number = 10000;
   private content: string = '도서';
+  private isSoldOut: boolean;
 
   constructor() {
     this.productId = 'sss_product_' + Product.autoIncrementNumber++;
