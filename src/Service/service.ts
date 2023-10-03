@@ -14,13 +14,8 @@ export interface IService {
     userType: string;
     accountId: any;
   }): Promise<void>;
-  registerProduct(
-    user: ILoginData,
-    title: string,
-    price: number,
-    content: string,
-  ): Promise<boolean>;
-  getSellerProducts(user: ILoginData): Promise<IProductData[]>;
+  registerProduct(email: string, title: string, price: number, content: string): Promise<boolean>;
+  getSellerProducts(email: string): Promise<IProductData[]>;
 }
 
 class Service implements IService {
@@ -60,14 +55,14 @@ class Service implements IService {
     };
   };
 
-  registerProduct = async (user: ILoginData, title: string, price: number, content: string) => {
+  registerProduct = async (email: string, title: string, price: number, content: string) => {
     //이 고객이 회원인지 아닌지 검사
-    const checkIsMember = await this.userRepository.checkUserByData(user);
+    const checkIsMember = await this.userRepository.checkUserByData(email);
     if (!checkIsMember) {
       return false;
     }
     //상품을 등록하고 등록성공 여부 return
-    const isRegister = await this.userRepository.registerProduct(user, title, content, price);
+    const isRegister = await this.userRepository.registerProduct(email, title, content, price);
     if (!isRegister) {
       return false;
     }
@@ -75,15 +70,15 @@ class Service implements IService {
     return true;
   };
   //유저가 판매하는 모든 상품목록배열을 return
-  getSellerProducts = async (user: ILoginData) => {
+  getSellerProducts = async (email: string) => {
     //검증,로직처리,가공해서 리턴
     //user가 회원이 맞는지 또 검증
     //user의 상품목록을 가져온다->리턴
-    const checkIsMember = await this.userRepository.checkUserByData(user);
+    const checkIsMember = await this.userRepository.checkUserByData(email);
     if (!checkIsMember) {
       return [];
     }
-    const products = await this.userRepository.findSellerProductsInStorage(user);
+    const products = await this.userRepository.findSellerProductsInStorage(email);
 
     // Product[] => IProductData[]
     // 방법1

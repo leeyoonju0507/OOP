@@ -32,7 +32,7 @@ class HomeScreen {
       const title = await inputReceiver('title을 입력하세요: ');
       const price = parseInt(await inputReceiver('가격을 입력하세요: '));
       const content = await inputReceiver('내용을 입력하세요: ');
-      const canRegister = await this.service.registerProduct(user, title, price, content);
+      const canRegister = await this.service.registerProduct(user.email, title, price, content);
       if (!canRegister) {
         console.log('이 판매자는 존재하지 않거나 상품을 등록할 수 없습니다..');
         return;
@@ -41,7 +41,7 @@ class HomeScreen {
       await this.sellerUI(user);
     } else if (select === '2') {
       console.log('~~~~~판매자가 창고에 저장한 물건목록~~~~~');
-      const listOfProduct = await this.service.getSellerProducts(user);
+      const listOfProduct = await this.service.getSellerProducts(user.email);
       for (let i = 0; i < listOfProduct.length; i++) {
         console.log(
           `${i + 1}번` +
