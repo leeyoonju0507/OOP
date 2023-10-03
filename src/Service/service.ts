@@ -71,21 +71,23 @@ class Service implements IService {
   };
   //유저가 판매하는 모든 상품목록배열을 return
   getSellerProducts = async (email: string) => {
-    //검증,로직처리,가공해서 리턴
-    //user가 회원이 맞는지 또 검증
-    //user의 상품목록을 가져온다->리턴
+    // 방법1
+    const seller = await this.userRepository.findSellerByEmailWithStorage(email);
+    if (!seller) {
+      return [];
+    }
+    const products = seller.getStorage();
+
+    // 방법2
     const seller = await this.userRepository.findUserByEmail(email);
     if (!seller) {
       return [];
     }
-    // 방법1
-    const products = seller.getStorage();
-
-    // 방법2
-    const products = await this.productRepository.findSellerProductsInStorage(email);
+    const products = await this.productRepository.findSellerProductsInStorage(seller.getEmail());
 
     // Product[] => IProductData[]
-    // 방법1
+
+    // 데이터 가공 방법1
     // const result: IProductData[] = [];
     // for (let i = 0; i < products.length; i++) {
     //   const product = products[i];
@@ -97,7 +99,7 @@ class Service implements IService {
     // }
     // return result;
 
-    // 방법2
+    // 데이터 가공 방법2
     // const result: IProductData[] = [];
     // products.forEach((product) => {
     //   result.push({
@@ -108,7 +110,7 @@ class Service implements IService {
     // });
     // return result;
 
-    // 방법3
+    // 데이터 가공 방법3
     return products.map((product) => {
       return {
         title: product.getTitle(),
