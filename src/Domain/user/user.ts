@@ -36,13 +36,6 @@ export default class User {
     return this.money;
   }
 
-  public deposit(money: number) {
-    this.money += money;
-  }
-
-  public withdraw(money: number) {
-    this.money -= money;
-  }
   public getPassword() {
     return this.password;
   }

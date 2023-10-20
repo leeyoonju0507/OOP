@@ -4,12 +4,17 @@ import Database from '../../Database/database';
 export default class Product {
   static autoIncrementNumber: number = 0;
   private productId: any;
-  private title: string = '타입스크립트';
-  private price: number = 10000;
-  private content: string = '도서';
+  private title: string;
+  private price: number;
+  private content: string;
+  private isSoldOut: boolean;
 
-  constructor() {
+  constructor(title: string, price: number, content: string) {
     this.productId = 'sss_product_' + Product.autoIncrementNumber++;
+    this.title = title;
+    this.price = price;
+    this.content = content;
+    this.isSoldOut = false;
   }
 
   public getproductId() {
@@ -27,9 +32,11 @@ export default class Product {
     return this.content;
   }
 
-  static description() {
-    console.log('상품종류: 도서');
-    console.log('상품이름: 타입스크립트');
-    console.log('가격: 10000원');
+  public getIsSoldOut() {
+    return this.isSoldOut;
+  }
+  //csv파일에서 읽어서 재고있으면 false, 재고없으면true로 setting
+  public setIsSoldOut(numOfSellerProduct: number) {
+    this.isSoldOut = numOfSellerProduct > 0 ? true : false;
   }
 }

@@ -1,6 +1,5 @@
 import {inputReceiver} from '../utils';
 import Service, {IService} from '../Service/service';
-import {IUserData} from '../Specification/interfaces';
 import {ILoginData} from '../Specification/interfaces';
 
 export interface IAuthScreen {
@@ -28,9 +27,14 @@ class AuthScreen implements IAuthScreen {
     const nickname = await inputReceiver('nickname을 입력하세요: ');
     const moneyString = await inputReceiver('money를 입력하세요: ');
     const money = parseInt(moneyString);
-    const userType = await inputReceiver('buyer or seller: ');
-    const accountId = await inputReceiver('accountId를 입력하세요: ');
-    await this.service.signUp({email, password, nickname, money, userType, accountId});
+    const userTypeString = await inputReceiver('buyer or seller: ');
+    let userType: 'seller' | 'buyer';
+    if (userTypeString === 'seller') {
+      userType = 'seller';
+    } else {
+      userType = 'buyer';
+    }
+    await this.service.signUp({email, password, nickname, money, userType});
     return true;
   };
 

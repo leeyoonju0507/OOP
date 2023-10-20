@@ -1,37 +1,43 @@
 import User from './user';
 import Product from '../product/product';
 import UserRepository from '../../Repository/user-repository';
+import Seller from './seller';
 
 export default class Buyer extends User {
-  private history: any[] = [];
-  private n: number = 0;
+  private buyHistory: Product[] = [];
+  private numOfBuying: number = 0;
 
   constructor(email: string, password: string, nickname: string, money: number, userType: string) {
     super(email, password, nickname, money, userType);
   }
 
-  public BUY(price: number, productId: any) {
-    this.withdraw(price);
-    this.setHistory(productId);
-  }
-  //productId를 history에 저장
-  public setHistory(product: any) {
-    this.history[this.n++] = product;
-  }
-  //productId를 return
-  public getHistory(num: number) {
-    return this.history[num];
-  }
-  public Print_history(num_stuff: number) {
-    console.log('========구매한 물건 상세정보========');
-    for (let i = 0; i < num_stuff; i++) {
-      console.log(`상품${i}번(0번부터 출력)=>`);
-      console.log('상품번호:' + this.getHistory(i));
-      Product.description();
-      console.log('잔고: ' + this.getMoney());
+  public BUY(seller: Seller, price: number, product: Product) {
+    if (this.getMoney() < price) {
+      console.log('구매자의 잔액이 부족합니다.');
+      return;
     }
+    seller.SELL(this, product);
+    this.setBuyHistory(product);
   }
-  public getNumStoredProduct() {
-    return this.n;
+
+  //product를 history에 저장, 구매한 product의 개수를 1개 증가
+  public setBuyHistory(product: Product) {
+    this.buyHistory[this.numOfBuying] = product;
+    this.numOfBuying++;
+  }
+
+  //product를 return
+  public getBuyHistory() {
+    return this.buyHistory;
+  }
+
+  //구매한상품개수 return
+  public getNumOfBuying() {
+    return this.numOfBuying;
+  }
+
+  //출금
+  public withdraw(money: number) {
+    this.money -= money;
   }
 }

@@ -1,0 +1,6 @@
+productId,title,content,price,sellerEmail,isSoldOut
+sss_product_0,수학의정석,기하,200,aaa,false
+sss_product_1,타입스크립트,도서,500,aaa,false
+sss_product_0,자바,다형성,200,dldbswn,false
+sss_product_0,c,for문,100,dldbswn,false
+sss_product_3,파이썬,인공지능,300,dldbswn,false
