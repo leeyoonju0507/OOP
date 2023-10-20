@@ -4,7 +4,6 @@ export interface IUserData {
   nickname: string;
   money: number;
   userType: 'seller' | 'buyer';
-  accountId: any;
 }
 
 export interface ILoginData {
@@ -15,6 +14,7 @@ export interface ILoginData {
 }
 
 export interface IProductData {
+  productId: any;
   title: string;
   price: number;
   content: string;

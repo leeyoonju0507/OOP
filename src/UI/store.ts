@@ -4,7 +4,7 @@ import HomeScreen from './home-screen';
 import {ILoginData} from '../Specification/interfaces';
 
 class Store {
-  private authScreen: AuthScreen;
+  private authScreen: IAuthScreen;
   private homeScreen: HomeScreen;
 
   constructor() {
@@ -17,9 +17,9 @@ class Store {
     console.log('회원가입(0) vs 로그인(1)');
     const sign = await inputReceiver('숫자를 입력하세요: ');
     if (sign === '0') {
-      const result = await this.authScreen.signUpUI();
-      //회원가입이 실패시
-      if (!result) {
+      const isSignUp = await this.authScreen.signUpUI();
+      //회원가입 실패시
+      if (!isSignUp) {
         await this.init();
       }
     } else if (sign === '1') {

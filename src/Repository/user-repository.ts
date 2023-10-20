@@ -6,7 +6,7 @@ import Seller from '../Domain/user/seller';
 export interface IUserRepository {
   storeUser(user: IUserData): Promise<void>;
   findUserByEmail(email: string): Promise<Seller | Buyer | undefined>;
-  findSellerByEmailWithStorage(email: string): Promise<Seller | Buyer | undefined>;
+  // findSellerByEmailWithStorage(email: string): Promise<Seller | Buyer | undefined>;
 }
 
 class UserRepository implements IUserRepository {
