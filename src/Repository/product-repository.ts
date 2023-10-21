@@ -7,11 +7,13 @@ import User from '../Domain/user/user';
 import {inputReceiver} from '../utils';
 
 export interface IProductRepository {
-  registerProduct(
-    checkIsMember: Seller | Buyer,
+  storeProduct(
+    email: string,
     title: string,
     content: string,
     price: number,
+    productId: string,
+    IsSoldOut: boolean,
   ): Promise<boolean>;
   findSellerProductsInStorage(email: string): Promise<Product[]>;
 }
@@ -23,22 +25,19 @@ class ProductRepository implements IProductRepository {
     this.db = new Database();
   }
 
-  registerProduct = async (
-    checkIsMember: Seller | Buyer,
+  storeProduct = async (
+    email: string,
     title: string,
     content: string,
     price: number,
+    productId: string,
+    IsSoldOut: boolean,
   ) => {
-    if (checkIsMember instanceof Seller) {
-      let product = checkIsMember.register(title, price, content);
-      await this.db.writeCSV(
-        'products.csv',
-        `${product.getproductId()},${title},${content},${price},${checkIsMember.getEmail()},${product.getIsSoldOut()}`,
-      );
-      return true;
-    }
-
-    return false;
+    await this.db.writeCSV(
+      'products.csv',
+      `${productId},${title},${content},${price},${email},${IsSoldOut}`,
+    );
+    return true;
   };
 
   //CSV => Product[]

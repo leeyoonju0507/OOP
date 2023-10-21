@@ -3,6 +3,7 @@ import {ILoginData, IProductData} from '../Specification/interfaces';
 import Buyer from '../Domain/user/buyer';
 import Seller from '../Domain/user/seller';
 import ProductRepository, {IProductRepository} from '../Repository/product-repository';
+import Product from '../Domain/product/product';
 
 export interface IService {
   checkSignedUpByEmail(email: string): Promise<boolean>;
@@ -59,18 +60,23 @@ class Service implements IService {
 
   registerProduct = async (email: string, title: string, price: number, content: string) => {
     //이 고객이 회원인지 아닌지 검사
-    const checkIsMember: Seller | Buyer | undefined =
-      await this.userRepository.findUserByEmail(email);
+    const checkIsMember = await this.userRepository.findUserByEmail(email);
     if (!checkIsMember) {
       return false;
     }
+    if (checkIsMember instanceof Buyer || checkIsMember === undefined) {
+      return false;
+    }
 
+    let product = new Product(title, price, content);
     //상품을 등록하고 등록성공 여부 return
-    const isRegister = await this.ProductRepository.registerProduct(
-      checkIsMember,
+    const isRegister = await this.ProductRepository.storeProduct(
+      email,
       title,
       content,
       price,
+      product.getproductId(),
+      product.getIsSoldOut(),
     );
     if (!isRegister) {
       return false;

@@ -47,7 +47,6 @@ class HomeScreen {
       for (let i = 0; i < listOfProduct.length; i++) {
         console.log(`${i + 1}번 ` + listOfProduct[i].productId);
       }
-
       await this.sellerUI(user);
     } else if (select === '3') {
       return;

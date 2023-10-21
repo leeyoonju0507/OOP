@@ -16,8 +16,4 @@ export default class Seller extends User {
   public deposit(money: number) {
     this.money += money;
   }
-
-  public register(title: string, price: number, content: string) {
-    return new Product(title, price, content);
-  }
 }
