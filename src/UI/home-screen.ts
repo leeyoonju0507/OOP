@@ -45,7 +45,11 @@ class HomeScreen {
       const listOfProduct = await this.service.getSellerProducts(user.email);
 
       for (let i = 0; i < listOfProduct.length; i++) {
-        console.log(`${i + 1}번 ` + listOfProduct[i].productId);
+        console.log(`상품 [${i + 1}번]`);
+        console.log(listOfProduct[i].productId);
+        console.log(listOfProduct[i].title);
+        console.log(listOfProduct[i].price);
+        console.log(listOfProduct[i].content + '\n');
       }
       await this.sellerUI(user);
     } else if (select === '3') {
