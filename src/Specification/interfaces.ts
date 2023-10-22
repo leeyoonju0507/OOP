@@ -1,4 +1,5 @@
 export interface IUserData {
+  id: number;
   email: string;
   password: string;
   nickname: string;
@@ -14,7 +15,7 @@ export interface ILoginData {
 }
 
 export interface IProductData {
-  productId: any;
+  id: any;
   title: string;
   price: number;
   content: string;

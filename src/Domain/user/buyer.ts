@@ -7,8 +7,15 @@ export default class Buyer extends User {
   private buyHistory: Product[] = [];
   private numOfBuying: number = 0;
 
-  constructor(email: string, password: string, nickname: string, money: number, userType: string) {
-    super(email, password, nickname, money, userType);
+  constructor(
+    id: number,
+    email: string,
+    password: string,
+    nickname: string,
+    money: number,
+    userType: 'seller' | 'buyer',
+  ) {
+    super(id, email, password, nickname, money, userType);
   }
 
   public BUY(seller: Seller, price: number, product: Product) {

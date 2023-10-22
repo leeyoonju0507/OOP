@@ -24,26 +24,27 @@ class UserRepository implements IUserRepository {
     );
   };
   findUserByEmail = async (email: string) => {
-    const userRows: any = await this.db.readCSV('users.csv');
+    const userRows = await this.db.readCSV('users.csv');
     for (let i: number = 0; i < userRows.length; i++) {
       if (email === userRows[i].email) {
-        // return userRows[i] as IUserData;
-        const userObject: IUserData = userRows[i];
+        const userObject = userRows[i];
         if (userObject.userType === 'seller') {
           return new Seller(
+            parseInt(userObject.id),
             userObject.email,
             userObject.password,
             userObject.nickname,
-            userObject.money,
-            userObject.userType,
+            parseInt(userObject.money),
+            userObject.userType as 'seller' | 'buyer',
           );
         } else {
           return new Buyer(
+            parseInt(userObject.id),
             userObject.email,
             userObject.password,
             userObject.nickname,
-            userObject.money,
-            userObject.userType,
+            parseInt(userObject.money),
+            userObject.userType as 'seller' | 'buyer',
           );
         }
       }

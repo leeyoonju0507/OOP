@@ -1,3 +1,4 @@
-productId,title,content,price,sellerEmail,isSoldOut
-sss_product_0,수학,기하,100,aaa,false
-sss_product_1,수학,확통,200,aaa,false
+id,title,content,price,sellerEmail,isSoldOut
+0,수학,기하,100,aaa,false
+1,수학,확통,200,aaa,true
+1697947475064.9902,맥북,115이치입니다,200000,haha.com,false

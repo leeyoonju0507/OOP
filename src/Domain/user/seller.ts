@@ -3,8 +3,15 @@ import Product from '../product/product';
 import Buyer from './buyer';
 
 export default class Seller extends User {
-  constructor(email: string, password: string, nickname: string, money: number, userType: string) {
-    super(email, password, nickname, money, userType);
+  constructor(
+    id: number,
+    email: string,
+    password: string,
+    nickname: string,
+    money: number,
+    userType: 'seller' | 'buyer',
+  ) {
+    super(id, email, password, nickname, money, userType);
   }
 
   public SELL(buyer: Buyer, product: Product) {

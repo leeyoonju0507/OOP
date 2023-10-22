@@ -1,5 +1,7 @@
-email,password,nickname,money,userType
-dldbswn,123,dldbswn,100200,seller
-asd,1234,123asd,2000,seller
-a,1111,12a,20000,buyer
-aaa,kkk,k,5000,seller
+id,email,password,nickname,money,userType
+1,dldbswn,123,dldbswn,100200,seller
+2,asd,1234,123asd,2000,seller
+3,a,1111,12a,20000,buyer
+4,aaa,kkk,k,5000,seller
+1697947276438.6958,hahaha.com,1234,hahah,100,buyer
+1697947402541.2852,haha.com,1234,haha,100,seller
