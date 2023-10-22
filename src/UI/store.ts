@@ -30,7 +30,10 @@ class Store {
       }
       // 로그인 성공할 때
       else {
-        await this.homeScreen.mainUI(user);
+        const checkLogout = await this.homeScreen.mainUI(user);
+        if (!checkLogout) {
+          this.init();
+        }
       }
     } else {
       console.log('다시 입력하세요');
