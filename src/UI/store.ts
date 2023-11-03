@@ -17,11 +17,8 @@ class Store {
     console.log('회원가입(0) vs 로그인(1)');
     const sign = await inputReceiver('숫자를 입력하세요: ');
     if (sign === '0') {
-      const isSignUp = await this.authScreen.signUpUI();
-      //회원가입 실패시
-      if (!isSignUp) {
-        await this.init();
-      }
+      await this.authScreen.signUpUI();
+      await this.init();
     } else if (sign === '1') {
       const user: ILoginData | undefined = await this.authScreen.loginUI();
       // 로그인이 실패시(이메일 또는 비번을 못찾을때)
