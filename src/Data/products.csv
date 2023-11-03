@@ -2,3 +2,5 @@ id,title,content,price,sellerEmail,isSoldOut
 0,수학,기하,100,aaa,false
 1,수학,확통,200,aaa,true
 1697947475064.9902,맥북,115이치입니다,200000,haha.com,false
+1698989293956.9492,book,math,100,1103,false
+1698989330317.793,book,korean,200,1103,false
