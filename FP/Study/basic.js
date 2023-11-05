@@ -1,7 +1,6 @@
 // 1. 함수 ...args
 function func1(...args) {
   // args는 배열이다
-  console.log(args);
   return args[0];
 }
 func1(1, 2, 3);
@@ -40,11 +39,11 @@ const func6 = (x) => {
 };
 
 let myNumber = 1;
-console.log(func6(myNumber));
+myNumber = func6(myNumber);
 console.log(myNumber);
 
 const func7 = (obj) => {
-  obj.x = 2;
+  myObj.x = 2;
 };
 
 const myObj = {

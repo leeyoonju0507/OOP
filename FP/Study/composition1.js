@@ -78,3 +78,17 @@ console.log(customReduce((acc, value) => acc + value, 0, numbers));
 numbers = numbers.map((v) => v * 2);
 numbers = numbers.filter((v) => (v > 1 ? true : false));
 console.log(numbers.reduce((acc, value) => acc + value, 0));
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// 단계5
+// 합성된 다양한 함수들을 연쇄적으로 합성해서 재사용성을 높이는데 도움을 주는 함수 go, pipe 함수를 만든다
+numbers = [1, 2, 3];
+const go = (initData, ...args) => customReduce((acc, func) => func(acc), initData, args);
+const fianlResult = go(
+  1,
+  (v) => v * 2,
+  (v) => v + 3,
+);
+console.log(fianlResult);
