@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "prepare": "husky install",
-    "pretty": "prettier --write \"src/**/*.ts\" \"FP/**/*.js\"",
-    "build": "tsc --build && node dist/index.js"
+    "pretty": "prettier --write \"src/**/*.ts\"",
+    "build": "tsc --build && node dist/OOP/index.js"
   },
   "license": "ISC",
   "dependencies": {

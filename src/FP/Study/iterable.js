@@ -40,6 +40,30 @@ for (const keyValue of iter) {
   console.log(keyValue[0], keyValue[1]);
 }
 
+class User {
+  GetName() {
+    return '권지용';
+  }
+}
+const user1 = new User();
+console.log(user1.GetName());
+console.log(User.prototype.GetName());
+
+const user2 = {
+  GetName() {
+    return '권권권';
+  },
+};
+const user3 = {
+  GetName: () => {
+    return '권권권';
+  },
+};
+
+console.log(user1);
+console.log(user2.GetName());
+console.log(user3);
+
 // 이터러블 객체4: 사용자 정의 이터러블
 const myIterable1 = {
   [Symbol.iterator]() {
@@ -86,11 +110,11 @@ function* generator2(limit) {
   }
 }
 
-// const myIterable3 = generator2(Infinity);
-// const iterator6 = myIterable3[Symbol.iterator]();
-// console.log(iterator6.next());
-// console.log(iterator6.next());
-// console.log(iterator6.next());
-// for (const el of myIterable3) {
-//   console.log(el);
-// }
+const myIterable3 = generator2(10000);
+const iterator6 = myIterable3[Symbol.iterator]();
+console.log(iterator6.next());
+console.log(iterator6.next());
+console.log(iterator6.next());
+for (const el of myIterable3) {
+  console.log(el);
+}

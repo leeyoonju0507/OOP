@@ -48,11 +48,10 @@ const curriedPipe = curry(
       curriedGo(f(...as), ...fs),
 );
 
-const result = curriedMap((v) => v * 2);
-console.log(result([1, 2, 3]));
+const delayed = curriedMap((v) => v * 2);
+console.log(delayed([1, 2, 3]));
 
-// 최종 결론
-// 최종 버전
+// 찐 최종 결론
 const composedFunction = curriedPipe(
   (v) => v * 2,
   (v) => v + 3,

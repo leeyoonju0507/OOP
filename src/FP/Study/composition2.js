@@ -31,13 +31,24 @@ const customReduce = (callback, accumulate, iterable) => {
   return accumulate;
 };
 
+// 단계5
+// 합성된 다양한 함수들을 연쇄적으로 합성해서 재사용성을 높이는데 도움을 주는 함수 go 함수를 만든다
+numbers = [1, 2, 3];
 const go = (initData, ...args) => customReduce((acc, func) => func(acc), initData, args);
-const pipe =
-  (f, ...fs) =>
-  (...as) =>
-    go(f(...as), ...fs);
+const finalResult = go(
+  1,
+  (v) => v * 2,
+  (v) => v + 3,
+);
+console.log(finalResult);
 
-// 최종 버전
+// go의 평가를 지연해서 pipe를 얻는다
+const pipe =
+  (func, ...moreFunc) =>
+  (...initData) =>
+    go(func(...initData), ...moreFunc);
+
+// 최종 결론
 const composedFunction = pipe(
   (v) => v * 2,
   (v) => v + 3,
