@@ -1,10 +1,10 @@
 {
-  "name": "oop",
+  "name": "app",
   "version": "1.0.0",
   "scripts": {
     "prepare": "husky install",
-    "pretty": "prettier --write \"src/**/*.ts\"",
-    "build": "tsc --build && node dist/OOP/index.js"
+    "pretty": "prettier --write \"src/**/*\"",
+    "build": "tsc --build && node dist/index.js"
   },
   "license": "ISC",
   "dependencies": {
