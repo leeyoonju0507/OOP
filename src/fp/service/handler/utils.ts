@@ -1,35 +1,29 @@
 export type TFunc = (...args: any[]) => any;
+type TIterable = number[];
 
 const curry =
-  (callback: TFunc) =>
+  (originalFunc: TFunc) =>
   (...args: any[]) =>
-    args.length >= callback.length
-      ? callback(...args)
-      : (...restArgs: any[]) => curry(callback)(...args, ...restArgs);
+    args.length >= originalFunc.length
+      ? originalFunc(...args)
+      : (...restArgs: any[]) => curry(originalFunc)(...args, ...restArgs);
 
-const curriedReduce = curry(
-  async (callback: (acc: any[], value: any) => any, acc: any[], iterable: any[]) => {
-    try {
-      for (const value of iterable) {
-        acc = await callback(acc, value);
-      }
-      return acc;
-    } catch (e) {
-      console.error(e);
-      return acc;
+const curriedReduce = curry(async (callback: TFunc, accumulate: any, iterable: TIterable) => {
+  try {
+    for (const value of iterable) {
+      accumulate = await callback(accumulate, value);
     }
-  },
-);
-
-const curriedGo = curry((initValues: any[]) => (funcs: TFunc[]) => {
-  return curriedReduce(
-    (acc: any | any[], func: TFunc) => (Array.isArray(acc) ? func(...acc) : func(acc)),
-    initValues,
-    funcs,
-  );
+    return accumulate;
+  } catch (e) {
+    console.error(e);
+    return accumulate;
+  }
 });
 
+const go = (data: any, ...funcs: TFunc[]) =>
+  curriedReduce((acc: any, func: TFunc) => func(acc), data, funcs);
+
 export const pipe =
-  (...funcs: TFunc[]) =>
-  (...initValues: any[]) =>
-    curriedGo(initValues)(funcs);
+  (func: TFunc, ...moreFunc: TFunc[]) =>
+  (...data: any[]) =>
+    go(func(...data), ...moreFunc);
