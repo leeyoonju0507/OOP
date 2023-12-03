@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Store</title>
+    <style>
+      .button {
+        margin: 20px;
+        padding: 20px;
+        color: #ffffff;
+        background-color: #1b2dff;
+        border-radius: 12px;
+        font-size: 40px;
+        text-align: center;
+      }
+      #modal-wrap {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        display: none;
+      }
+      #modal-body {
+        width: 300px;
+        height: 400px;
+        padding: 30px 30px;
+        margin: auto;
+        border: 1px solid #777;
+        background-color: #fff;
+      }
+      #close-modal {
+        position: relative;
+        bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="button" id="login-button">로그인</div>
+    <div class="button">회원가입</div>
+
+    <div style="text-align: center">
+      <h1>상품 목록</h1>
+      <div class="product">
+        <label>
+          <input type="checkbox" />
+          맥북 15인치
+        </label>
+      </div>
+      <div class="product">
+        <label>
+          <input type="checkbox" />
+          맥북 15인치
+        </label>
+      </div>
+      <div class="product">
+        <label>
+          <input type="checkbox" />
+          맥북 15인치
+        </label>
+      </div>
+      <div class="button" id="buy-button">구매하기</div>
+    </div>
+
+    <div id="modal-wrap">
+      <div id="modal-body">
+        <div style="margin: 20px">
+          <label>
+            아이디
+            <input id="id-input" name="id" />
+          </label>
+        </div>
+        <div style="margin: 20px">
+          <label>
+            비밀번호
+            <input name="password" />
+          </label>
+        </div>
+        <div class="button" id="close-modal">닫기</div>
+      </div>
+    </div>
+    <script>
+      let userId = undefined;
+      let selectedProduct = [];
+      const modalWrap = window.document.getElementById('modal-wrap');
+      const modalBody = window.document.getElementById('modal-body');
+      const loginButton = document.getElementById('login-button');
+      const closeModal = document.getElementById('close-modal');
+      const idInput = document.getElementById('id-input');
+      const buyButton = document.getElementById('buy-button');
+      const productList = Array.from(document.getElementsByClassName('product'));
+
+      for (let i = 0; i < productList.length; i++) {
+        const product = productList[i];
+        product.addEventListener('click', () => {
+          console.log('나 클릭됨');
+          const index = selectedProduct.findIndex((v) => {
+            return v === i;
+          });
+          if (index !== -1) {
+            selectedProduct.splice(index, 1);
+          } else {
+            selectedProduct.push(i);
+          }
+          console.log(selectedProduct);
+        });
+      }
+
+      loginButton.addEventListener('click', (e) => {
+        modalWrap.style.display = 'block';
+        modalBody.style.marginTop = `${(window.innerHeight - modalBody.clientHeight) / 2}px`;
+      });
+
+      closeModal.addEventListener('click', (e) => {
+        modalWrap.style.display = 'none';
+        // 데이터 초기화
+      });
+
+      idInput.addEventListener('input', (e) => {
+        if (!userId) {
+          userId = e.data;
+        } else {
+          userId += e.data;
+        }
+      });
+
+      buyButton.addEventListener('click', () => {
+        for (let i = 0; i < selectedProduct.length; i++) {
+          const index = selectedProduct[i];
+          console.log(index);
+          productList.splice(index, 1);
+          console.log(productList);
+        }
+      });
+    </script>
+  </body>
+</html>
