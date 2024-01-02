@@ -33,3 +33,10 @@
 // 2. 캡슐화: 속성을 감추고 메소드로만 속성을 변경한다
 // 3. 상속: 공통된 속성과 메소드는 중복을 피하기 위해 부모 클래스를 활용한다
 // 4. 다형성: 확장성을 위해 이름은 같지만 내부 로직은 다르게 구현한다
+
+// 객체지향 프로그래밍의 5대 원칙
+// SRP (Single Responsibility Principle) : 단일 책임 원칙
+// OCP (Open/Closed Principle) : 개방/폐쇄 원칙
+// ISP (Interface Segregation Principle) : 인터페이스 분리 원칙
+// DIP (Dependacny Inversion Principle) : 의존관계 역전 원칙
+// LSP (Liskov Substitution Principle) : 리스코프 치환 원칙
