@@ -2,14 +2,16 @@
   "name": "app",
   "version": "1.0.0",
   "scripts": {
-    "dev": "tsc --build && node dist/index.js"
+    "build": "tsc --build",
+    "start": "node dist/index.js",
+    "run": "tsc -- build && node dist/index.js"
   },
   "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3"
+  },
   "dependencies": {
     "csv-parser": "^3.0.0"
-  },
-  "devDependencies": {
-    "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
   }
 }

@@ -11,6 +11,7 @@ export default class Database implements IDatabase {
   private readonly dataFolderPath: string;
 
   constructor() {
+    const __dirname = path.resolve();
     this.dataFolderPath = path.join(__dirname, '../../../src/oop/data');
   }
 

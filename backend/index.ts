@@ -8,7 +8,7 @@ app.use(express.json());
 app.get('/', (req: Request, res: Response, next: NextFunction) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:63343');
   res.json({
-    message: 'hello',
+    message: 'hellasdasdasdo',
   });
 });
 
