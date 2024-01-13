@@ -1,0 +1,199 @@
+/*
+태그 {} : 모든 해당 태그에 동일한 스타일을 입힌다
+.클래스 {} : 해당 클래스를 가진 모든 태그에 동일한 스타일을 입힌다
+#아이디 {}: 해당 아이디를 가진 유일한 단 하나의 태그에 특정 스타일을 입힌다
+
+블록: 화면의 가로를 전부 차지한다
+인라인: 컨텐츠의 크기만큼만의 가로를 차지한다
+ */
+body {
+  padding: 0;
+  margin: 0;
+}
+/* body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+
+#app-title {
+  text-align: center;
+  margin-top: 20%;
+}
+
+.button {
+  height: 20px;
+  margin: 12px auto;
+  padding: 12px;
+  color: #ffffff;
+  background-color: #1b2dff;
+  border-radius: 12px;
+  font-size: 18px;
+  text-align: center;
+  cursor: pointer;
+}
+
+#login-button {
+  width: 200px;
+}
+#sign-up-button {
+  width: 200px;
+}
+
+#login-modal-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: none;
+}
+
+#login-modal-body {
+  width: 300px;
+  height: 400px;
+  padding: 30px 30px;
+  margin: auto;
+  border: 1px solid #777;
+  border-radius: 10px;
+  background-color: #fff;
+}
+#signup-modal-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: none;
+}
+
+#signup-modal-body {
+  width: 300px;
+  height: 400px;
+  padding: 30px 30px;
+  margin: auto;
+  border: 1px solid #777;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+#close-modal-button {
+  position: relative;
+  bottom: 0;
+}
+
+.input {
+  padding: 12px;
+  border-radius: 5px;
+  width: calc(100% - 60px);
+}
+/* home.html */
+
+#product-list-title {
+  font-size: 35px;
+  font-family: 'Courier New', Courier, monospace;
+  margin-top: 20%;
+  text-align: center;
+}
+
+.product {
+  text-align: center;
+}
+
+#buy-button {
+  width: 70px;
+}
+
+#add-button {
+  width: 70px;
+}
+
+#buy-button {
+  display: inline-block;
+}
+
+#add-button {
+  display: inline-block;
+}
+
+#buy-or-register-button {
+  text-align: center;
+  margin-top: 10%;
+}
+
+#add-popup-button,
+#close-popup-button {
+  width: 70px;
+  display: inline-block;
+}
+
+#popup-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: none;
+}
+
+#popup-body {
+  width: 250px;
+  height: 250px;
+  padding: 30px 30px;
+  margin: auto;
+  border: 1px solid #777;
+  border-radius: 10px;
+  background-color: #fff;
+}
+/* signup.html */
+#sign-up-form {
+  text-align: center;
+}
+
+#sign-up-form input {
+  width: 65%;
+  margin-bottom: 20px;
+}
+
+#check-signup-button {
+  text-align: center;
+  width: 100px;
+  margin-top: 50px;
+}
+
+#signup-modal-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background-color: rgba(0, 0, 0, 0.4);
+  display: none;
+}
+
+#signup-modal-body {
+  width: 200px;
+  height: 200px;
+  padding: 30px 30px;
+  margin: auto;
+  border: 1px solid #777;
+  border-radius: 10px;
+  background-color: #fff;
+}
+#message {
+  text-align: center;
+  font-size: 15px;
+  font-family: 'Courier New', Courier, monospace;
+}
