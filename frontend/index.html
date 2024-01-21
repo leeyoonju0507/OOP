@@ -2,58 +2,92 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
     <title>store</title>
     <link rel="stylesheet" href="./index.css" />
   </head>
   <body>
-    <div class="button" id="login-button">로그인</div>
-    <div class="button">회원가입</div>
-    <!-- ///////////////////////////////////////////// -->
-    <h1>상품 목록</h1>
-    <div id="products-container">
-      <div class="product">
-        <label>
-          <input type="checkbox" />
-          맥북 15인치
-        </label>
+    <!-- 로그인vs회원가입 -->
+    <div style="display: block">
+      <div>
+        <div class="button" id="login-button">로그인</div>
+        <!-- 모달창 -->
+        <div id="modal-wrap">
+          <div id="modal-body">
+            <div style="margin: 20px">
+              <label>
+                아이디
+                <input id="id-input" name="id" />
+              </label>
+            </div>
+            <div style="margin: 20px">
+              <label>
+                비밀번호
+                <input id="password-input" name="password" type="password" />
+              </label>
+            </div>
+            <div class="button" id="close-modal">닫기</div>
+          </div>
+        </div>
       </div>
-      <div class="product">
-        <label>
-          <input type="checkbox" />
-          맥북 15인치
-        </label>
-      </div>
-      <div class="product">
-        <label>
-          <input type="checkbox" />
-          맥북 15인치
-        </label>
-      </div>
+      <div class="button">회원가입</div>
     </div>
-    <div class="button" id="buy-button">구매하기</div>
-    <label>
-      상품 이름
-      <input type="text" name="상품 이름" id="product-title-input" />
-    </label>
-    <div class="button" id="add-button">등록하기</div>
-    <!-- /////////////////////////////////////////// -->
-    <div id="modal-wrap">
-      <div id="modal-body">
-        <div style="margin: 20px">
+
+    <!-- 상품 등록 -->
+    <div style="display: none">
+      <h1>상품 목록</h1>
+      <div id="products-container">
+        <div class="product">
           <label>
-            아이디
-            <input id="id-input" name="id" />
+            <input type="checkbox" />
+            맥북 15인치
           </label>
         </div>
-        <div style="margin: 20px">
+        <div class="product">
           <label>
-            비밀번호
-            <input id="password-input" name="password" type="password" />
+            <input type="checkbox" />
+            맥북 15인치
           </label>
         </div>
-        <div class="button" id="close-modal">닫기</div>
+        <div class="product">
+          <label>
+            <input type="checkbox" />
+            맥북 15인치
+          </label>
+        </div>
       </div>
+      <label>
+        상품 이름
+        <input type="text" name="상품 이름" id="product-title-input" />
+      </label>
+      <div class="button" id="add-button">등록하기</div>
     </div>
-    <script src="index.js"></script>
+    <!-- 상품 구매 -->
+    <div style="display: none">
+      <h1>상품 목록</h1>
+      <div id="products-container">
+        <div class="product">
+          <label>
+            <input type="checkbox" />
+            맥북 15인치
+          </label>
+        </div>
+        <div class="product">
+          <label>
+            <input type="checkbox" />
+            맥북 15인치
+          </label>
+        </div>
+        <div class="product">
+          <label>
+            <input type="checkbox" />
+            맥북 15인치
+          </label>
+        </div>
+      </div>
+      <div class="button" id="buy-button">구매하기</div>
+    </div>
+
+    <script type="module" src="./dist/index.js"></script>
   </body>
 </html>

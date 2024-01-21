@@ -4,8 +4,12 @@ window.addEventListener('load', () => {
   const modalBody = document.getElementById('modal-body');
   const loginButton = document.getElementById('login-button');
   const closeModal = document.getElementById('close-modal');
-  const idInput = document.getElementById('id-input');
-  const passwordInput = document.getElementById('password-input');
+  const idInput = document.getElementById('id-input') as HTMLInputElement;
+  const passwordInput = document.getElementById('password-input') as HTMLInputElement;
+
+  if (!loginButton || !closeModal || !idInput || !modalWrap || !modalBody || !passwordInput) {
+    return;
+  }
 
   loginButton.addEventListener('click', (e) => {
     modalWrap.style.display = 'block';
@@ -21,21 +25,27 @@ window.addEventListener('load', () => {
   idInput.addEventListener('input', (e) => {
     userId = idInput.value;
   });
+
   ////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////
   const productContainer = document.getElementById('products-container');
   const buyButton = document.getElementById('buy-button');
-  const productTitleInput = document.getElementById('product-title-input');
+  const productTitleInput: HTMLInputElement = document.getElementById(
+    'product-title-input',
+  ) as HTMLInputElement;
   const addButton = document.getElementById('add-button');
   const productList = Array.from(document.getElementsByClassName('product'));
 
   // 변수
   let userId = '';
   let productTitle = '';
-  let selectedProductIndexList = [];
+  let selectedProductIndexList: number[] = [];
 
+  if (!productContainer || !buyButton || !productTitleInput || !addButton) {
+    return;
+  }
   // 함수
-  const addProductIndex = (productIndex) => {
+  const addProductIndex = (productIndex: number) => {
     const findIndex = selectedProductIndexList.findIndex((selectedProductIndex) => {
       return selectedProductIndex === productIndex;
     });
@@ -63,7 +73,7 @@ window.addEventListener('load', () => {
   });
 
   productTitleInput.addEventListener('input', (e) => {
-    productTitle += e.data;
+    productTitle = productTitleInput.value;
   });
 
   addButton.addEventListener('click', () => {
