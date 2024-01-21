@@ -6,11 +6,28 @@ window.addEventListener('load', () => {
   const closeModal = document.getElementById('close-modal');
   const idInput = document.getElementById('id-input');
   const passwordInput = document.getElementById('password-input');
-  const productTitleInput = document.getElementById('product-title-input');
+
+  loginButton.addEventListener('click', (e) => {
+    modalWrap.style.display = 'block';
+    modalBody.style.marginTop = `${(window.innerHeight - modalBody.clientHeight) / 2}px`;
+  });
+
+  closeModal.addEventListener('click', (e) => {
+    modalWrap.style.display = 'none';
+    idInput.value = '';
+    passwordInput.value = '';
+  });
+
+  idInput.addEventListener('input', (e) => {
+    userId = idInput.value;
+  });
+  ////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////
+  const productContainer = document.getElementById('products-container');
   const buyButton = document.getElementById('buy-button');
+  const productTitleInput = document.getElementById('product-title-input');
   const addButton = document.getElementById('add-button');
   const productList = Array.from(document.getElementsByClassName('product'));
-  const productContainer = document.getElementById('products-container');
 
   // 변수
   let userId = '';
@@ -35,21 +52,6 @@ window.addEventListener('load', () => {
       addProductIndex(i);
     });
   }
-
-  loginButton.addEventListener('click', (e) => {
-    modalWrap.style.display = 'block';
-    modalBody.style.marginTop = `${(window.innerHeight - modalBody.clientHeight) / 2}px`;
-  });
-
-  closeModal.addEventListener('click', (e) => {
-    modalWrap.style.display = 'none';
-    idInput.value = '';
-    passwordInput.value = '';
-  });
-
-  idInput.addEventListener('input', (e) => {
-    userId = idInput.value;
-  });
 
   buyButton.addEventListener('click', () => {
     const productList = Array.from(document.getElementsByClassName('product'));
