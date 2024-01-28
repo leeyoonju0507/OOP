@@ -7,86 +7,121 @@
     <link rel="stylesheet" href="./index.css" />
   </head>
   <body>
-    <!-- 로그인vs회원가입 -->
+    <div style="text-align: center; font-size: 30px"><h1>store</h1></div>
+    <!-- 회원가입 -->
     <div style="display: block">
-      <div>
-        <div class="button" id="login-button">로그인</div>
-        <!-- 모달창 -->
-        <div id="modal-wrap">
-          <div id="modal-body">
-            <div style="margin: 20px">
-              <label>
-                아이디
-                <input id="id-input" name="id" />
-              </label>
-            </div>
-            <div style="margin: 20px">
-              <label>
-                비밀번호
-                <input id="password-input" name="password" type="password" />
-              </label>
-            </div>
-            <div class="button" id="close-modal">닫기</div>
-          </div>
+      <div id="signup-info">
+        <h1>=====회원가입 form=====</h1>
+        <div style="margin: 20px">
+          <input
+            class="info-input"
+            id="signup-id-input"
+            name="id"
+            placeholder="아이디을 입력하세요" />
+        </div>
+        <div style="margin: 20px">
+          <input
+            class="info-input"
+            id="signup-email-input"
+            type="email"
+            placeholder="example@gmail.com" />
+        </div>
+        <div style="margin: 20px">
+          <input
+            class="info-input"
+            id="signup-password-input"
+            name="password"
+            type="password"
+            placeholder="비밀번호을 입력하세요" />
+        </div>
+        <div style="margin: 20px">
+          <input class="info-input" id="signup-nickname-input" placeholder="닉네임을 입력하세요" />
+        </div>
+        <div style="margin: 20px">
+          <input
+            type="number"
+            class="info-input"
+            id="signup-money-input"
+            placeholder="충전금액을 입력하세요" />
+        </div>
+        <div style="margin: 20px">
+          <select name="usertype" id="signup-usertype-input">
+            <option value="" disabled selected>--선택해주세요--</option>
+            <option value="seller">판매자</option>
+            <option value="buyer">구매자</option>
+          </select>
         </div>
       </div>
-      <div class="button">회원가입</div>
+      <div class="button" id="signup-button">회원가입</div>
     </div>
+    <br />
+    <br />
+    <br />
+
+    <!-- 로그인-->
+    <div style="display: block">
+      <div id="login-info">
+        <h1>=====로그인 form=====</h1>
+        <div style="margin: 20px">
+          <input class="info-input" id="login-id-input" name="id" placeholder="아이디" />
+        </div>
+        <div style="margin: 20px">
+          <input
+            class="info-input"
+            id="login-password-input"
+            name="password"
+            type="password"
+            placeholder="비밀번호" />
+        </div>
+      </div>
+      <div class="button" id="login-button">로그인</div>
+    </div>
+    <br />
+    <br />
+    <br />
 
     <!-- 상품 등록 -->
-    <div style="display: none">
-      <h1>상품 목록</h1>
-      <div id="products-container">
-        <div class="product">
-          <label>
-            <input type="checkbox" />
-            맥북 15인치
-          </label>
+    <div>
+      <div style="text-align: center">
+        <h1>=====상품 등록 & 상품 구매=====</h1>
+        <!--  상품구매 -->
+        <div id="products-container" style="display: inline-block">
+          <h2>상품 구매</h2>
+          <div class="product">
+            <label>
+              <input type="checkbox" />
+              맥북 15인치
+            </label>
+          </div>
+          <div class="product">
+            <label>
+              <input type="checkbox" />
+              맥북 15인치
+            </label>
+          </div>
+          <div class="product">
+            <label>
+              <input type="checkbox" />
+              맥북 15인치
+            </label>
+          </div>
+          <div class="button" id="buy-button">구매하기</div>
         </div>
-        <div class="product">
-          <label>
-            <input type="checkbox" />
-            맥북 15인치
-          </label>
-        </div>
-        <div class="product">
-          <label>
-            <input type="checkbox" />
-            맥북 15인치
-          </label>
-        </div>
-      </div>
-      <label>
-        상품 이름
-        <input type="text" name="상품 이름" id="product-title-input" />
-      </label>
-      <div class="button" id="add-button">등록하기</div>
-    </div>
-    <!-- 상품 구매 -->
-    <div style="display: none">
-      <h1>상품 목록</h1>
-      <div id="products-container">
-        <div class="product">
-          <label>
-            <input type="checkbox" />
-            맥북 15인치
-          </label>
-        </div>
-        <div class="product">
-          <label>
-            <input type="checkbox" />
-            맥북 15인치
-          </label>
-        </div>
-        <div class="product">
-          <label>
-            <input type="checkbox" />
-            맥북 15인치
-          </label>
+        <!-- 상품등록 -->
+        <div style="display: inline-block; margin-left: 20px">
+          <h2>상품 등록</h2>
+          <input
+            type="text"
+            name="상품 이름"
+            id="product-title-input"
+            placeholder="상품이름을 입력하세요" />
+          <div class="button" id="add-button">등록하기</div>
         </div>
       </div>
-      <div class="button" id="buy-button">구매하기</div>
     </div>
+    <br />
+    <br />
+    <br />
 
     <script type="module" src="./dist/index.js"></script>
   </body>

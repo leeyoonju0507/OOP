@@ -1,31 +1,16 @@
 window.addEventListener('load', () => {
   // 다큐먼트 엘레먼트
-  const modalWrap = document.getElementById('modal-wrap');
-  const modalBody = document.getElementById('modal-body');
   const loginButton = document.getElementById('login-button');
-  const closeModal = document.getElementById('close-modal');
-  const idInput = document.getElementById('id-input') as HTMLInputElement;
-  const passwordInput = document.getElementById('password-input') as HTMLInputElement;
+  const loginIdInput = document.getElementById('login-id-input') as HTMLInputElement;
+  const loginPasswordInput = document.getElementById('login-password-input') as HTMLInputElement;
 
-  if (!loginButton || !closeModal || !idInput || !modalWrap || !modalBody || !passwordInput) {
+  if (!loginButton || !loginIdInput || !loginPasswordInput) {
     return;
   }
 
-  loginButton.addEventListener('click', (e) => {
-    modalWrap.style.display = 'block';
-    modalBody.style.marginTop = `${(window.innerHeight - modalBody.clientHeight) / 2}px`;
+  loginIdInput.addEventListener('input', (e) => {
+    userId = loginIdInput.value;
   });
-
-  closeModal.addEventListener('click', (e) => {
-    modalWrap.style.display = 'none';
-    idInput.value = '';
-    passwordInput.value = '';
-  });
-
-  idInput.addEventListener('input', (e) => {
-    userId = idInput.value;
-  });
-
   ////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////
   const productContainer = document.getElementById('products-container');
@@ -57,8 +42,11 @@ window.addEventListener('load', () => {
   };
 
   for (let i = 0; i < productList.length; i++) {
-    const product = productList[i];
-    product.addEventListener('click', () => {
+    // const product = productList[i];
+    // product.addEventListener('click', () => {
+    //   addProductIndex(i);
+    // });
+    productList[i].addEventListener('click', () => {
       addProductIndex(i);
     });
   }
