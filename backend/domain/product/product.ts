@@ -1,5 +1,5 @@
-import UserRepository from '../../repository/user-repository';
-import Database from '../../database/database';
+import UserRepository from '../../repository/user-repository.js';
+import Database from '../../database/database.js';
 
 export default class Product {
   private id: any;

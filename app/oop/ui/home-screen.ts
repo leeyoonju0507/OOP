@@ -7,6 +7,7 @@ import {inputReceiver} from '../../input';
 export interface IHomeScreen {
   mainUI(user: ILoginData): Promise<undefined | boolean>;
   sellerUI(user: ILoginData): Promise<undefined | boolean>;
+  buyerUI(user: ILoginData): Promise<undefined | boolean>;
 }
 class HomeScreen implements IHomeScreen {
   private userService: IUserService;
@@ -30,6 +31,8 @@ class HomeScreen implements IHomeScreen {
     );
     if (user.userType === 'seller') {
       return await this.sellerUI(user);
+    } else if (user.userType === 'buyer') {
+      return await this.buyerUI(user);
     }
   };
 
@@ -53,7 +56,7 @@ class HomeScreen implements IHomeScreen {
             console.log('이 판매자는 존재하지 않거나 상품을 등록할 수 없습니다..');
             return;
           }
-          console.log('물건을 1개 (창고에) 등록에 성공했습니다.');
+          console.log('물건을 1개 (창고에) 등록 성공했습니다.');
           break;
         case '2':
           console.log('~~~~~판매자가 창고에 저장한 물건목록~~~~~');
@@ -70,6 +73,31 @@ class HomeScreen implements IHomeScreen {
           return false;
         default:
           break;
+      }
+    }
+    return true;
+  };
+  buyerUI = async (user: ILoginData) => {
+    while (1) {
+      console.log('======Buyer Main-Page======');
+      console.log('(1) 물건구매하기 vs (2)구매한 물건 목록보기 vs (3)로그아웃');
+      const select = await inputReceiver('메뉴를 선택하세요: ');
+      switch (select) {
+        case '1':
+          const id = await inputReceiver('구매할 물건의 id를 입력하세요:');
+          const canBuy = await this.productService.checkSoldOutfProduct(id);
+
+          if (!canBuy) {
+            console.log('현재 재고가 없습니다.');
+            return false;
+          }
+          await this.productService.BuyProduct(id, user.email);
+          console.log('!!물건 구매 성공!!');
+          break;
+        case '2':
+          break;
+        case '3':
+          return false;
       }
     }
     return true;

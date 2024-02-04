@@ -1,13 +1,13 @@
 import {inputReceiver} from './input';
-// import Database from './oop/database/database';
-// import Store from './oop/ui/store';
-import Database from './fp/database/database';
-import createAuthScreen, {IAuthScreen} from './fp/ui/auth-screen';
-import HomeScreen, {IHomeScreen} from './fp/ui/home-screen';
-import {init} from './fp/ui/store';
-import composition1 from './fp/util/composition1';
-import composition2 from './fp/util/composition2';
-import composition3 from './fp/util/composition3';
+import Database from './oop/database/database';
+import Store from './oop/ui/store';
+// import Database from './fp/database/database';
+// import createAuthScreen, {IAuthScreen} from './fp/ui/auth-screen';
+// import HomeScreen, {IHomeScreen} from './fp/ui/home-screen';
+// import {init} from './fp/ui/store';
+// import composition1 from './fp/util/composition1';
+// import composition2 from './fp/util/composition2';
+// import composition3 from './fp/util/composition3';
 
 const doExample = async () => {
   console.log('==================================================');
@@ -32,13 +32,13 @@ const main = async () => {
   // await doExample();
 
   // oop
-  // const store = new Store();
-  // await store.init();
+  const store = new Store();
+  await store.init();
 
   // 함수형 프로그래밍 연습
-  composition1();
-  composition2();
-  composition3();
+  // composition1();
+  // composition2();
+  // composition3();
 
   // fp
   // const authScreen: IAuthScreen = createAuthScreen();

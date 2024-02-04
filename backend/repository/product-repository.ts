@@ -1,5 +1,5 @@
-import Database from '../database/database';
-import Product from '../domain/product/product';
+import Database from '../database/database.js';
+import Product from '../domain/product/product.js';
 
 export interface IProductRepository {
   storeProduct(

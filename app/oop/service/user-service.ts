@@ -30,19 +30,23 @@ export default class UserService implements IUserService {
   }
 
   checkSignedUpByEmail = async (email: string) => {
-    return !!(await this.userRepository.findUserByEmail(email));
+    return !!(await this.repository.userRepository.findUserByEmail(email));
   };
   signUp = async (userData: IUserData) => {
-    await this.userRepository.storeUser(userData);
+    await this.repository.userRepository.storeUser(userData);
   };
   login = async (email: string, password: string) => {
-    const user: Seller | Buyer | undefined = await this.userRepository.findUserByEmail(email);
+    //repository에서 이메일로 user를 찾고
+    const user: Seller | Buyer | undefined =
+      await this.repository.userRepository.findUserByEmail(email);
     if (!user) {
       return;
     }
+    //도메인 함수를 이용해서 비밀번호 비교
     if (user.getPassword() !== password) {
       return;
     }
+    //도메인 함수를 이용해서 return
     return {
       email: user.getEmail(),
       nickname: user.getNickname(),

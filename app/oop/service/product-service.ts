@@ -5,6 +5,8 @@ import Repository, {IRepository} from '../repository/repository';
 export interface IProductService {
   registerProduct(email: string, title: string, price: number, content: string): Promise<boolean>;
   getSellerProducts(email: string): Promise<IProductData[]>;
+  checkSoldOutfProduct(id: string): Promise<boolean>;
+  BuyProduct(id: string, buyerEmail: string): Promise<void>;
 }
 
 export default class ProductService implements IProductService {
@@ -39,6 +41,7 @@ export default class ProductService implements IProductService {
     //등록가능한지
     return true;
   };
+
   //유저가 판매하는 모든 상품목록배열을 return
   getSellerProducts = async (email: string) => {
     const seller = await this.repository.userRepository.findUserByEmail(email);
@@ -59,5 +62,17 @@ export default class ProductService implements IProductService {
       });
     }
     return result;
+  };
+
+  checkSoldOutfProduct = async (id: string) => {
+    const ExistOfProduct = await this.repository.productRepository.getSoldOutOfProduct(id);
+    if (!ExistOfProduct) {
+      return false;
+    }
+    return true;
+  };
+
+  BuyProduct = async (id: string, buyerEmail: string) => {
+    await this.repository.productRepository.storeBuyerProduct(id, buyerEmail);
   };
 }

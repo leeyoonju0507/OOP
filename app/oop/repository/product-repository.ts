@@ -10,6 +10,8 @@ export interface IProductRepository {
     IsSoldOut: boolean,
   ): Promise<boolean>;
   findSellerProductsInStorage(email: string): Promise<Product[]>;
+  getSoldOutOfProduct(id: string): Promise<boolean>;
+  storeBuyerProduct(id: string, buyerEmail: string): Promise<void>;
 }
 
 class ProductRepository implements IProductRepository {
@@ -52,6 +54,39 @@ class ProductRepository implements IProductRepository {
       }
     }
     return sellerProductList;
+  };
+
+  getSoldOutOfProduct = async (id: string) => {
+    const ProductRows = await this.db.readCSV('products.csv');
+
+    for (let i = 0; i < ProductRows.length; i++) {
+      if (ProductRows[i].id === id && ProductRows[i].isSoldOut === 'false') {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  storeBuyerProduct = async (id: string, buyerEmail: string) => {
+    const ProductRows = await this.db.readCSV('products.csv');
+
+    for (let i = 0; i < ProductRows.length; i++) {
+      if (ProductRows[i].id === id) {
+        ProductRows[i].isSoldOut = 'true';
+        const updateRow = [];
+        updateRow.push(ProductRows[i].id);
+        updateRow.push(ProductRows[i].title);
+        updateRow.push(ProductRows[i].content);
+        updateRow.push(ProductRows[i].price);
+        updateRow.push(ProductRows[i].sellerEmail);
+        updateRow.push(ProductRows[i].isSoldOut);
+        await this.db.updateCSV('products.csv', updateRow);
+        await this.db.writeCSV(
+          'buyer_products.csv',
+          `${ProductRows[i].title},${ProductRows[i].content},${ProductRows[i].price},${buyerEmail}`,
+        );
+      }
+    }
   };
 }
 

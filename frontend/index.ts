@@ -4,12 +4,31 @@ window.addEventListener('load', () => {
   const loginIdInput = document.getElementById('login-id-input') as HTMLInputElement;
   const loginPasswordInput = document.getElementById('login-password-input') as HTMLInputElement;
 
+  //변수
+  let userId = '';
+  let userPassword = '';
+
   if (!loginButton || !loginIdInput || !loginPasswordInput) {
     return;
   }
 
   loginIdInput.addEventListener('input', (e) => {
     userId = loginIdInput.value;
+  });
+  loginPasswordInput.addEventListener('input', () => {
+    userPassword = loginPasswordInput.value;
+  });
+
+  loginButton.addEventListener('click', () => {
+    if (!userId || !userPassword) {
+      alert('아이디 또는 비밀번호를 다시 입력하세요');
+      return;
+    }
+    fetch('http://localhost:3000/login', {
+      method: 'POST',
+      body: JSON.stringify({userId, userPassword}),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    });
   });
   ////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////
@@ -22,7 +41,6 @@ window.addEventListener('load', () => {
   const productList = Array.from(document.getElementsByClassName('product'));
 
   // 변수
-  let userId = '';
   let productTitle = '';
   let selectedProductIndexList: number[] = [];
 

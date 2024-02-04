@@ -1,6 +1,6 @@
-import {IProductData} from '../specification/interfaces';
-import Buyer from '../domain/user/buyer';
-import Repository, {IRepository} from '../repository/repository';
+import {IProductData} from '../specification/interfaces.js';
+import Buyer from '../domain/user/buyer.js';
+import Repository, {IRepository} from '../repository/repository.js';
 
 export interface IProductService {
   registerProduct(email: string, title: string, price: number, content: string): Promise<boolean>;

@@ -1,6 +1,6 @@
-import User from './user';
-import Product from '../product/product';
-import Buyer from './buyer';
+import User from './user.js';
+import Product from '../product/product.js';
+import Buyer from './buyer.js';
 
 export default class Seller extends User {
   constructor(

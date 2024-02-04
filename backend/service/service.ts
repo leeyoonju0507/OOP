@@ -1,5 +1,5 @@
-import ProductService, {IProductService} from './product-service';
-import UserService, {IUserService} from './user-service';
+import ProductService, {IProductService} from './product-service.js';
+import UserService, {IUserService} from './user-service.js';
 
 export interface IService {
   get userService(): IUserService;

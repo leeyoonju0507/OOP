@@ -1,7 +1,7 @@
-import Database from '../database/database';
-import {IUserData} from '../specification/interfaces';
-import Buyer from '../domain/user/buyer';
-import Seller from '../domain/user/seller';
+import Database from '../database/database.js';
+import {IUserData} from '../specification/interfaces.js';
+import Buyer from '../domain/user/buyer.js';
+import Seller from '../domain/user/seller.js';
 
 export interface IUserRepository {
   storeUser(user: IUserData): Promise<void>;
@@ -10,6 +10,9 @@ export interface IUserRepository {
 }
 
 class UserRepository implements IUserRepository {
+  static getInstance(): import('./repository.js').IRepository {
+    throw new Error('Method not implemented.');
+  }
   private db: Database;
 
   constructor() {

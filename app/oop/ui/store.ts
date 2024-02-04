@@ -21,7 +21,7 @@ class Store {
       await this.init();
     } else if (sign === '1') {
       const user: ILoginData | undefined = await this.authScreen.loginUI();
-      // 로그인이 실패시(이메일 또는 비번을 못찾을때)
+      // 로그인 실패할 때(이메일 또는 비번을 못 찾을때)
       if (!user) {
         await this.init();
       }
@@ -38,5 +38,4 @@ class Store {
     }
   }
 }
-
 export default Store;

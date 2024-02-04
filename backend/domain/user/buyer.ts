@@ -1,7 +1,7 @@
-import User from './user';
-import Product from '../product/product';
-import UserRepository from '../../repository/user-repository';
-import Seller from './seller';
+import User from './user.js';
+import Product from '../product/product.js';
+import UserRepository from '../../repository/user-repository.js';
+import Seller from './seller.js';
 
 export default class Buyer extends User {
   private buyHistory: Product[] = [];

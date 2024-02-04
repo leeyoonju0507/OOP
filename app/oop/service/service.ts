@@ -5,7 +5,6 @@ export interface IService {
   get userService(): IUserService;
   get productService(): IProductService;
 }
-
 class Service implements IService {
   private static Instanceof: Service;
   private _productService: IProductService;
@@ -23,13 +22,11 @@ class Service implements IService {
     return Service.Instanceof;
   }
 
-  public get productService() {
-    return this._productService;
-  }
-
   public get userService() {
     return this._userService;
   }
+  public get productService() {
+    return this._productService;
+  }
 }
-
 export default Service;

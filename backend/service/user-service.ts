@@ -1,10 +1,11 @@
-import UserRepository, {IUserRepository} from '../repository/user-repository';
-import {ILoginData, IProductData, IUserData} from '../specification/interfaces';
-import Buyer from '../domain/user/buyer';
-import Seller from '../domain/user/seller';
-import ProductRepository, {IProductRepository} from '../repository/product-repository';
-import Product from '../domain/product/product';
-import Repository, {IRepository} from '../repository/repository';
+import UserRepository, {IUserRepository} from '../repository/user-repository.js';
+import {ILoginData, IProductData, IUserData} from '../specification/interfaces.js';
+import Buyer from '../domain/user/buyer.js';
+import Seller from '../domain/user/seller.js';
+import ProductRepository, {IProductRepository} from '../repository/product-repository.js';
+import Product from '../domain/product/product.js';
+import Repository from '../repository/user-repository.js';
+import {IRepository} from '../repository/repository.js';
 
 export interface IUserService {
   checkSignedUpByEmail(email: string): Promise<boolean>;

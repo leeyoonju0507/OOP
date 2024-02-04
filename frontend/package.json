@@ -2,10 +2,12 @@
   "name": "frontend",
   "version": "1.0.0",
   "scripts": {
-    "dev": "tsc --build"
+    "dev": "nodemon -e ts --ignore dist/ --exec tsc --build",
+    "prod": "tsc --build"
   },
   "license": "ISC",
   "devDependencies": {
+    "nodemon": "^3.0.3",
     "typescript": "^5.3.3"
   }
 }
