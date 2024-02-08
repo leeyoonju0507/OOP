@@ -10,9 +10,10 @@ export interface IUserRepository {
 }
 
 class UserRepository implements IUserRepository {
-  static getInstance(): import('./repository.js').IRepository {
-    throw new Error('Method not implemented.');
-  }
+  // static getInstance(): import('./repository.js').IRepository {
+  //   throw new Error('Method not implemented.');
+  // }
+
   private db: Database;
 
   constructor() {

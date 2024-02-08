@@ -11,7 +11,8 @@ export default class Database implements IDatabase {
   private readonly dataFolderPath: string;
 
   constructor() {
-    this.dataFolderPath = path.join(__dirname, '../../../src/data');
+    const __dirname = path.resolve();
+    this.dataFolderPath = path.join(__dirname, '../backend/data');
   }
 
   readCSV = (filename: string): Promise<{[key: string]: string}[]> => {

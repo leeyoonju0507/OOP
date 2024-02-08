@@ -22,22 +22,26 @@ export interface IUserService {
 export default class UserService implements IUserService {
   private userRepository: IUserRepository;
   private ProductRepository: IProductRepository;
-  private repository: IRepository;
+  // private repository: IRepository;
 
   constructor() {
-    this.repository = Repository.getInstance();
+    // this.repository = Repository.getInstance();
     this.userRepository = new UserRepository();
     this.ProductRepository = new ProductRepository();
   }
 
   checkSignedUpByEmail = async (email: string) => {
+    // return !!(await this.repository.userRepository.findUserByEmail(email));
     return !!(await this.userRepository.findUserByEmail(email));
   };
   signUp = async (userData: IUserData) => {
+    // await this.repository.userRepository.storeUser(userData);
     await this.userRepository.storeUser(userData);
   };
   login = async (email: string, password: string) => {
-    const user: Seller | Buyer | undefined = await this.userRepository.findUserByEmail(email);
+    const user: Seller | Buyer | undefined =
+      // await this.repository.userRepository.findUserByEmail(email);
+      await this.userRepository.findUserByEmail(email);
     if (!user) {
       return;
     }

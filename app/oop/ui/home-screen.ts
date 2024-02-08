@@ -89,11 +89,11 @@ class HomeScreen implements IHomeScreen {
 
           if (!canBuy) {
             console.log('현재 재고가 없습니다.');
-            return false;
+            continue;
           }
           await this.productService.BuyProduct(id, user.email);
           console.log('!!물건 구매 성공!!');
-          break;
+          continue;
         case '2':
           break;
         case '3':

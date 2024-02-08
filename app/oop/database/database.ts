@@ -13,6 +13,7 @@ export default class Database implements IDatabase {
   private readonly dataFolderPath: string;
 
   constructor() {
+    // this.dataFolderPath = path.join(__dirname, '../../data');
     this.dataFolderPath = path.join(__dirname, '../../../oop/data');
   }
 
@@ -105,53 +106,4 @@ export default class Database implements IDatabase {
       });
     });
   };
-  // updateCSV = (filename: string, id: string) => {
-  //   return new Promise(async (resolve) => {
-  //     const fileStream1 = fs.createWriteStream(path.join(this.dataFolderPath, filename), {
-  //       flags: 'w',
-  //     });
-  //     const fileStream2 = fs.createWriteStream(path.join(this.dataFolderPath, filename), {
-  //       flags: 'a',
-  //     });
-  //     //
-  //     const readData = await this.readCSV(filename);
-  //     const store_1 = [];
-  //     const store_2 = [];
-  //     let index;
-  //     const store_3 = [];
-  //     for (let i = 0; i < readData.length; i++) {
-  //       if (readData[i].id === id) {
-  //         store_2.push(readData[i]);
-  //         index = i;
-  //         break;
-  //       }
-  //       store_1.push(readData[i]);
-  //     }
-  //     if (!index) {
-  //       return;
-  //     }
-  //     for (let i = index + 1; i < readData.length; i++) {
-  //       store_3.push(readData[i]);
-  //     }
-  //     //
-  //     for (let i = 0; i < store_1.length; i++) {
-  //       fileStream1.write(
-  //         `${store_1[i].id},${store_1[i].title},${store_1[i].content},${store_1[i].price},${store_1[i].sellerEmail},${store_1[i].isSoldOut}`,
-  //       );
-  //     }
-  //     fileStream2.write(`${store_2[0]}\n`);
-  //     for (let i = 0; i < store_3.length; i++) {
-  //       fileStream2.write(
-  //         `${store_3[i]},${store_3[i].title},${store_3[i].content},${store_3[i].price},${store_3[i].sellerEmail},${store_3[i].isSoldOut}`,
-  //       );
-  //     }
-  //     //
-  //     await fileStream1.end(() => {
-  //       resolve(true);
-  //     });
-  //     await fileStream2.end(() => {
-  //       resolve(true);
-  //     });
-  //   });
-  // };
 }
