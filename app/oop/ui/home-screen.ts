@@ -57,7 +57,7 @@ class HomeScreen implements IHomeScreen {
             return;
           }
           console.log('물건을 1개 (창고에) 등록 성공했습니다.');
-          break;
+          continue;
         case '2':
           console.log('~~~~~판매자가 창고에 저장한 물건목록~~~~~');
           const listOfProduct = await this.productService.getSellerProducts(user.email);
@@ -68,7 +68,7 @@ class HomeScreen implements IHomeScreen {
             console.log(listOfProduct[i].price);
             console.log(listOfProduct[i].content + '\n');
           }
-          break;
+          continue;
         case '3':
           return false;
         default:
@@ -91,7 +91,7 @@ class HomeScreen implements IHomeScreen {
             console.log('현재 재고가 없습니다.');
             continue;
           }
-          await this.productService.BuyProduct(id, user.email);
+          await this.productService.buyProduct(id, user.email);
           console.log('!!물건 구매 성공!!');
           continue;
         case '2':

@@ -21,7 +21,7 @@ const doExample = async () => {
   // database 사용법
   console.log('database 예제를 실행합니다');
   const db = new Database();
-  await db.writeCSV('example.csv', `${name},${age}`);
+  await db.appendCSV('example.csv', `${name},${age}`);
   const readContents = await db.readCSV('example.csv');
   console.log('example.csv에서 읽어온 콘텐츠: ', readContents);
   console.log('example.csv 파일을 열어보세요');

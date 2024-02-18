@@ -13,10 +13,3 @@ export interface ILoginData {
   money: number;
   userType: 'seller' | 'buyer';
 }
-
-export interface IProductData {
-  id: any;
-  title: string;
-  price: number;
-  content: string;
-}

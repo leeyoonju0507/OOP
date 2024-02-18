@@ -1,5 +1,5 @@
 import UserRepository, {IUserRepository} from '../repository/user-repository';
-import {ILoginData, IProductData, IUserData} from '../specification/interfaces';
+import {ILoginData, IUserData} from '../specification/interfaces';
 import Buyer from '../domain/user/buyer';
 import Seller from '../domain/user/seller';
 import ProductRepository, {IProductRepository} from '../repository/product-repository';
