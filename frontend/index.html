@@ -8,25 +8,34 @@
   </head>
   <body>
     <div style="text-align: center; font-size: 30px"><h1>APP</h1></div>
-    <!-- 회원가입 -->
-    <div style="display: block; display: none">
-      <div id="signup-info">
-        <h1>=====회원가입 form=====</h1>
-        <div style="margin: 20px">
-          <input
-            class="info-input"
-            id="signup-id-input"
-            name="id"
-            placeholder="아이디을 입력하세요" />
+
+    <div style="display: block">
+      <div id="select-screen" style="width: 50%; margin: auto; padding: 10px">
+        <div style="width: 100%; text-align: center">
+          <strong style="font-size: 100%">선택하세요</strong>
         </div>
-        <div style="margin: 20px">
+        <br />
+        <div id="show-signup-screen" style="width: 100%; text-align: center">
+          <strong>1.회원가입</strong>
+        </div>
+        <div id="show-login-screen" style="width: 100%; text-align: center">
+          <strong>2.로그인&nbsp;&nbsp;&nbsp;</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- 회원가입 -->
+    <div id="signup-form" style="display: none">
+      <div style="width: 27%; margin: auto; font-size: 70%; padding: 50px; box-sizing: border-box">
+        <h1 style="text-align: center">회원가입 form</h1>
+        <div>
           <input
             class="info-input"
             id="signup-email-input"
             type="email"
             placeholder="example@gmail.com" />
         </div>
-        <div style="margin: 20px">
+        <div>
           <input
             class="info-input"
             id="signup-password-input"
@@ -34,38 +43,38 @@
             type="password"
             placeholder="비밀번호을 입력하세요" />
         </div>
-        <div style="margin: 20px">
+        <div>
           <input class="info-input" id="signup-nickname-input" placeholder="닉네임을 입력하세요" />
         </div>
-        <div style="margin: 20px">
+        <div>
           <input
             type="number"
             class="info-input"
             id="signup-money-input"
             placeholder="충전금액을 입력하세요" />
         </div>
-        <div style="margin: 20px">
+        <div>
           <select name="usertype" id="signup-usertype-input">
             <option value="" disabled selected>--선택해주세요--</option>
             <option value="seller">판매자</option>
             <option value="buyer">구매자</option>
           </select>
         </div>
+        <div class="button" id="signup-button">회원가입</div>
       </div>
-      <div class="button" id="signup-button">회원가입</div>
     </div>
     <br />
     <br />
     <br />
 
     <!-- 로그인-->
-    <div style="display: block">
-      <div id="login-info">
-        <h1>=====로그인 form=====</h1>
-        <div style="margin: 20px">
+    <div id="login-form" style="display: none">
+      <div style="width: 20%; margin: auto">
+        <h1 style="margin: 20px; width: 100%">로그인 form</h1>
+        <div style="margin: 20px; width: 100%">
           <input class="info-input" id="login-id-input" name="id" placeholder="아이디" />
         </div>
-        <div style="margin: 20px">
+        <div style="margin: 20px; width: 100%">
           <input
             class="info-input"
             id="login-password-input"
@@ -81,9 +90,8 @@
     <br />
 
     <!-- 상품 등록 -->
-
-    <div id="container" style="text-align: center; display: none">
-      <h1>=====상품 등록 & 상품 구매=====</h1>
+    <div id="register|Buy" style="text-align: center; display: none">
+      <h1>상품 등록 & 상품 구매</h1>
       <!--  상품구매 -->
       <div id="products-container" style="display: inline-block">
         <h2>상품 구매</h2>
