@@ -41,12 +41,14 @@ body {
   cursor: pointer;
 }
 /* 회원가입 */
-#signup-info > div > div {
+#signup-form > div div {
   padding: 5px;
+  margin-bottom: 5px;
 }
 
 #signup-button {
   width: 200px;
+  height: 30px;
 }
 /* 로그인 */
 #login-button {

@@ -1,4 +1,4 @@
-import {ILoginData} from './specification/interfaces';
+import {ILoginData} from '../specification/interfaces';
 
 export interface IHomeScreen {
   mainUI(user: ILoginData): Promise<undefined | boolean>;
