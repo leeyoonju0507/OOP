@@ -41,16 +41,14 @@ body {
   cursor: pointer;
 }
 /* 회원가입 */
-#signup-info {
-  text-align: center;
+#signup-info > div > div {
+  padding: 5px;
 }
+
 #signup-button {
   width: 200px;
 }
 /* 로그인 */
-#login-info {
-  text-align: center;
-}
 #login-button {
   width: 200px;
 }
