@@ -41,10 +41,9 @@ body {
   cursor: pointer;
 }
 /* 회원가입 */
-#signup-info > div > div {
-  padding: 5px;
+#signup-info {
+  text-align: center;
 }
-
 #signup-button {
   width: 200px;
 }
