@@ -1,5 +1,5 @@
 import User from './user';
-import Product from '../product/product';
+import {Product} from '../product/product';
 import Buyer from './buyer';
 
 export default class Seller extends User {

@@ -10,6 +10,9 @@ body {
   padding: 0;
   margin: 0;
 }
+div {
+  box-sizing: border-box;
+}
 /* body {
   margin: 0;
   height: 100vh;
@@ -45,14 +48,18 @@ body {
   padding: 5px;
   margin-bottom: 5px;
 }
+#signup-form > div div input {
+  width: 100%;
+}
 
 #signup-button {
   width: 200px;
-  height: 30px;
+  height: 40px;
 }
 /* 로그인 */
 #login-button {
   width: 200px;
+  height: 40px;
 }
 /* 상품구매,등록 */
 #product-title-input {

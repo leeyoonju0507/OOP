@@ -1,7 +1,8 @@
 import User from './user';
-import Product from '../product/product';
+// import Product from '../product/product';
 import UserRepository from '../../repository/user-repository';
 import Seller from './seller';
+import {Product} from '../product/product';
 
 export default class Buyer extends User {
   private buyHistory: Product[] = [];

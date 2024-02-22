@@ -1,5 +1,13 @@
 import UserRepository from '../../repository/user-repository';
 
+export interface IUserCSV {
+  id: string;
+  email: string;
+  password: string;
+  nickname: string;
+  money: string;
+  userType: 'seller' | 'buyer';
+}
 export interface IUser {}
 
 export default class User {

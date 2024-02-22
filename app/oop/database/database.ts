@@ -1,12 +1,13 @@
 import fs from 'fs';
 import csvParser from 'csv-parser';
 import * as path from 'path';
-import Product from '../domain/product/product';
+import {IDataCSV} from '../domain/product/product';
+// import Product, { IDataCSV } from '../domain/product/product';
 
 export interface IDatabase {
   readCSV<T>(filename: string): Promise<T[]>;
   appendCSV(filename: string, content: string): Promise<any>;
-  writeAllCSV<T>(filename: string, contentList: T[]): Promise<void>;
+  writeAllCSV(filename: string, contentList: IDataCSV[]): Promise<void>;
 }
 
 export default class Database implements IDatabase {
@@ -41,18 +42,24 @@ export default class Database implements IDatabase {
     });
   };
 
-  writeAllCSV = <T>(filename: string, contentList: T[]): Promise<void> => {
+  writeAllCSV = (filename: string, contentList: IDataCSV[]): Promise<void> => {
     return new Promise((resolve) => {
       const fileStream = fs.createWriteStream(path.join(this.dataFolderPath, filename), {
         flags: 'w',
       });
 
       let totalContent = '';
-      for (let i = 0; i < contentList.length; i++) {
-        const randomId = Math.random() + Date.now();
-        totalContent += `${randomId},${contentList[i]}\n`;
+      if (filename === 'products.csv') {
+        totalContent += 'id,title,price,content,sellerEmail,buyerEmail,isSoldOut\n';
+      } else if (filename === 'users.csv') {
+        totalContent += 'id,email,password,nickname,money,userType\n';
       }
-
+      for (let i = 0; i < contentList.length; i++) {
+        // const randomId = Math.random() + Date.now();
+        // totalContent += `${randomId},${contentList[i].convertStringForCSV()}\n`;
+        //contentList[i]이 무엇이든 간에 string으로 바뀜
+        totalContent += `${contentList[i].convertStringForCSV()}\n`;
+      }
       fileStream.write(totalContent);
       fileStream.end(() => {
         resolve();

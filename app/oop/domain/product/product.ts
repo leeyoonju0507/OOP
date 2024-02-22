@@ -1,7 +1,13 @@
 import UserRepository from '../../repository/user-repository';
 import Database from '../../database/database';
-//CSV를 읽었을때의 interface
+import ProductRepository from '../../repository/product-repository';
 //데이터 타입 for CSV
+//repo -> CSV
+export interface IDataCSV {
+  convertStringForCSV(): string;
+}
+//CSV를 읽었을때의 interface
+//repo <- CSV
 export interface IProductCSV {
   id: string;
   title: string;
@@ -11,17 +17,51 @@ export interface IProductCSV {
   buyerEmail: string;
   isSoldOut: 'true' | 'false';
 }
+export class ProductCSV implements IProductCSV, IDataCSV {
+  public readonly id: string;
+  public readonly title: string;
+  public readonly price: string;
+  public readonly content: string;
+  public readonly sellerEmail: string;
+  public readonly buyerEmail: string;
+  public readonly isSoldOut: 'true' | 'false';
 
+  constructor(
+    id: string,
+    title: string,
+    price: string,
+    content: string,
+    sellerEmail: string,
+    buyerEmail: string,
+    isSoldOut: 'true' | 'false',
+  ) {
+    this.id = id;
+    this.title = title;
+    this.price = price;
+    this.content = content;
+    this.sellerEmail = sellerEmail;
+    this.buyerEmail = buyerEmail;
+    this.isSoldOut = isSoldOut;
+  }
+
+  //CSV에 저장해야되는 문자형태를 스스로 return
+  convertStringForCSV(): string {
+    return `${this.id},${this.title},${this.price},${this.content},${this.sellerEmail},${this.buyerEmail},${this.isSoldOut}`;
+  }
+}
 //Domain객체의 interface
 //데이터 타입 for 서비스
 export interface IProduct {
-  id: any;
+  id: number;
   title: string;
   price: number;
   content: string;
+
+  // getProductId():number;
 }
-export default class Product implements IProduct {
-  private id: any;
+
+export class Product {
+  private id: number;
   private title: string;
   private content: string;
   private price: number;
@@ -65,7 +105,6 @@ export default class Product implements IProduct {
     this.isSoldOut = numOfSellerProduct > 0;
   }
 }
-
 //client에게 던져줄때의 interface
 export interface IProductClient {
   id: any;

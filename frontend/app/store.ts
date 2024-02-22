@@ -7,7 +7,7 @@ class Store {
   private homeScreen: HomeScreen;
   private signupButton: HTMLElement;
   private loginButton: HTMLElement;
-  private registerOrBuyScreen: HTMLElement;
+  // private registerOrBuyScreen: HTMLElement;
   private selectScreen: HTMLElement;
   private showSignUpScreen: HTMLElement;
   private showLoginScreen: HTMLElement;
@@ -19,7 +19,7 @@ class Store {
     this.homeScreen = new HomeScreen();
     this.signupButton = document.getElementById('signup-button') as HTMLElement;
     this.loginButton = document.getElementById('login-button') as HTMLElement;
-    this.registerOrBuyScreen = document.getElementById('register|Buy') as HTMLElement;
+    // this.registerOrBuyScreen = document.getElementById('register|Buy') as HTMLElement;
 
     this.selectScreen = document.getElementById('select-screen') as HTMLElement;
     this.showSignUpScreen = document.getElementById('show-signup-screen') as HTMLElement;
@@ -56,7 +56,12 @@ class Store {
           if (loginResult === undefined) {
             alert('아이디 또는 비밀번호를 다시 입력하세요');
           } else {
-            this.registerOrBuyScreen.style.display = 'block';
+            this.loginForm.style.display = 'none';
+            const checkLogout = await this.homeScreen.mainUI(loginResult);
+            if (!checkLogout) {
+              this.init();
+            }
+            // this.registerOrBuyScreen.style.display = 'block';
           }
         });
       }

@@ -1,5 +1,7 @@
 import Database from '../database/database';
-import Product, {IProductCSV} from '../domain/product/product';
+import {IProductCSV, Product, ProductCSV} from '../domain/product/product';
+// import ProductCSV from '../domain/product/product';
+// import Product, {IProductCSV} from '../domain/product/product';
 
 export interface IProductRepository {
   storeProduct(
@@ -12,7 +14,7 @@ export interface IProductRepository {
   ): Promise<boolean>;
   findSellerProductsInStorage(email: string): Promise<Product[]>;
   getIsProductExist(id: string): Promise<boolean>;
-  storeBuyerProduct(id: string, buyerEmail: string): Promise<void>;
+  buyProduct(id: string, buyerEmail: string): Promise<void>;
 }
 
 class ProductRepository implements IProductRepository {
@@ -70,9 +72,8 @@ class ProductRepository implements IProductRepository {
     return false;
   };
 
-  storeBuyerProduct = async (id: string, buyerEmail: string) => {
+  buyProduct = async (id: string, buyerEmail: string) => {
     const productRows = await this.db.readCSV<IProductCSV>('products.csv');
-
     for (let i = 0; i < productRows.length; i++) {
       if (productRows[i].id === id) {
         productRows[i].buyerEmail = buyerEmail;
@@ -80,7 +81,21 @@ class ProductRepository implements IProductRepository {
         break;
       }
     }
-    await this.db.writeAllCSV<IProductCSV>('products.csv', productRows);
+    const productCSVList: ProductCSV[] = [];
+    for (let i: number = 0; i < productRows.length; i++) {
+      productCSVList.push(
+        new ProductCSV(
+          productRows[i].id,
+          productRows[i].title,
+          productRows[i].price,
+          productRows[i].content,
+          productRows[i].sellerEmail,
+          productRows[i].buyerEmail,
+          productRows[i].isSoldOut,
+        ),
+      );
+    }
+    await this.db.writeAllCSV('products.csv', productCSVList);
   };
 }
 

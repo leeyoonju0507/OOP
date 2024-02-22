@@ -3,7 +3,7 @@ import {ILoginData, IUserData} from '../specification/interfaces';
 import Buyer from '../domain/user/buyer';
 import Seller from '../domain/user/seller';
 import ProductRepository, {IProductRepository} from '../repository/product-repository';
-import Product from '../domain/product/product';
+import {Product} from '../domain/product/product';
 import Repository, {IRepository} from '../repository/repository';
 
 export interface IUserService {

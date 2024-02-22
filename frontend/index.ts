@@ -34,10 +34,6 @@ window.addEventListener('load', () => {
   };
 
   for (let i = 0; i < productList.length; i++) {
-    // const product = productList[i];
-    // product.addEventListener('click', () => {
-    //   addProductIndex(i);
-    // });
     productList[i].addEventListener('click', () => {
       addProductIndex(i);
     });

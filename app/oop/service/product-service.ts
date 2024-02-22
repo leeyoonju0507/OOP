@@ -77,6 +77,6 @@ export default class ProductService implements IProductService {
   };
 
   buyProduct = async (id: string, buyerEmail: string) => {
-    await this.repository.productRepository.storeBuyerProduct(id, buyerEmail);
+    await this.repository.productRepository.buyProduct(id, buyerEmail);
   };
 }
