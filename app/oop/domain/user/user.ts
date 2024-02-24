@@ -1,14 +1,18 @@
+// export interface IUser {}
 import UserRepository from '../../repository/user-repository';
 
-export interface IUserCSV {
-  id: string;
-  email: string;
-  password: string;
-  nickname: string;
-  money: string;
-  userType: 'seller' | 'buyer';
-}
-export interface IUser {}
+// export interface IUserCSV {
+//   id: string;
+//   email: string;
+//   password: string;
+//   nickname: string;
+//   money: string;
+//   userType: 'seller' | 'buyer';
+// }
+
+// export interface IDataCSV {
+//   convertStringForCSV(): string;
+// }
 
 export default class User {
   // 데이터: 인스턴스 속성
@@ -63,4 +67,9 @@ export default class User {
   public getUserType() {
     return this.userType;
   }
+
+  //CSV에 저장해야되는 문자형태를 스스로 return
+  // convertStringForCSV(): string {
+  //   return `${this.id},${this.email},${this.password},${this.nickname},${this.money},${this.userType}`;
+  // }
 }

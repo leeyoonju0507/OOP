@@ -1,4 +1,4 @@
-import {ILoginData} from '../specification/interfaces';
+import {ILoginData, IUserData} from '../specification/interfaces';
 import UserService, {IUserService} from '../service/user-service';
 import ProductService, {IProductService} from '../service/product-service';
 import {inputReceiver} from '../../input';
@@ -37,7 +37,13 @@ class AuthScreen implements IAuthScreen {
     } else {
       userType = 'buyer';
     }
-    await this.userService.signUp({email, password, nickname, money, userType});
+    await this.userService.signUp({
+      email,
+      password,
+      nickname,
+      money,
+      userType,
+    });
     return true;
   };
 

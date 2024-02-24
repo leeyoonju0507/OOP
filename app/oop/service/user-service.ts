@@ -46,7 +46,7 @@ export default class UserService implements IUserService {
     if (user.getPassword() !== password) {
       return;
     }
-    //도메인 함수를 이용해서 return
+    //도메인 함수를 이용해서 ILoginData의 형태로 return
     return {
       email: user.getEmail(),
       nickname: user.getNickname(),

@@ -56,17 +56,33 @@ export interface IProduct {
   title: string;
   price: number;
   content: string;
-
-  // getProductId():number;
+  getProductId(): number;
+  getPrice(): number;
+  getTitle(): string;
+  getContent(): string;
+  getIsSoldOut(): boolean;
 }
-
-export class Product {
-  private id: number;
-  private title: string;
-  private content: string;
-  private price: number;
-  private sellerEmail: string;
-  private isSoldOut: boolean;
+// export interface IProductMethd{
+//   getProductId(): number;
+//   getPrice(): number;
+//   getTitle(): string;
+//   getContent(): string;
+//   getIsSoldOut(): boolean;
+// }
+export class Product implements IProduct {
+  public readonly id: number;
+  public readonly title: string;
+  public readonly content: string;
+  public readonly price: number;
+  public readonly sellerEmail: string;
+  public readonly buyerEmail: string;
+  public readonly isSoldOut: boolean;
+  // private id: number;
+  // private title: string;
+  // private content: string;
+  // private price: number;
+  // private sellerEmail: string;
+  // private isSoldOut: boolean;
 
   constructor(
     id: number,
@@ -74,6 +90,7 @@ export class Product {
     content: string,
     price: number,
     sellerEmail: string,
+    buyerEmail: string,
     isSoldOut: boolean,
   ) {
     this.id = id;
@@ -81,6 +98,7 @@ export class Product {
     this.price = price;
     this.content = content;
     this.sellerEmail = sellerEmail;
+    this.buyerEmail = buyerEmail;
     this.isSoldOut = isSoldOut;
   }
 
@@ -101,11 +119,12 @@ export class Product {
   }
 
   //csv파일에서 읽어서 재고있으면 false, 재고없으면true로 setting
-  public setIsSoldOut(numOfSellerProduct: number) {
-    this.isSoldOut = numOfSellerProduct > 0;
-  }
+  // public setIsSoldOut(numOfSellerProduct: number) {
+  //   this.isSoldOut = numOfSellerProduct > 0;
+  // }
 }
 //client에게 던져줄때의 interface
+//ui<-service
 export interface IProductClient {
   id: any;
   title: string;

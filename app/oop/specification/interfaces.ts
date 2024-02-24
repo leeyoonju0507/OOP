@@ -6,7 +6,7 @@ export interface IUserData {
   money: number;
   userType: 'seller' | 'buyer';
 }
-
+//client <- service
 export interface ILoginData {
   email: string;
   nickname: string;

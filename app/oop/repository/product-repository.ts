@@ -1,7 +1,5 @@
 import Database from '../database/database';
 import {IProductCSV, Product, ProductCSV} from '../domain/product/product';
-// import ProductCSV from '../domain/product/product';
-// import Product, {IProductCSV} from '../domain/product/product';
 
 export interface IProductRepository {
   storeProduct(
@@ -34,7 +32,7 @@ class ProductRepository implements IProductRepository {
   ) => {
     await this.db.appendCSV(
       'products.csv',
-      `${title},${content},${price},${sellerEmail},${IsSoldOut}`,
+      `${title},${content},${price},${sellerEmail},${buyerEmail},${IsSoldOut}`,
     );
     return true;
   };
@@ -53,6 +51,7 @@ class ProductRepository implements IProductRepository {
             productRows[i].content,
             parseInt(productRows[i].price),
             productRows[i].sellerEmail,
+            productRows[i].buyerEmail,
             Boolean(productRows[i].isSoldOut),
           ),
         );
@@ -95,6 +94,7 @@ class ProductRepository implements IProductRepository {
         ),
       );
     }
+    // 원래는 await this.db.writeAllCSV('products.csv', productRows);이었는데 ProductCSV클래스를 또 만듦
     await this.db.writeAllCSV('products.csv', productCSVList);
   };
 }

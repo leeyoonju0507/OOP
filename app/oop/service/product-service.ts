@@ -1,11 +1,10 @@
-// import {IProductData} from '../specification/interfaces';/
 import {IProduct, IProductClient} from '../domain/product/product';
 import Buyer from '../domain/user/buyer';
 import Repository, {IRepository} from '../repository/repository';
 
 export interface IProductService {
   registerProduct(email: string, title: string, price: number, content: string): Promise<boolean>;
-  getSellerProducts(email: string): Promise<IProduct[]>;
+  getSellerProducts(email: string): Promise<IProductClient[]>;
   checkSoldOutfProduct(id: string): Promise<boolean>;
   buyProduct(id: string, buyerEmail: string): Promise<void>;
 }
@@ -29,10 +28,10 @@ export default class ProductService implements IProductService {
 
     //상품을 등록하고 등록성공 여부 return
     const isRegister = await this.repository.productRepository.storeProduct(
-      title,
-      content,
-      price,
       email,
+      title,
+      price,
+      content,
       'null',
       false,
     );
@@ -52,7 +51,8 @@ export default class ProductService implements IProductService {
       return [];
     }
     //Product:Domain[]
-    const productsList = await this.repository.productRepository.findSellerProductsInStorage(email);
+    const productsList: IProduct[] =
+      await this.repository.productRepository.findSellerProductsInStorage(email);
     //Product:Domain형태 -> Product:DTO형태
     const result: IProductClient[] = [];
     for (let i = 0; i < productsList.length; i++) {

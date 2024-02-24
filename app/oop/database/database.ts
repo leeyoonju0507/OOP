@@ -2,7 +2,6 @@ import fs from 'fs';
 import csvParser from 'csv-parser';
 import * as path from 'path';
 import {IDataCSV} from '../domain/product/product';
-// import Product, { IDataCSV } from '../domain/product/product';
 
 export interface IDatabase {
   readCSV<T>(filename: string): Promise<T[]>;
@@ -55,8 +54,6 @@ export default class Database implements IDatabase {
         totalContent += 'id,email,password,nickname,money,userType\n';
       }
       for (let i = 0; i < contentList.length; i++) {
-        // const randomId = Math.random() + Date.now();
-        // totalContent += `${randomId},${contentList[i].convertStringForCSV()}\n`;
         //contentList[i]이 무엇이든 간에 string으로 바뀜
         totalContent += `${contentList[i].convertStringForCSV()}\n`;
       }
