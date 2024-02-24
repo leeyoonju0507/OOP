@@ -5,10 +5,11 @@ import {ILoginData} from '../specification/interfaces';
 class Store {
   private authScreen: IAuthScreen;
   private homeScreen: HomeScreen;
+  //////////////////////////////
   private signupButton: HTMLElement;
   private loginButton: HTMLElement;
   // private registerOrBuyScreen: HTMLElement;
-  private selectScreen: HTMLElement;
+  // private selectScreen: HTMLElement;
   private showSignUpScreen: HTMLElement;
   private showLoginScreen: HTMLElement;
   private signupForm: HTMLElement;
@@ -17,11 +18,12 @@ class Store {
   constructor() {
     this.authScreen = new AuthScreen();
     this.homeScreen = new HomeScreen();
+
     this.signupButton = document.getElementById('signup-button') as HTMLElement;
     this.loginButton = document.getElementById('login-button') as HTMLElement;
     // this.registerOrBuyScreen = document.getElementById('register|Buy') as HTMLElement;
 
-    this.selectScreen = document.getElementById('select-screen') as HTMLElement;
+    // this.selectScreen = document.getElementById('select-screen') as HTMLElement;
     this.showSignUpScreen = document.getElementById('show-signup-screen') as HTMLElement;
     this.showLoginScreen = document.getElementById('show-login-screen') as HTMLElement;
     this.signupForm = document.getElementById('signup-form') as HTMLElement;

@@ -1,10 +1,12 @@
 import fs from 'fs';
 import csvParser from 'csv-parser';
 import * as path from 'path';
+import {IDataCSV} from '../domain/product/product.js';
 
 export interface IDatabase {
-  readCSV(filename: string): Promise<{[key: string]: string}[]>;
-  writeCSV(filename: string, content: string): Promise<any>;
+  readCSV<T>(filename: string): Promise<T[]>;
+  appendCSV(filename: string, content: string): Promise<any>;
+  writeAllCSV(filename: string, contentList: IDataCSV[]): Promise<void>;
 }
 
 export default class Database implements IDatabase {
@@ -15,18 +17,18 @@ export default class Database implements IDatabase {
     this.dataFolderPath = path.join(__dirname, '../backend/data');
   }
 
-  readCSV = (filename: string): Promise<{[key: string]: string}[]> => {
+  readCSV = <T>(filename: string): Promise<T[]> => {
     return new Promise((resolve) => {
-      const results: {[key: string]: string}[] = [];
+      const results: T[] = [];
       fs.createReadStream(path.join(this.dataFolderPath, filename))
         .pipe(csvParser())
-        .on('data', (data: {[key: string]: string}) => results.push(data))
+        .on('data', (data: T) => results.push(data))
         .on('end', () => {
           resolve(results);
         });
     });
   };
-  writeCSV = (filename: string, content: string) => {
+  appendCSV = (filename: string, content: string) => {
     return new Promise((resolve) => {
       const fileStream = fs.createWriteStream(path.join(this.dataFolderPath, filename), {
         flags: 'a',
@@ -35,6 +37,29 @@ export default class Database implements IDatabase {
       fileStream.write(`${randomId},${content}\n`);
       fileStream.end(() => {
         resolve(true);
+      });
+    });
+  };
+
+  writeAllCSV = (filename: string, contentList: IDataCSV[]): Promise<void> => {
+    return new Promise((resolve) => {
+      const fileStream = fs.createWriteStream(path.join(this.dataFolderPath, filename), {
+        flags: 'w',
+      });
+
+      let totalContent = '';
+      if (filename === 'products.csv') {
+        totalContent += 'id,title,price,content,sellerEmail,buyerEmail,isSoldOut\n';
+      } else if (filename === 'users.csv') {
+        totalContent += 'id,email,password,nickname,money,userType\n';
+      }
+      for (let i = 0; i < contentList.length; i++) {
+        //contentList[i]이 무엇이든 간에 string으로 바뀜
+        totalContent += `${contentList[i].convertStringForCSV()}\n`;
+      }
+      fileStream.write(totalContent);
+      fileStream.end(() => {
+        resolve();
       });
     });
   };

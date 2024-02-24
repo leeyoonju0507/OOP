@@ -3,7 +3,6 @@ import {ILoginData, IProductData, IUserData} from '../specification/interfaces.j
 import Buyer from '../domain/user/buyer.js';
 import Seller from '../domain/user/seller.js';
 import ProductRepository, {IProductRepository} from '../repository/product-repository.js';
-import Product from '../domain/product/product.js';
 import Repository from '../repository/user-repository.js';
 import {IRepository} from '../repository/repository.js';
 

@@ -1,5 +1,5 @@
 import User from './user.js';
-import Product from '../product/product.js';
+import {Product} from '../product/product.js';
 import Buyer from './buyer.js';
 
 export default class Seller extends User {

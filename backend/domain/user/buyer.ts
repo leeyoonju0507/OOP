@@ -1,5 +1,5 @@
 import User from './user.js';
-import Product from '../product/product.js';
+import {Product} from '../product/product.js';
 import UserRepository from '../../repository/user-repository.js';
 import Seller from './seller.js';
 
