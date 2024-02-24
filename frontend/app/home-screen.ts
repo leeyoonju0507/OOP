@@ -18,6 +18,8 @@ class HomeScreen implements IHomeScreen {
   private productTitle: string;
   private selectedProductIndexList: number[];
 
+  private ul: HTMLElement;
+
   constructor() {
     this.productRegister = document.getElementById('product-register') as HTMLElement;
     this.productTitleInput = document.getElementById('product-title-input') as HTMLInputElement;
@@ -30,6 +32,8 @@ class HomeScreen implements IHomeScreen {
 
     this.productTitle = '';
     this.selectedProductIndexList = [];
+
+    this.ul = document.getElementById('ul') as HTMLElement;
   }
 
   mainUI = async (user: ILoginData) => {
@@ -63,6 +67,13 @@ class HomeScreen implements IHomeScreen {
     sellerProductList.forEach((e: {id: number; title: string; price: number; content: string}) => {
       console.log(`id:${e.id}, title:${e.title}, price:${e.price}, content:${e.content}`);
     });
+    this.productBuy.style.display = 'block';
+    let tag = ``;
+    sellerProductList.forEach((e: {id: number; title: string; price: number; content: string}) => {
+      tag += '<ol>' + `${e.id}, ${e.title}, ${e.price}, ${e.content}` + '</ol>';
+    });
+    this.ul.innerHTML = tag;
+
     ////////////////////////////////////////////////////////////////////////////////////////
     if (!this.productContainer || !this.buyButton || !this.productTitleInput || !this.addButton) {
       return;
