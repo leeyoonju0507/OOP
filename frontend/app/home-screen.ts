@@ -53,6 +53,16 @@ class HomeScreen implements IHomeScreen {
   };
 
   sellerUI = async (user: ILoginData) => {
+    const sellerProduct = await fetch('http://localhost:3000/getSellerProducts', {
+      method: 'POST',
+      body: JSON.stringify({userEmail: user.email}),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    });
+    const sellerProductList = await sellerProduct.json();
+    sellerProductList.forEach((e: {id: number; title: string; price: number; content: string}) => {
+      console.log(`id:${e.id}, title:${e.title}, price:${e.price}, content:${e.content}`);
+    });
+    ////////////////////////////////////////////////////////////////////////////////////////
     if (!this.productContainer || !this.buyButton || !this.productTitleInput || !this.addButton) {
       return;
     }

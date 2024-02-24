@@ -1,5 +1,5 @@
 import UserRepository, {IUserRepository} from '../repository/user-repository.js';
-import {ILoginData, IProductData, IUserData} from '../specification/interfaces.js';
+import {ILoginData, IUserData} from '../specification/interfaces.js';
 import Buyer from '../domain/user/buyer.js';
 import Seller from '../domain/user/seller.js';
 import ProductRepository, {IProductRepository} from '../repository/product-repository.js';

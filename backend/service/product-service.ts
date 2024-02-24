@@ -1,10 +1,11 @@
-import {IProductData} from '../specification/interfaces.js';
+// import {IProductData} from '../specification/interfaces.js';
+import {IProductClient, IProduct} from '../domain/product/product.js';
 import Buyer from '../domain/user/buyer.js';
 import Repository, {IRepository} from '../repository/repository.js';
 
 export interface IProductService {
   registerProduct(email: string, title: string, price: number, content: string): Promise<boolean>;
-  getSellerProducts(email: string): Promise<IProductData[]>;
+  getSellerProducts(email: string): Promise<IProductClient[]>;
 }
 
 export default class ProductService implements IProductService {
@@ -47,9 +48,10 @@ export default class ProductService implements IProductService {
       return [];
     }
 
-    const productsList = await this.repository.productRepository.findSellerProductsInStorage(email);
-
-    const result: IProductData[] = [];
+    const productsList: IProduct[] =
+      await this.repository.productRepository.findSellerProductsInStorage(email);
+    const result: IProductClient[] = [];
+    console.log(productsList.length);
     for (let i = 0; i < productsList.length; i++) {
       const product = productsList[i];
       result.push({

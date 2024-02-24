@@ -1,5 +1,6 @@
 import express, {Request, Response, NextFunction} from 'express';
 import UserService from './service/user-service.js';
+import ProductService from './service/product-service.js';
 import {stringify} from 'querystring';
 
 const app = express();
@@ -32,8 +33,18 @@ app.post('/signup', async (req: Request, res: Response, next: NextFunction) => {
   const userType = JSON.parse(key[0]).signupUserType as 'seller' | 'buyer';
   const userService = new UserService();
   await userService.signUp({id, email, password, nickname, money, userType});
+  return res.json(true);
 });
-
+app.post('/getSellerProducts', async (req: Request, res: Response, next: NextFunction) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
+  const key = Object.keys(req.body);
+  const sellerEmail = JSON.parse(key[0]).userEmail as string;
+  // const sellerEmail = JSON.parse(key[0]).email as string;
+  // const sellerEmail = req.body.userEmail as string;
+  const productService = new ProductService();
+  const sellerProductList = await productService.getSellerProducts(sellerEmail);
+  return res.json(sellerProductList);
+});
 app.listen(3000, () => {
   console.log('Server listenning on port:3000');
 });

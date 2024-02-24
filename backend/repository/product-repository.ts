@@ -1,5 +1,5 @@
 import Database from '../database/database.js';
-import {IProductCSV, Product, ProductCSV} from '../domain/product/product.js';
+import {IProductCSV, IProduct, Product, ProductCSV} from '../domain/product/product.js';
 
 export interface IProductRepository {
   storeProduct(
@@ -10,7 +10,7 @@ export interface IProductRepository {
     buyerEmail: string,
     IsSoldOut: boolean,
   ): Promise<boolean>;
-  findSellerProductsInStorage(email: string): Promise<Product[]>;
+  findSellerProductsInStorage(email: string): Promise<IProduct[]>;
   getIsProductExist(id: string): Promise<boolean>;
   buyProduct(id: string, buyerEmail: string): Promise<void>;
 }
@@ -38,7 +38,7 @@ class ProductRepository implements IProductRepository {
   };
 
   findSellerProductsInStorage = async (email: string) => {
-    const sellerProductList: Product[] = [];
+    const sellerProductList: IProduct[] = [];
     //csv파일의 data를 읽어서 Product인스턴스 생성
     const productRows = await this.db.readCSV<IProductCSV>('products.csv');
 
