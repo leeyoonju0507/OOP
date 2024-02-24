@@ -37,6 +37,7 @@ app.post('/signup', async (req: Request, res: Response, next: NextFunction) => {
 });
 app.post('/getSellerProducts', async (req: Request, res: Response, next: NextFunction) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
+  //Object.keys(obj)는 순회가능한 객체에서 key만 추출
   const key = Object.keys(req.body);
   const sellerEmail = JSON.parse(key[0]).userEmail as string;
   // const sellerEmail = JSON.parse(key[0]).email as string;

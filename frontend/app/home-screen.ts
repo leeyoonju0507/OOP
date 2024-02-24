@@ -55,6 +55,7 @@ class HomeScreen implements IHomeScreen {
   sellerUI = async (user: ILoginData) => {
     const sellerProduct = await fetch('http://localhost:3000/getSellerProducts', {
       method: 'POST',
+      //json문자열로 변환 후 전달
       body: JSON.stringify({userEmail: user.email}),
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
     });
