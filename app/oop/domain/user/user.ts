@@ -1,20 +1,18 @@
-// export interface IUser {}
-import UserRepository from '../../repository/user-repository';
+import {IDomain} from '../../specification/interfaces';
 
-// export interface IUserCSV {
-//   id: string;
-//   email: string;
-//   password: string;
-//   nickname: string;
-//   money: string;
-//   userType: 'seller' | 'buyer';
-// }
+// 데이터 타입 1: 리포지토리에서 사용합니다
+export interface IUserEntity {
+  id: number;
+  email: string;
+  password: string;
+  nickname: string;
+  money: number;
+  userType: 'seller' | 'buyer';
+}
 
-// export interface IDataCSV {
-//   convertStringForCSV(): string;
-// }
-
-export default class User {
+// 데이터 타입 2: 서비스에서 사용합니다
+export interface IUser {}
+export default class UserDomain implements IUser, IDomain {
   // 데이터: 인스턴스 속성
   protected id: number;
   protected email: string;
@@ -38,6 +36,10 @@ export default class User {
     this.nickname = nickname;
     this.money = money;
     this.userType = userType;
+  }
+
+  convertStringForCSV(): string {
+    throw new Error('Method not implemented.');
   }
 
   // 함수: 인스턴스 메소드
@@ -72,4 +74,12 @@ export default class User {
   // convertStringForCSV(): string {
   //   return `${this.id},${this.email},${this.password},${this.nickname},${this.money},${this.userType}`;
   // }
+}
+
+// 데이터 타입 3: 클라이언트에서 사용합니다
+export interface IUserClient {
+  email: string;
+  nickname: string;
+  money: number;
+  userType: 'seller' | 'buyer';
 }

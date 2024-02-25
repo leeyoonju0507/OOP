@@ -1,12 +1,11 @@
 import fs from 'fs';
 import csvParser from 'csv-parser';
 import * as path from 'path';
-import {IDataCSV} from '../domain/product/product';
 
 export interface IDatabase {
   readCSV<T>(filename: string): Promise<T[]>;
   appendCSV(filename: string, content: string): Promise<any>;
-  writeAllCSV(filename: string, contentList: IDataCSV[]): Promise<void>;
+  writeAllCSV(filename: string, contentList: string[]): Promise<void>;
 }
 
 export default class Database implements IDatabase {
@@ -40,8 +39,7 @@ export default class Database implements IDatabase {
       });
     });
   };
-
-  writeAllCSV = (filename: string, contentList: IDataCSV[]): Promise<void> => {
+  writeAllCSV = (filename: string, contentList: string[]): Promise<void> => {
     return new Promise((resolve) => {
       const fileStream = fs.createWriteStream(path.join(this.dataFolderPath, filename), {
         flags: 'w',
@@ -54,8 +52,7 @@ export default class Database implements IDatabase {
         totalContent += 'id,email,password,nickname,money,userType\n';
       }
       for (let i = 0; i < contentList.length; i++) {
-        //contentList[i]이 무엇이든 간에 string으로 바뀜
-        totalContent += `${contentList[i].convertStringForCSV()}\n`;
+        totalContent += `${contentList[i]}\n`;
       }
       fileStream.write(totalContent);
       fileStream.end(() => {

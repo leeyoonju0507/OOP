@@ -27,14 +27,14 @@ export default class ProductService implements IProductService {
     }
 
     //상품을 등록하고 등록성공 여부 return
-    const isRegister = await this.repository.productRepository.storeProduct(
-      email,
+    const isRegister = await this.repository.productRepository.createProduct({
       title,
-      price,
       content,
-      'null',
-      false,
-    );
+      price,
+      sellerEmail: email,
+      buyerEmail: 'null',
+      IsSoldOut: false,
+    });
 
     if (!isRegister) {
       return false;
@@ -42,32 +42,30 @@ export default class ProductService implements IProductService {
     //등록가능한지
     return true;
   };
-
-  //유저가 판매하는 모든 상품목록배열을 return
   getSellerProducts = async (email: string) => {
-    //이 고객이 회원인지 아닌지 검사
     const seller = await this.repository.userRepository.findUserByEmail(email);
     if (!seller) {
       return [];
     }
-    //Product:Domain[]
-    const productsList: IProduct[] =
-      await this.repository.productRepository.findSellerProductsInStorage(email);
-    //Product:Domain형태 -> Product:DTO형태
-    const result: IProductClient[] = [];
-    for (let i = 0; i < productsList.length; i++) {
-      const product = productsList[i];
-      result.push({
+
+    const sellerProducts: IProduct[] = await this.repository.productRepository.findProductsByEmail(
+      'seller',
+      email,
+    );
+
+    const productClients: IProductClient[] = [];
+    for (let i = 0; i < sellerProducts.length; i++) {
+      const product = sellerProducts[i];
+      productClients.push({
         id: product.getProductId(),
         title: product.getTitle(),
         price: product.getPrice(),
         content: product.getContent(),
       });
     }
-    //ui한테 Product:DTO[]로 return
-    return result;
-  };
 
+    return productClients;
+  };
   checkSoldOutfProduct = async (id: string) => {
     const ExistOfProduct = await this.repository.productRepository.getIsProductExist(id);
     if (!ExistOfProduct) {
@@ -75,8 +73,11 @@ export default class ProductService implements IProductService {
     }
     return true;
   };
-
   buyProduct = async (id: string, buyerEmail: string) => {
-    await this.repository.productRepository.buyProduct(id, buyerEmail);
+    await this.repository.productRepository.updateProduct({
+      id: id,
+      buyerEmail,
+      isSoldOut: true,
+    });
   };
 }

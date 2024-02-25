@@ -1,11 +1,11 @@
-import {ILoginData, IUserData} from '../specification/interfaces';
 import UserService, {IUserService} from '../service/user-service';
 import ProductService, {IProductService} from '../service/product-service';
 import {inputReceiver} from '../../input';
+import {IUserClient} from '../domain/user/user';
 
 export interface IAuthScreen {
   signUpUI(): Promise<boolean>;
-  loginUI(): Promise<ILoginData | undefined>;
+  loginUI(): Promise<IUserClient | undefined>;
 }
 
 class AuthScreen implements IAuthScreen {
@@ -51,12 +51,12 @@ class AuthScreen implements IAuthScreen {
     console.log('=======로그인 페이지=======');
     const email = await inputReceiver('이메일을 입력하세요: ');
     const password = await inputReceiver('비밀번호를 입력하세요: ');
-    const userInfo: ILoginData | undefined = await this.userService.login(email, password);
+    const userInfo: IUserClient | undefined = await this.userService.login(email, password);
     if (!userInfo) {
       console.log('이메일 또는 비밀번호를 찾을 수 없습니다.');
       return;
     }
-    return userInfo as ILoginData;
+    return userInfo as IUserClient;
   };
 }
 

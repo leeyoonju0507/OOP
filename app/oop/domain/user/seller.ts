@@ -1,8 +1,8 @@
-import User from './user';
-import {Product} from '../product/product';
+import UserDomain from './user';
+import {ProductDomain} from '../product/product';
 import Buyer from './buyer';
 
-export default class Seller extends User {
+export default class Seller extends UserDomain {
   constructor(
     id: number,
     email: string,
@@ -14,7 +14,7 @@ export default class Seller extends User {
     super(id, email, password, nickname, money, userType);
   }
 
-  public SELL(buyer: Buyer, product: Product) {
+  public SELL(buyer: Buyer, product: ProductDomain) {
     buyer.withdraw(product.getPrice());
     this.deposit(product.getPrice()); //buyer의 돈을 seller통장에 입금
   }

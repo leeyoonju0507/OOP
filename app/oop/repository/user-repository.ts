@@ -1,10 +1,11 @@
 import Database from '../database/database';
-import {IUserData} from '../specification/interfaces';
 import Buyer from '../domain/user/buyer';
 import Seller from '../domain/user/seller';
+import {IUserEntity} from '../domain/user/user';
+import {ISingUpData} from '../specification/interfaces';
 
 export interface IUserRepository {
-  storeUser(user: IUserData): Promise<void>;
+  createUser(user: ISingUpData): Promise<void>;
   findUserByEmail(email: string): Promise<Seller | Buyer | undefined>;
 }
 
@@ -16,14 +17,14 @@ class UserRepository implements IUserRepository {
   }
 
   //회원가입할때 CSV에 유저정보를 저장하고
-  storeUser = async (user: IUserData) => {
+  createUser = async (user: ISingUpData) => {
     await this.db.appendCSV(
       'users.csv',
       `${user.email},${user.password},${user.nickname},${user.money},${user.userType}`,
     );
   };
   findUserByEmail = async (email: string) => {
-    const userRows = await this.db.readCSV<IUserData>('users.csv');
+    const userRows = await this.db.readCSV<IUserEntity>('users.csv');
     for (let i: number = 0; i < userRows.length; i++) {
       if (email === userRows[i].email) {
         const userObject = userRows[i];

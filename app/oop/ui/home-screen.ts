@@ -1,13 +1,12 @@
-import Service, {IService} from '../service/service';
-import {ILoginData} from '../specification/interfaces';
 import UserService, {IUserService} from '../service/user-service';
 import ProductService, {IProductService} from '../service/product-service';
 import {inputReceiver} from '../../input';
+import {IUserClient} from '../domain/user/user';
 
 export interface IHomeScreen {
-  mainUI(user: ILoginData): Promise<undefined | boolean>;
-  sellerUI(user: ILoginData): Promise<undefined | boolean>;
-  buyerUI(user: ILoginData): Promise<undefined | boolean>;
+  mainUI(user: IUserClient): Promise<undefined | boolean>;
+  sellerUI(user: IUserClient): Promise<undefined | boolean>;
+  buyerUI(user: IUserClient): Promise<undefined | boolean>;
 }
 class HomeScreen implements IHomeScreen {
   private userService: IUserService;
@@ -18,7 +17,7 @@ class HomeScreen implements IHomeScreen {
     this.productService = new ProductService();
   }
 
-  mainUI = async (user: ILoginData) => {
+  mainUI = async (user: IUserClient) => {
     console.log(
       user.nickname +
         '님 환영합니다~^^  ====>  ' +
@@ -36,7 +35,7 @@ class HomeScreen implements IHomeScreen {
     }
   };
 
-  sellerUI = async (user: ILoginData) => {
+  sellerUI = async (user: IUserClient) => {
     while (1) {
       console.log('======Seller Main-Page======');
       console.log('(1) 창고에 물건을 추가 vs (2)창고 목록보기 vs (3)로그아웃');
@@ -77,7 +76,7 @@ class HomeScreen implements IHomeScreen {
     }
     return true;
   };
-  buyerUI = async (user: ILoginData) => {
+  buyerUI = async (user: IUserClient) => {
     while (1) {
       console.log('======Buyer Main-Page======');
       console.log('(1) 물건구매하기 vs (2)구매한 물건 목록보기 vs (3)로그아웃');

@@ -1,11 +1,11 @@
-import User from './user';
-// import Product from '../product/product';
+import UserDomain from './user';
+// import ProductDomain from '../product/product';
 import UserRepository from '../../repository/user-repository';
 import Seller from './seller';
-import {Product} from '../product/product';
+import {ProductDomain} from '../product/product';
 
-export default class Buyer extends User {
-  private buyHistory: Product[] = [];
+export default class Buyer extends UserDomain {
+  private buyHistory: ProductDomain[] = [];
   private numOfBuying: number = 0;
 
   constructor(
@@ -19,7 +19,7 @@ export default class Buyer extends User {
     super(id, email, password, nickname, money, userType);
   }
 
-  public BUY(seller: Seller, price: number, product: Product) {
+  public BUY(seller: Seller, price: number, product: ProductDomain) {
     if (this.getMoney() < price) {
       console.log('구매자의 잔액이 부족합니다.');
       return;
@@ -29,7 +29,7 @@ export default class Buyer extends User {
   }
 
   //product를 history에 저장, 구매한 product의 개수를 1개 증가
-  public setBuyHistory(product: Product) {
+  public setBuyHistory(product: ProductDomain) {
     this.buyHistory[this.numOfBuying] = product;
     this.numOfBuying++;
   }
