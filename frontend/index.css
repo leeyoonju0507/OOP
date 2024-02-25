@@ -62,15 +62,14 @@ div {
   height: 40px;
 }
 /* 상품구매,등록 */
-#product-title-input {
+#product-title-input,
+#product-price-input,
+#product-content-input {
   border-radius: 10px;
   margin-top: 30px;
   width: 150px;
   height: 30px;
 }
 #buy-button {
-  width: 100px;
-}
-#add-button {
   width: 100px;
 }

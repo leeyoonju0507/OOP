@@ -4,3 +4,5 @@ id,title,content,price,sellerEmail,buyerEmail,isSoldOut
 1697947475064.9902,맥북,115이치입니다,200000,haha.com,,false
 1698989293956.9492,book,math,100,1103,,false
 1698989330317.793,book,korean,200,1103,,false
+
+1708807029441.624,과자,칸쵸,100,aaa,null,false

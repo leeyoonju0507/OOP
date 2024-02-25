@@ -27,10 +27,10 @@ export default class ProductService implements IProductService {
 
     //상품을 등록하고 등록성공 여부 return
     const isRegister = await this.repository.productRepository.storeProduct(
-      email,
       title,
-      price,
       content,
+      price,
+      email,
       'null',
       false,
     );

@@ -46,6 +46,21 @@ app.post('/getSellerProducts', async (req: Request, res: Response, next: NextFun
   const sellerProductList = await productService.getSellerProducts(sellerEmail);
   return res.json(sellerProductList);
 });
+app.post('/addProduct', async (req: Request, res: Response, next: NextFunction) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
+  const key = Object.keys(req.body);
+  const email = JSON.parse(key[0]).userEmail as string;
+  const title = JSON.parse(key[0]).productTitle as string;
+  const price = JSON.parse(key[0]).productPrice as number;
+  const content = JSON.parse(key[0]).productContent as string;
+  const productService = new ProductService();
+  const ProductregisterResult = productService.registerProduct(email, title, price, content);
+  if (!ProductregisterResult) {
+    return res.json(false);
+  } else {
+    return res.json(true);
+  }
+});
 app.listen(3000, () => {
   console.log('Server listenning on port:3000');
 });

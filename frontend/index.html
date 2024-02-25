@@ -99,15 +99,63 @@
     <br />
     <br />
 
+    <div id="welcome" style="margin: auto; width: 50%; text-align: center"></div>
+
     <!--  Seller_ProductList -->
-    <div id="product-buy" style="text-align: center; display: none">
+    <div id="product-list-add" style="text-align: center; display: none">
+      <!-- 상품 목록 보기 -->
       <div id="products-container" style="display: inline-block">
+        <div class="product" id="showProductList"></div>
         <h2>seller 상품 목록</h2>
-        <div class="product">
-          <ul id="ul"></ul>
+        <ul id="ul"></ul>
+        <div
+          class="button"
+          id="show-productList"
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 70%;
+            height: 35.2px;
+            margin-top: 10px;
+            margin-right: auto;
+            margin-left: auto;
+          ">
+          목록보기
         </div>
-        <div class="button" id="buy-button">
-          <input type="text" placeholder="seller상품 추가 등록" style="width: 100%" />
+      </div>
+      <!-- 상품 추가 -->
+      <div style="width: 100%; margin-top: 10px">
+        <h2>seller 상품 추가 등록</h2>
+        <input
+          id="product-title-input"
+          type="text"
+          placeholder="추가할 상품 title입력"
+          style="width: 100%; display: block; margin-top: 0px" />
+        <input
+          id="product-price-input"
+          type="text"
+          placeholder="추가할 상품 price입력"
+          style="width: 100%; display: block; margin-top: 10px" />
+        <input
+          id="product-content-input"
+          type="text"
+          placeholder="추가할 상품 content입력"
+          style="width: 100%; display: block; margin-top: 10px" />
+        <div
+          class="button"
+          id="add-button"
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50%;
+            height: 35.2px;
+            margin-top: 10px;
+            margin-right: auto;
+            margin-left: auto;
+          ">
+          추가
         </div>
       </div>
     </div>
@@ -121,13 +169,9 @@
           name="상품 이름"
           id="product-title-input"
           placeholder="상품이름을 입력하세요" />
-        <div class="button" id="add-button">등록하기</div>
+        <div class="button" id="buy-button">등록하기</div>
       </div>
     </div> -->
-    <br />
-    <br />
-    <br />
-
     <script type="module" src="./dist/index.js"></script>
   </body>
 </html>
