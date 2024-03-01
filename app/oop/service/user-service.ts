@@ -5,12 +5,12 @@ import ProductRepository, {IProductRepository} from '../repository/product-repos
 import {ProductDomain} from '../domain/product/product';
 import Repository, {IRepository} from '../repository/repository';
 import {IUserClient, IUserEntity} from '../domain/user/user';
-import {ISingUpData} from '../specification/interfaces';
+import {ISignUpData} from '../specification/interfaces';
 import User from '../../fp/domain/user/user';
 
 export interface IUserService {
   checkSignedUpByEmail(email: string): Promise<boolean>;
-  signUp(signUpData: ISingUpData): Promise<{
+  signUp(signUpData: ISignUpData): Promise<{
     isSuccess: boolean;
     message: string;
   }>;
@@ -30,7 +30,7 @@ export default class UserService implements IUserService {
   checkSignedUpByEmail = async (email: string) => {
     return !!(await this.repository.userRepository.findUserByEmail(email));
   };
-  signUp = async (signUpData: ISingUpData) => {
+  signUp = async (signUpData: ISignUpData) => {
     const {email} = signUpData;
     const user = await this.repository.userRepository.findUserByEmail(email);
     if (user) {

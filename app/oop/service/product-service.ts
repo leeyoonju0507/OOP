@@ -1,5 +1,6 @@
 import {IProduct, IProductClient} from '../domain/product/product';
 import Buyer from '../domain/user/buyer';
+import Seller from '../domain/user/seller';
 import Repository, {IRepository} from '../repository/repository';
 
 export interface IProductService {
@@ -42,9 +43,10 @@ export default class ProductService implements IProductService {
     //등록가능한지
     return true;
   };
+
   getSellerProducts = async (email: string) => {
     const seller = await this.repository.userRepository.findUserByEmail(email);
-    if (!seller) {
+    if (!seller || seller instanceof Seller) {
       return [];
     }
 
@@ -63,7 +65,6 @@ export default class ProductService implements IProductService {
         content: product.getContent(),
       });
     }
-
     return productClients;
   };
   checkSoldOutfProduct = async (id: string) => {

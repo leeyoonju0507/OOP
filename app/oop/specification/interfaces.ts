@@ -1,7 +1,7 @@
 export interface IDomain {
   convertStringForCSV(): string;
 }
-export interface ISingUpData {
+export interface ISignUpData {
   email: string;
   password: string;
   nickname: string;

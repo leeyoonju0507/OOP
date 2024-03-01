@@ -2,10 +2,10 @@ import Database from '../database/database';
 import Buyer from '../domain/user/buyer';
 import Seller from '../domain/user/seller';
 import {IUserEntity} from '../domain/user/user';
-import {ISingUpData} from '../specification/interfaces';
+import {ISignUpData} from '../specification/interfaces';
 
 export interface IUserRepository {
-  createUser(user: ISingUpData): Promise<void>;
+  createUser(user: ISignUpData): Promise<void>;
   findUserByEmail(email: string): Promise<Seller | Buyer | undefined>;
 }
 
@@ -17,7 +17,7 @@ class UserRepository implements IUserRepository {
   }
 
   //회원가입할때 CSV에 유저정보를 저장하고
-  createUser = async (user: ISingUpData) => {
+  createUser = async (user: ISignUpData) => {
     await this.db.appendCSV(
       'users.csv',
       `${user.email},${user.password},${user.nickname},${user.money},${user.userType}`,

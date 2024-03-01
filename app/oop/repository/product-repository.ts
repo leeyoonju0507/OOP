@@ -33,7 +33,7 @@ export default class ProductRepository implements IProductRepository {
   }) => {
     await this.db.appendCSV(
       'products.csv',
-      `${productInfo.title},${productInfo.content},${productInfo.price},${productInfo.sellerEmail},${productInfo.buyerEmail},${productInfo.IsSoldOut}`,
+      `${productInfo.title},${productInfo.price},${productInfo.content},${productInfo.sellerEmail},${productInfo.buyerEmail},${productInfo.IsSoldOut}`,
     );
     return true;
   };
