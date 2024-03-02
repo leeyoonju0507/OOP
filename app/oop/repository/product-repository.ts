@@ -1,5 +1,5 @@
 import Database from '../database/database';
-import {IProductEntity, ProductDomain} from '../domain/product/product';
+import {IProductDomain, IProductEntity, ProductDomain} from '../domain/product/product';
 import {IDomain} from '../specification/interfaces';
 
 export interface IProductRepository {
@@ -10,7 +10,7 @@ export interface IProductRepository {
     sellerEmail: string;
     buyerEmail: string;
     IsSoldOut: boolean;
-  }): Promise<boolean>;
+  }): Promise<void>;
   findProductsByEmail(type: 'seller' | 'buyer', email: string): Promise<ProductDomain[]>;
   getIsProductExist(id: string): Promise<boolean>;
   updateProduct(properties: {id: string; buyerEmail: string; isSoldOut: boolean}): Promise<void>;
@@ -35,23 +35,22 @@ export default class ProductRepository implements IProductRepository {
       'products.csv',
       `${productInfo.title},${productInfo.price},${productInfo.content},${productInfo.sellerEmail},${productInfo.buyerEmail},${productInfo.IsSoldOut}`,
     );
-    return true;
   };
   findProductsByEmail = async (type: 'seller' | 'buyer', email: string) => {
     const products: ProductDomain[] = [];
-    const productRows = await this.db.readCSV<IProductEntity>('products.csv');
+    const productRows = await this.db.readCSV<IProductDomain>('products.csv');
     for (let i = 0; i < productRows.length; i++) {
       if (type === 'seller') {
         if (email === productRows[i].sellerEmail) {
           products.push(
             new ProductDomain(
-              parseInt(productRows[i].id),
+              productRows[i].id,
               productRows[i].title,
               productRows[i].content,
-              parseInt(productRows[i].price),
+              productRows[i].price,
               productRows[i].sellerEmail,
               productRows[i].buyerEmail,
-              Boolean(productRows[i].isSoldOut),
+              productRows[i].isSoldOut,
             ),
           );
         }
@@ -59,13 +58,13 @@ export default class ProductRepository implements IProductRepository {
         if (email === productRows[i].buyerEmail) {
           products.push(
             new ProductDomain(
-              parseInt(productRows[i].id),
+              productRows[i].id,
               productRows[i].title,
               productRows[i].content,
-              parseInt(productRows[i].price),
+              productRows[i].price,
               productRows[i].sellerEmail,
               productRows[i].buyerEmail,
-              Boolean(productRows[i].isSoldOut),
+              productRows[i].isSoldOut,
             ),
           );
         }
@@ -84,6 +83,7 @@ export default class ProductRepository implements IProductRepository {
   };
   updateProduct = async (properties: {id: string; buyerEmail: string; isSoldOut: boolean}) => {
     const productRows = await this.db.readCSV<IProductEntity>('products.csv');
+    // const productRows = await this.db.readCSV<IProductDomain>('products.csv');
 
     for (let i = 0; i < productRows.length; i++) {
       if (productRows[i].id === properties.id) {
@@ -92,6 +92,13 @@ export default class ProductRepository implements IProductRepository {
         break;
       }
     }
+    // for (let i = 0; i < productRows.length; i++) {
+    //   if (productRows[i].id === parseInt(properties.id)) {
+    //     productRows[i].buyerEmail = properties.buyerEmail;
+    //     productRows[i].isSoldOut = properties.isSoldOut;
+    //     break;
+    //   }
+    // }
 
     const domains: IDomain[] = [];
     for (let i: number = 0; i < productRows.length; i++) {
@@ -107,6 +114,7 @@ export default class ProductRepository implements IProductRepository {
         ),
       );
     }
+
     // 원래는 await this.db.writeAllCSV('products.csv', productRows);이었는데 ProductCSV클래스를 또 만듦
     await this.db.writeAllCSV(
       'products.csv',

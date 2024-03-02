@@ -25,7 +25,7 @@ class UserRepository implements IUserRepository {
   };
   findUserByEmail = async (email: string) => {
     const userRows = await this.db.readCSV<IUserEntity>('users.csv');
-    for (let i: number = 0; i < userRows.length; i++) {
+    for (let i = 0; i < userRows.length; i++) {
       if (email === userRows[i].email) {
         const userObject = userRows[i];
         if (userObject.userType === 'seller') {

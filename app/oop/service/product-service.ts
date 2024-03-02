@@ -1,4 +1,4 @@
-import {IProduct, IProductClient} from '../domain/product/product';
+import {IProductDomain, IProductClient, IProductMethod} from '../domain/product/product';
 import Buyer from '../domain/user/buyer';
 import Seller from '../domain/user/seller';
 import Repository, {IRepository} from '../repository/repository';
@@ -26,9 +26,8 @@ export default class ProductService implements IProductService {
     if (checkIsMember instanceof Buyer) {
       return false;
     }
-
     //상품을 등록하고 등록성공 여부 return
-    const isRegister = await this.repository.productRepository.createProduct({
+    await this.repository.productRepository.createProduct({
       title,
       content,
       price,
@@ -36,11 +35,6 @@ export default class ProductService implements IProductService {
       buyerEmail: 'null',
       IsSoldOut: false,
     });
-
-    if (!isRegister) {
-      return false;
-    }
-    //등록가능한지
     return true;
   };
 
@@ -50,7 +44,7 @@ export default class ProductService implements IProductService {
       return [];
     }
 
-    const sellerProducts: IProduct[] = await this.repository.productRepository.findProductsByEmail(
+    const sellerProducts = await this.repository.productRepository.findProductsByEmail(
       'seller',
       email,
     );
@@ -76,7 +70,7 @@ export default class ProductService implements IProductService {
   };
   buyProduct = async (id: string, buyerEmail: string) => {
     await this.repository.productRepository.updateProduct({
-      id: id,
+      id,
       buyerEmail,
       isSoldOut: true,
     });

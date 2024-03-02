@@ -37,13 +37,17 @@ class AuthScreen implements IAuthScreen {
     } else {
       userType = 'buyer';
     }
-    await this.userService.signUp({
+    const signupResult = await this.userService.signUp({
       email,
       password,
       nickname,
       money,
       userType,
     });
+    if (signupResult.isSuccess === false) {
+      console.log(signupResult.message);
+      return false;
+    }
     return true;
   };
 

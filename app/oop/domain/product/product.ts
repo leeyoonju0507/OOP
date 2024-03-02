@@ -12,18 +12,25 @@ export interface IProductEntity {
 }
 
 // 데이터 타입 2: 서비스에서 사용합니다
-export interface IProduct {
+export interface IProductDomain {
   id: number;
   title: string;
   price: number;
   content: string;
+  sellerEmail: string;
+  buyerEmail: string;
+  isSoldOut: boolean;
+}
+export interface IProductMethod {
   getProductId(): number;
   getPrice(): number;
   getTitle(): string;
   getContent(): string;
+  getSellerEmail(): string;
+  getBuyerEmail(): string;
   getIsSoldOut(): boolean;
 }
-export class ProductDomain implements IProduct, IDomain {
+export class ProductDomain implements IProductDomain, IProductMethod, IDomain {
   public readonly id: number;
   public readonly title: string;
   public readonly content: string;
@@ -67,6 +74,12 @@ export class ProductDomain implements IProduct, IDomain {
   }
   public getContent() {
     return this.content;
+  }
+  public getSellerEmail(): string {
+    return this.sellerEmail;
+  }
+  public getBuyerEmail(): string {
+    return this.buyerEmail;
   }
   public getIsSoldOut() {
     return this.isSoldOut;
