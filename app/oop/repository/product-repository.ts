@@ -13,8 +13,9 @@ export interface IProductRepository {
     IsSoldOut: boolean;
   }): Promise<void>;
   findProductsByEmail(type: 'seller' | 'buyer', email: string): Promise<ProductDomain[]>;
-  checkProductSoldOut(id: string): Promise<ProductDomain[]>;
-  updateProduct(properties: {id: string; buyerEmail: string; isSoldOut: boolean}): Promise<void>;
+  checkProductSoldOut(id: string): Promise<ProductDomain | undefined>;
+  // updateProduct(properties: {id: string; buyerEmail: string; isSoldOut: boolean}): Promise<void>;
+  updateProduct(willBuyProduct: IProductDomain): Promise<void>;
 }
 
 export default class ProductRepository implements IProductRepository {
@@ -75,35 +76,70 @@ export default class ProductRepository implements IProductRepository {
   };
   checkProductSoldOut = async (id: string) => {
     const productRows = await this.db.readCSV<IProductEntity>('products.csv');
-    const ProductList: ProductDomain[] = [];
     for (let i = 0; i < productRows.length; i++) {
       if (productRows[i].id === id && productRows[i].isSoldOut === 'false') {
-        ProductList.push(
-          new ProductDomain(
-            parseFloat(productRows[i].id),
-            productRows[i].title,
-            productRows[i].content,
-            parseFloat(productRows[i].price),
-            productRows[i].sellerEmail,
-            productRows[i].buyerEmail,
-            Boolean(productRows[i].isSoldOut),
-          ),
+        return new ProductDomain(
+          parseFloat(productRows[i].id),
+          productRows[i].title,
+          productRows[i].content,
+          parseFloat(productRows[i].price),
+          productRows[i].sellerEmail,
+          productRows[i].buyerEmail,
+          Boolean(productRows[i].isSoldOut),
         );
       }
     }
-    return ProductList;
+    return undefined;
   };
-  updateProduct = async (properties: {id: string; buyerEmail: string; isSoldOut: boolean}) => {
+  // updateProduct = async (properties: {id: string; buyerEmail: string; isSoldOut: boolean}) => {
+  //   const productRows = await this.db.readCSV<IProductEntity>('products.csv');
+
+  //   for (let i = 0; i < productRows.length; i++) {
+  //     if (productRows[i].id === properties.id) {
+  //       productRows[i].buyerEmail = properties.buyerEmail;
+  //       productRows[i].isSoldOut = `${properties.isSoldOut}`;
+  //       break;
+  //     }
+  //   }
+
+  //   const domains: IDomain[] = [];
+  //   for (let i: number = 0; i < productRows.length; i++) {
+  //     domains.push(
+  //       new ProductDomain(
+  //         parseFloat(productRows[i].id),
+  //         productRows[i].title,
+  //         productRows[i].content,
+  //         parseFloat(productRows[i].price),
+  //         productRows[i].sellerEmail,
+  //         productRows[i].buyerEmail,
+  //         productRows[i].isSoldOut === 'true',
+  //       ),
+  //     );
+  //   }
+
+  //   // 원래는 await this.db.writeAllCSV('products.csv', productRows);이었는데 ProductCSV클래스를 또 만듦
+  //   await this.db.writeAllCSV(
+  //     'products.csv',
+  //     domains.map((v) => v.convertStringForCSV()),
+  //   );
+  // };
+  updateProduct = async (willBuyProduct: IProductDomain) => {
     const productRows = await this.db.readCSV<IProductEntity>('products.csv');
 
     for (let i = 0; i < productRows.length; i++) {
-      if (productRows[i].id === properties.id) {
-        productRows[i].buyerEmail = properties.buyerEmail;
-        productRows[i].isSoldOut = `${properties.isSoldOut}`;
+      if (productRows[i].id === willBuyProduct.id.toString()) {
+        productRows[i].id = `${willBuyProduct.id}`;
+        productRows[i].title = willBuyProduct.title;
+        productRows[i].price = `${willBuyProduct.price}`;
+        productRows[i].content = willBuyProduct.content;
+        productRows[i].sellerEmail = willBuyProduct.sellerEmail;
+        productRows[i].buyerEmail = willBuyProduct.buyerEmail;
+        productRows[i].isSoldOut = `${willBuyProduct.isSoldOut}`;
         break;
       }
     }
 
+    //ProductDomain를 IDomain의 관점으로 볼 수 있어서 IDomain[]안에 ProductDomain을 담을 수 있다.
     const domains: IDomain[] = [];
     for (let i: number = 0; i < productRows.length; i++) {
       domains.push(
@@ -119,7 +155,6 @@ export default class ProductRepository implements IProductRepository {
       );
     }
 
-    // 원래는 await this.db.writeAllCSV('products.csv', productRows);이었는데 ProductCSV클래스를 또 만듦
     await this.db.writeAllCSV(
       'products.csv',
       domains.map((v) => v.convertStringForCSV()),

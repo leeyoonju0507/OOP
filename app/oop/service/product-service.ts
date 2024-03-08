@@ -1,4 +1,4 @@
-import {IProductDomain, IProductClient, ProductDomain} from '../domain/product/product';
+import {IProductClient, IProductDomain, ProductDomain} from '../domain/product/product';
 import Buyer from '../domain/user/buyer';
 import Seller from '../domain/user/seller';
 import Repository, {IRepository} from '../repository/repository';
@@ -73,15 +73,34 @@ export default class ProductService implements IProductService {
     if (!buyer) {
       return false;
     }
-    const ExistOfProduct = await this.repository.productRepository.checkProductSoldOut(id);
-    if (ExistOfProduct.length === 0) {
+    const 구매하고싶은상품 = await this.repository.productRepository.checkProductSoldOut(id);
+    if (!구매하고싶은상품) {
       return false;
     }
-    await this.repository.productRepository.updateProduct({
-      id,
+    // await this.repository.productRepository.updateProduct({
+    //   id,
+    //   buyerEmail,
+    //   isSoldOut: true,
+    // });
+    // const  구매할상품 = {
+    //   id: 구매하고싶은상품.id,
+    //   title:구매하고싶은상품.title,
+    //   content:구매하고싶은상품.content,
+    //   price:구매하고싶은상품.price,
+    //   sellerEmail:구매하고싶은상품.sellerEmail,
+    //   buyerEmail,
+    //   isSoldOut: true
+    // } as IProductDomain
+    const 구매할상품 = {
+      id: 구매하고싶은상품.getProductId(),
+      title: 구매하고싶은상품.getTitle(),
+      content: 구매하고싶은상품.getContent(),
+      price: 구매하고싶은상품.getPrice(),
+      sellerEmail: 구매하고싶은상품.getSellerEmail(),
       buyerEmail,
       isSoldOut: true,
-    });
+    } as IProductDomain;
+    await this.repository.productRepository.updateProduct(구매할상품);
     return true;
   };
 }

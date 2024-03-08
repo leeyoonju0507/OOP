@@ -21,6 +21,7 @@ export interface IProductDomain {
   buyerEmail: string;
   isSoldOut: boolean;
 }
+
 export class ProductDomain implements IProductDomain, IDomain {
   public readonly id: number;
   public readonly title: string;
