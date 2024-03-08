@@ -13,7 +13,7 @@ export interface IProductRepository {
     IsSoldOut: boolean;
   }): Promise<void>;
   findProductsByEmail(type: 'seller' | 'buyer', email: string): Promise<ProductDomain[]>;
-  getIsProductExist(id: string): Promise<ProductDomain[]>;
+  checkProductSoldOut(id: string): Promise<ProductDomain[]>;
   updateProduct(properties: {id: string; buyerEmail: string; isSoldOut: boolean}): Promise<void>;
 }
 
@@ -73,7 +73,7 @@ export default class ProductRepository implements IProductRepository {
     }
     return products;
   };
-  getIsProductExist = async (id: string) => {
+  checkProductSoldOut = async (id: string) => {
     const productRows = await this.db.readCSV<IProductEntity>('products.csv');
     const ProductList: ProductDomain[] = [];
     for (let i = 0; i < productRows.length; i++) {

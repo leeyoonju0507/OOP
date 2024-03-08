@@ -69,7 +69,11 @@ export default class ProductService implements IProductService {
   // };
 
   buyProduct = async (id: string, buyerEmail: string) => {
-    const ExistOfProduct = await this.repository.productRepository.getIsProductExist(id);
+    const buyer = await this.repository.userRepository.findUserByEmail(buyerEmail);
+    if (!buyer) {
+      return false;
+    }
+    const ExistOfProduct = await this.repository.productRepository.checkProductSoldOut(id);
     if (ExistOfProduct.length === 0) {
       return false;
     }
