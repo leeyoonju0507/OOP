@@ -1,4 +1,4 @@
-import {IProductDomain, IProductClient, IProductMethod} from '../domain/product/product';
+import {IProductDomain, IProductClient, ProductDomain} from '../domain/product/product';
 import Buyer from '../domain/user/buyer';
 import Seller from '../domain/user/seller';
 import Repository, {IRepository} from '../repository/repository';
@@ -6,8 +6,8 @@ import Repository, {IRepository} from '../repository/repository';
 export interface IProductService {
   registerProduct(email: string, title: string, price: number, content: string): Promise<boolean>;
   getSellerProducts(email: string): Promise<IProductClient[]>;
-  checkSoldOutfProduct(id: string): Promise<boolean>;
-  buyProduct(id: string, buyerEmail: string): Promise<void>;
+  // checkSoldOutfProduct(id: string): Promise<boolean>;
+  buyProduct(id: string, buyerEmail: string): Promise<boolean>;
 }
 
 export default class ProductService implements IProductService {
@@ -40,7 +40,7 @@ export default class ProductService implements IProductService {
 
   getSellerProducts = async (email: string) => {
     const seller = await this.repository.userRepository.findUserByEmail(email);
-    if (!seller || seller instanceof Seller) {
+    if (!seller || seller instanceof Buyer) {
       return [];
     }
 
@@ -48,7 +48,6 @@ export default class ProductService implements IProductService {
       'seller',
       email,
     );
-
     const productClients: IProductClient[] = [];
     for (let i = 0; i < sellerProducts.length; i++) {
       const product = sellerProducts[i];
@@ -61,18 +60,24 @@ export default class ProductService implements IProductService {
     }
     return productClients;
   };
-  checkSoldOutfProduct = async (id: string) => {
+  // checkSoldOutfProduct = async (id: string) => {
+  //   const ExistOfProduct = await this.repository.productRepository.getIsProductExist(id);
+  //   if (!ExistOfProduct) {
+  //     return false;
+  //   }
+  //   return true;
+  // };
+
+  buyProduct = async (id: string, buyerEmail: string) => {
     const ExistOfProduct = await this.repository.productRepository.getIsProductExist(id);
-    if (!ExistOfProduct) {
+    if (ExistOfProduct.length === 0) {
       return false;
     }
-    return true;
-  };
-  buyProduct = async (id: string, buyerEmail: string) => {
     await this.repository.productRepository.updateProduct({
       id,
       buyerEmail,
       isSoldOut: true,
     });
+    return true;
   };
 }

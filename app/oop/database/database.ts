@@ -52,7 +52,9 @@ export default class Database implements IDatabase {
         totalContent += 'id,email,password,nickname,money,userType\n';
       }
       for (let i = 0; i < contentList.length; i++) {
-        totalContent += `${contentList[i]}\n`;
+        totalContent += contentList[i];
+        totalContent += `\n`;
+        // totalContent += `${contentList[i]}\n`;
       }
       fileStream.write(totalContent);
       fileStream.end(() => {

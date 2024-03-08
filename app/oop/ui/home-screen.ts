@@ -84,13 +84,12 @@ class HomeScreen implements IHomeScreen {
       switch (select) {
         case '1':
           const id = await inputReceiver('구매할 물건의 id를 입력하세요:');
-          const canBuy = await this.productService.checkSoldOutfProduct(id);
+          const canBuy = await this.productService.buyProduct(id, user.email);
 
           if (!canBuy) {
             console.log('현재 재고가 없습니다.');
             continue;
           }
-          await this.productService.buyProduct(id, user.email);
           console.log('!!물건 구매 성공!!');
           continue;
         case '2':

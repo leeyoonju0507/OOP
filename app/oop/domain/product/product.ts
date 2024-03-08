@@ -21,16 +21,7 @@ export interface IProductDomain {
   buyerEmail: string;
   isSoldOut: boolean;
 }
-export interface IProductMethod {
-  getProductId(): number;
-  getPrice(): number;
-  getTitle(): string;
-  getContent(): string;
-  getSellerEmail(): string;
-  getBuyerEmail(): string;
-  getIsSoldOut(): boolean;
-}
-export class ProductDomain implements IProductDomain, IProductMethod, IDomain {
+export class ProductDomain implements IProductDomain, IDomain {
   public readonly id: number;
   public readonly title: string;
   public readonly content: string;
