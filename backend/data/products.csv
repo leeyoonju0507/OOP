@@ -1,8 +1,7 @@
-id,title,content,price,sellerEmail,buyerEmail,isSoldOut
-0,수학,기하,100,aaa,,false
-1,수학,확통,200,aaa,,false
-1697947475064.9902,맥북,115이치입니다,200000,haha.com,,false
-1698989293956.9492,book,math,100,1103,,false
-1698989330317.793,book,korean,200,1103,,false
-
-1708807029441.624,과자,칸쵸,100,aaa,null,false
+id,title,price,content,sellerEmail,buyerEmail,isSoldOut
+0,수학,100,기하,aaa,a,true
+1,수학,200,확통,aaa,a,true
+1697947475064.9902,맥북,200000,115이치입니다,haha.com,,false
+1698989293956.9492,book,100,math,1103,,false
+1698989330317.793,book,200,korean,1103,a,true
+1708807029441.624,과자,100,칸쵸,aaa,null,false

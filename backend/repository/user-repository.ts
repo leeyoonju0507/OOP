@@ -1,19 +1,21 @@
+// import Database from '../database/database';
+// import Buyer from '../domain/user/buyer';
+// import Seller from '../domain/user/seller';
+// import {IUserEntity} from '../domain/user/user';
+// import {ISignUpData} from '../specification/interfaces';
+
 import Database from '../database/database.js';
-import {IUserData} from '../specification/interfaces.js';
 import Buyer from '../domain/user/buyer.js';
 import Seller from '../domain/user/seller.js';
+import {IUserEntity} from '../domain/user/user.js';
+import {ISignUpData} from '../specification/interfaces.js';
 
 export interface IUserRepository {
-  storeUser(user: IUserData): Promise<void>;
+  createUser(user: ISignUpData): Promise<void>;
   findUserByEmail(email: string): Promise<Seller | Buyer | undefined>;
-  // findSellerByEmailWithStorage(email: string): Promise<Seller | Buyer | undefined>;
 }
 
 class UserRepository implements IUserRepository {
-  // static getInstance(): import('./repository.js').IRepository {
-  //   throw new Error('Method not implemented.');
-  // }
-
   private db: Database;
 
   constructor() {
@@ -21,15 +23,15 @@ class UserRepository implements IUserRepository {
   }
 
   //회원가입할때 CSV에 유저정보를 저장하고
-  storeUser = async (user: IUserData) => {
+  createUser = async (user: ISignUpData) => {
     await this.db.appendCSV(
       'users.csv',
       `${user.email},${user.password},${user.nickname},${user.money},${user.userType}`,
     );
   };
   findUserByEmail = async (email: string) => {
-    const userRows = await this.db.readCSV<IUserData>('users.csv');
-    for (let i: number = 0; i < userRows.length; i++) {
+    const userRows = await this.db.readCSV<IUserEntity>('users.csv');
+    for (let i = 0; i < userRows.length; i++) {
       if (email === userRows[i].email) {
         const userObject = userRows[i];
         if (userObject.userType === 'seller') {

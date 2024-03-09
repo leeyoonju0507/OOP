@@ -82,7 +82,7 @@
       <div style="width: 20%; margin: auto; box-sizing: border-box">
         <h1 style="text-align: center; width: 100%">로그인 form</h1>
         <div style="width: 100%; text-align: center">
-          <input class="info-input" id="login-id-input" name="id" placeholder="아이디" />
+          <input class="info-input" id="login-id-input" name="id" placeholder="이메일" />
         </div>
         <div style="width: 100%; text-align: center; margin-top: 5px">
           <input
@@ -125,7 +125,7 @@
         </div>
       </div>
       <!-- 상품 추가 -->
-      <div style="width: 100%; margin-top: 10px">
+      <div style="width: 100%; margin-top: 10px; max-width: 25%; margin: auto">
         <h2>seller 상품 추가 등록</h2>
         <input
           id="product-title-input"
@@ -160,18 +160,74 @@
       </div>
     </div>
 
-    <!-- 상품등록 -->
-    <!-- <div id="product-register" style="display: none">
-      <div style="display: inline-block; margin-left: 20px">
-        <h2>상품 등록</h2>
-        <input
-          type="text"
-          name="상품 이름"
-          id="product-title-input"
-          placeholder="상품이름을 입력하세요" />
-        <div class="button" id="buy-button">등록하기</div>
+    <!-- 구매자: 1. 모든 판매 상품 게시 & 구매하기 2. 내가 구매한 상품 목록보기 -->
+    <!--1. 모든 판매 상품 게시 & 구매하기-->
+    <div id="buy-container" style="margin: auto; max-width: 75%; display: none">
+      <div id="All_Product-list-container" style="margin: auto">
+        <table
+          style="
+            border: 1px solid black;
+            border-collapse: collapse;
+            margin: auto;
+            margin-bottom: 20px;
+            margin-top: 35px;
+          ">
+          <thead>
+            <tr>
+              <th>아이디</th>
+              <th>제목</th>
+              <th>가격</th>
+              <th>내용</th>
+            </tr>
+          </thead>
+          <tbody id="All_Product-list"></tbody>
+        </table>
       </div>
-    </div> -->
+      <div
+        style="
+          text-align: center;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 25px;
+        ">
+        <input
+          id="wish-product-id"
+          type="text"
+          placeholder="구매할 상품의 아이디를 입력하세요"
+          style="width: 250px" />
+        <button
+          id="buy-button"
+          class="button"
+          style="
+            height: 35px;
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+            margin-right: 10px;
+          ">
+          구매하기
+        </button>
+      </div>
+    </div>
+
+    <!-- 2. 내가 구매한 상품 목록보기 -->
+    <br />
+    <br />
+    <br />
+    <br />
+    <button
+      class="button"
+      id="my-shopping-list-button"
+      style="display: flex; height: 35px; align-items: center; padding-top: 5px; display: none">
+      구매한 상품 목록보기
+    </button>
+    <div
+      style="display: none; text-align: center; margin: auto; max-width: 70%"
+      id="show-buyer-productlist-container">
+      <ol id="show-buyer-productlist"></ol>
+    </div>
+
     <script type="module" src="./dist/index.js"></script>
   </body>
 </html>

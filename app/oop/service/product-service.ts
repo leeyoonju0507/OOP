@@ -6,10 +6,10 @@ import Repository, {IRepository} from '../repository/repository';
 export interface IProductService {
   registerProduct(email: string, title: string, price: number, content: string): Promise<boolean>;
   getSellerProductsByEmail(email: string): Promise<IProductClient[]>;
-  getBuyerProductsByEmail(email: string): Promise<IProductClient[]>;
   // checkSoldOutfProduct(id: string): Promise<boolean>;
-  buyProduct(id: string, buyerEmail: string): Promise<boolean>;
   getAllProduct(): Promise<IProductClient[]>;
+  buyProduct(id: string, buyerEmail: string): Promise<boolean>;
+  getBuyerProductsByEmail(email: string): Promise<IProductClient[]>;
 }
 
 export default class ProductService implements IProductService {

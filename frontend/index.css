@@ -20,7 +20,10 @@ div {
   align-items: center;
   justify-content: center;
 } */
-
+td,
+th {
+  border: 1px solid black;
+}
 #app-title {
   text-align: center;
   margin-top: 20%;

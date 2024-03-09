@@ -5,6 +5,16 @@ export interface IHomeScreen {
   sellerUI(user: ILoginData): Promise<undefined | boolean>;
   buyerUI(user: ILoginData): Promise<undefined | boolean>;
 }
+interface IProductClient {
+  id: number;
+  title: string;
+  price: number;
+  content: string;
+}
+interface ServerResponse {
+  isSuccess: boolean;
+  msg: string;
+}
 class HomeScreen implements IHomeScreen {
   private welcome: HTMLElement;
   private ProductListButton: HTMLElement;
@@ -18,12 +28,19 @@ class HomeScreen implements IHomeScreen {
   private productContent: string;
   private productListAndAdd: HTMLElement;
 
-  private productRegister: HTMLElement;
-  private productContainer: HTMLElement;
+  // private productRegister: HTMLElement;
+  // private productContainer: HTMLElement;
+  private buyContainer: HTMLElement;
+  private wishProductId: HTMLInputElement;
+  private AllProductList: HTMLElement;
   private buyButton: HTMLElement;
-  private productList: Element[];
+  private wishProductIdString: string;
+  private showBuyerProductList: HTMLElement;
+  private myShoppingListButton: HTMLElement;
+  private showBuyerProductListContainer: HTMLElement;
+  // private productList: Element[];
 
-  private selectedProductIndexList: number[];
+  // private selectedProductIndexList: number[];
 
   constructor() {
     this.welcome = document.getElementById('welcome') as HTMLElement;
@@ -38,12 +55,20 @@ class HomeScreen implements IHomeScreen {
     this.productPrice = '';
     this.productContent = '';
 
-    this.productRegister = document.getElementById('product-register') as HTMLElement;
-    this.productContainer = document.getElementById('product-container') as HTMLElement;
+    // this.productRegister = document.getElementById('product-register') as HTMLElement;
+    // this.productContainer = document.getElementById('product-container') as HTMLElement;
+    this.buyContainer = document.getElementById('buy-container') as HTMLElement;
+    this.AllProductList = document.getElementById('All_Product-list') as HTMLElement;
     this.buyButton = document.getElementById('buy-button') as HTMLElement;
-    this.productList = Array.from(document.getElementsByClassName('product'));
-
-    this.selectedProductIndexList = [];
+    this.wishProductId = document.getElementById('wish-product-id') as HTMLInputElement;
+    this.wishProductIdString = '';
+    this.myShoppingListButton = document.getElementById('my-shopping-list-button') as HTMLElement;
+    this.showBuyerProductListContainer = document.getElementById(
+      'show-buyer-productlist-container',
+    ) as HTMLElement;
+    this.showBuyerProductList = document.getElementById('show-buyer-productlist') as HTMLElement;
+    // this.productList = Array.from(document.getElementsByClassName('product'));
+    // this.selectedProductIndexList = [];
   }
 
   mainUI = async (user: ILoginData) => {
@@ -72,7 +97,7 @@ class HomeScreen implements IHomeScreen {
     sellerProductList.forEach((e: {id: number; title: string; price: number; content: string}) => {
       console.log(`id:${e.id}, title:${e.title}, price:${e.price}, content:${e.content}`);
     });
-
+    //판매자가 판매중인 상품목록 보기
     this.ProductListButton.addEventListener('click', async () => {
       let tag = ``;
       sellerProductList.forEach(
@@ -84,6 +109,7 @@ class HomeScreen implements IHomeScreen {
     });
 
     ///////////////////////////////////////////////////////
+    //판매자가 더 등록할 상품 입력&등록
     this.productTitleInput.addEventListener('input', () => {
       this.productTitle = this.productTitleInput.value;
     });
@@ -121,6 +147,62 @@ class HomeScreen implements IHomeScreen {
   };
 
   buyerUI = async (user: ILoginData) => {
+    this.buyContainer.style.display = 'block';
+    this.myShoppingListButton.style.display = 'block';
+
+    //상품을 가져와서 판매목록 보여주기
+    await fetch('http://localhost:3000/showAllProduct')
+      .then((res) => res.json())
+      .then((allProduct: IProductClient[]) => {
+        allProduct.forEach((e: IProductClient) => {
+          const showlist = `<td>${e.id}</td><td>${e.title}</td><td>${e.price}</td><td>${e.content}</td>`;
+          this.AllProductList.insertAdjacentHTML('beforeend', showlist);
+        });
+      })
+      .catch((error) => {
+        console.error('상품 목록을 불러오는 도중 오류가 발생했습니다:', error);
+      });
+
+    //상품아이디 입력했을때 구매하기
+    this.wishProductId.addEventListener('input', () => {
+      this.wishProductIdString = this.wishProductId.value;
+    });
+    this.buyButton.addEventListener('click', async () => {
+      if (!this.wishProductIdString) {
+        alert('아이디를 입력해주세요');
+      }
+      await fetch('http://localhost:3000/buyerClickBuyButton', {
+        method: 'POST',
+        body: JSON.stringify({id: this.wishProductIdString, buyerEmail: user.email}),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      })
+        .then((res) => res.json())
+        .then((result: ServerResponse) => {
+          if (result.isSuccess === false) {
+            alert(`${result.msg}`);
+          } else {
+            alert(`${result.msg}`);
+          }
+          this.wishProductId.value = '';
+        });
+    });
+    //구매한 상품 목록보기 버튼 클릭했을때
+    this.myShoppingListButton.addEventListener('click', async () => {
+      await fetch('http://localhost:3000/getBuyerShoppingList', {
+        method: 'POST',
+        body: JSON.stringify(user.email),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      })
+        .then((res) => res.json())
+        .then((shoppinglist: IProductClient[]) => {
+          this.showBuyerProductListContainer.style.display = 'block';
+          shoppinglist.forEach((e: IProductClient) => {
+            const node = `<li>상품아이디: ${e.id}, 상품이름:${e.title}, 상품가격:${e.price},상품내용:${e.content}</li>`;
+            this.showBuyerProductList.insertAdjacentHTML('beforeend', node);
+          });
+        });
+    });
+
     return true;
   };
 }

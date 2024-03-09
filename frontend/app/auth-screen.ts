@@ -6,10 +6,10 @@ export interface IAuthScreen {
 }
 
 class AuthScreen implements IAuthScreen {
-  private loginIdInput: HTMLInputElement;
+  private loginEmailInput: HTMLInputElement;
   private loginPasswordInput: HTMLInputElement;
 
-  private loginId: string;
+  private loginEmail: string;
   private loginPassword: string;
   //  private loginForm:HTMLElement;
   ////////////////////////////////////////////////
@@ -28,9 +28,9 @@ class AuthScreen implements IAuthScreen {
 
   constructor() {
     //this.loginForm = document.getElementById('login-info') as HTMLElement;
-    this.loginIdInput = document.getElementById('login-id-input') as HTMLInputElement;
+    this.loginEmailInput = document.getElementById('login-id-input') as HTMLInputElement;
     this.loginPasswordInput = document.getElementById('login-password-input') as HTMLInputElement;
-    this.loginId = '';
+    this.loginEmail = '';
     this.loginPassword = '';
     // this.signupForm = document.getElementById("signup-info") as HTMLElement;
     this.signupEmailInput = document.getElementById('signup-email-input') as HTMLInputElement;
@@ -67,10 +67,10 @@ class AuthScreen implements IAuthScreen {
       }
     });
     /////////////////////////////////////////////////
-    this.loginIdInput.addEventListener('input', (e) => {
-      this.loginId = this.loginIdInput.value;
+    this.loginEmailInput.addEventListener('input', () => {
+      this.loginEmail = this.loginEmailInput.value;
     });
-    this.loginPasswordInput.addEventListener('input', (e) => {
+    this.loginPasswordInput.addEventListener('input', () => {
       this.loginPassword = this.loginPasswordInput.value;
     });
   }
@@ -115,12 +115,15 @@ class AuthScreen implements IAuthScreen {
   };
 
   login = async () => {
-    if (!this.loginId || !this.loginPassword) {
+    if (!this.loginEmail || !this.loginPassword) {
       return undefined;
     }
     const loginResult = await fetch('http://localhost:3000/login', {
       method: 'POST',
-      body: JSON.stringify({userId: this.loginId, userPassword: this.loginPassword}),
+      body: JSON.stringify({
+        loginUserEmail: this.loginEmail,
+        loginUserPassword: this.loginPassword,
+      }),
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
     });
     const result = await loginResult.json();

@@ -1,16 +1,9 @@
-import UserRepository from '../../repository/user-repository.js';
-import Database from '../../database/database.js';
-import ProductRepository from '../../repository/product-repository.js';
-import ProductService from '../../service/product-service.js';
-// import Product from '../product/product.js'
+// 데이터 타입 1: 리포지토리에서 사용합니다
+// import {IDomain} from '../../specification/interfaces';
 
-//repo -> CSV
-export interface IDataCSV {
-  convertStringForCSV(): string;
-}
-//CSV를 읽었을때의 interface
-//repo <- CSV
-export interface IProductCSV {
+import {IDomain} from '../../specification/interfaces.js';
+
+export interface IProductEntity {
   id: string;
   title: string;
   content: string;
@@ -19,59 +12,19 @@ export interface IProductCSV {
   buyerEmail: string;
   isSoldOut: 'true' | 'false';
 }
-export class ProductCSV implements IProductCSV, IDataCSV {
-  public readonly id: string;
-  public readonly title: string;
-  public readonly price: string;
-  public readonly content: string;
-  public readonly sellerEmail: string;
-  public readonly buyerEmail: string;
-  public readonly isSoldOut: 'true' | 'false';
 
-  constructor(
-    id: string,
-    title: string,
-    price: string,
-    content: string,
-    sellerEmail: string,
-    buyerEmail: string,
-    isSoldOut: 'true' | 'false',
-  ) {
-    this.id = id;
-    this.title = title;
-    this.price = price;
-    this.content = content;
-    this.sellerEmail = sellerEmail;
-    this.buyerEmail = buyerEmail;
-    this.isSoldOut = isSoldOut;
-  }
-
-  //CSV에 저장해야되는 문자형태를 스스로 return
-  convertStringForCSV(): string {
-    return `${this.id},${this.title},${this.price},${this.content},${this.sellerEmail},${this.buyerEmail},${this.isSoldOut}`;
-  }
-}
-//Domain객체의 interface
-//데이터 타입 for 서비스
-export interface IProduct {
+// 데이터 타입 2: 서비스에서 사용합니다
+export interface IProductDomain {
   id: number;
   title: string;
   price: number;
   content: string;
-  getProductId(): number;
-  getPrice(): number;
-  getTitle(): string;
-  getContent(): string;
-  getIsSoldOut(): boolean;
+  sellerEmail: string;
+  buyerEmail: string;
+  isSoldOut: boolean;
 }
-// export interface IProductMethd{
-//   getProductId(): number;
-//   getPrice(): number;
-//   getTitle(): string;
-//   getContent(): string;
-//   getIsSoldOut(): boolean;
-// }
-export class Product implements IProduct {
+
+export class ProductDomain implements IProductDomain, IDomain {
   public readonly id: number;
   public readonly title: string;
   public readonly content: string;
@@ -116,17 +69,26 @@ export class Product implements IProduct {
   public getContent() {
     return this.content;
   }
+  public getSellerEmail(): string {
+    return this.sellerEmail;
+  }
+  public getBuyerEmail(): string {
+    return this.buyerEmail;
+  }
   public getIsSoldOut() {
     return this.isSoldOut;
   }
-
   //csv파일에서 읽어서 재고있으면 false, 재고없으면true로 setting
   // public setIsSoldOut(numOfSellerProduct: number) {
   //   this.isSoldOut = numOfSellerProduct > 0;
   // }
+
+  convertStringForCSV(): string {
+    return `${this.id},${this.title},${this.price},${this.content},${this.sellerEmail},${this.buyerEmail},${this.isSoldOut}`;
+  }
 }
-//client에게 던져줄때의 interface
-//ui<-service
+
+// 데이터 타입 3: 클라이언트에서 사용합니다
 export interface IProductClient {
   id: any;
   title: string;

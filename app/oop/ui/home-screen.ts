@@ -62,10 +62,10 @@ class HomeScreen implements IHomeScreen {
           const SellerProductRow = await this.productService.getSellerProductsByEmail(user.email);
           for (let i = 0; i < SellerProductRow.length; i++) {
             console.log(`[상품 ${i + 1}번]`);
-            console.log(SellerProductRow[i].id);
-            console.log(SellerProductRow[i].title);
-            console.log(SellerProductRow[i].price);
-            console.log(SellerProductRow[i].content + '\n');
+            console.log('상품고유아이디: ' + SellerProductRow[i].id);
+            console.log('상품이름: ' + SellerProductRow[i].title);
+            console.log('상품가격: ' + SellerProductRow[i].price);
+            console.log('상품내용: ' + SellerProductRow[i].content + '\n');
           }
           continue;
         case '3':
@@ -106,10 +106,10 @@ class HomeScreen implements IHomeScreen {
           const BuyerProductRow = await this.productService.getBuyerProductsByEmail(user.email);
           for (let i = 0; i < BuyerProductRow.length; i++) {
             console.log(`[상품 ${i + 1}번]`);
-            console.log(BuyerProductRow[i].id);
-            console.log(BuyerProductRow[i].title);
-            console.log(BuyerProductRow[i].price);
-            console.log(BuyerProductRow[i].content + '\n');
+            console.log('상품고유아이디: ' + BuyerProductRow[i].id);
+            console.log('상품이름: ' + BuyerProductRow[i].title);
+            console.log('상품가격: ' + BuyerProductRow[i].price);
+            console.log('상품내용: ' + BuyerProductRow[i].content + '\n');
           }
           continue;
         case '3':

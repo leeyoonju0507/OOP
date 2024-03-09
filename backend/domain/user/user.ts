@@ -1,15 +1,34 @@
-import UserRepository from '../../repository/user-repository.js';
+// import {IDomain} from '../../specification/interfaces';
 
-export interface IUser {}
+import {IDomain} from '../../specification/interfaces.js';
 
-export default class User {
+// 데이터 타입 1: 리포지토리에서 사용합니다
+export interface IUserEntity {
+  id: number;
+  email: string;
+  password: string;
+  nickname: string;
+  money: number;
+  userType: 'seller' | 'buyer';
+}
+
+// 데이터 타입 2: 서비스에서 사용합니다
+export interface IUser {
+  id: number;
+  email: string;
+  password: string;
+  nickname: string;
+  money: number;
+  userType: any;
+}
+export default class UserDomain implements IUser, IDomain {
   // 데이터: 인스턴스 속성
-  protected id: number;
-  protected email: string;
-  protected password: string;
-  protected nickname: string;
-  protected money: number;
-  protected userType: any;
+  public readonly id: number;
+  public readonly email: string;
+  public readonly password: string;
+  public readonly nickname: string;
+  public readonly money: number;
+  public readonly userType: any;
 
   // 생성자
   constructor(
@@ -33,13 +52,13 @@ export default class User {
     return this.email;
   }
 
-  public setEmail(newEmail: string) {
-    this.email = newEmail;
-  }
+  // public setEmail(newEmail: string) {
+  //   this.email = newEmail;
+  // }
 
-  public setMoneyByStorage(money: number) {
-    this.money -= money;
-  }
+  // public setMoneyByStorage(money: number) {
+  //   this.money -= money;
+  // }
 
   public getMoney() {
     return this.money;
@@ -55,4 +74,17 @@ export default class User {
   public getUserType() {
     return this.userType;
   }
+
+  //CSV에 저장해야되는 문자형태를 스스로 return
+  convertStringForCSV(): string {
+    return `${this.id},${this.email},${this.password},${this.nickname},${this.money},${this.userType}`;
+  }
+}
+
+// 데이터 타입 3: 클라이언트에서 사용합니다
+export interface IUserClient {
+  email: string;
+  nickname: string;
+  money: number;
+  userType: 'seller' | 'buyer';
 }
