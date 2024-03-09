@@ -5,7 +5,8 @@ import Repository, {IRepository} from '../repository/repository';
 
 export interface IProductService {
   registerProduct(email: string, title: string, price: number, content: string): Promise<boolean>;
-  getSellerProducts(email: string): Promise<IProductClient[]>;
+  getSellerProductsByEmail(email: string): Promise<IProductClient[]>;
+  getBuyerProductsByEmail(email: string): Promise<IProductClient[]>;
   // checkSoldOutfProduct(id: string): Promise<boolean>;
   buyProduct(id: string, buyerEmail: string): Promise<boolean>;
   getAllProduct(): Promise<IProductClient[]>;
@@ -39,16 +40,13 @@ export default class ProductService implements IProductService {
     return true;
   };
 
-  getSellerProducts = async (email: string) => {
+  getSellerProductsByEmail = async (email: string) => {
     const seller = await this.repository.userRepository.findUserByEmail(email);
     if (!seller || seller instanceof Buyer) {
       return [];
     }
 
-    const sellerProducts = await this.repository.productRepository.findProductsByEmail(
-      'seller',
-      email,
-    );
+    const sellerProducts = await this.repository.productRepository.findSellerProductsByEmail(email);
     const productClients: IProductClient[] = [];
     for (let i = 0; i < sellerProducts.length; i++) {
       const product = sellerProducts[i];
@@ -105,5 +103,25 @@ export default class ProductService implements IProductService {
       });
     }
     return allProductClientRow;
+  };
+
+  getBuyerProductsByEmail = async (email: string) => {
+    const buyer = await this.repository.userRepository.findUserByEmail(email);
+    if (!buyer || buyer instanceof Seller) {
+      return [];
+    }
+
+    const buyerProducts = await this.repository.productRepository.findBuyerProductsByEmail(email);
+    const productClients: IProductClient[] = [];
+    for (let i = 0; i < buyerProducts.length; i++) {
+      const product = buyerProducts[i];
+      productClients.push({
+        id: product.getProductId(),
+        title: product.getTitle(),
+        price: product.getPrice(),
+        content: product.getContent(),
+      });
+    }
+    return productClients;
   };
 }

@@ -59,13 +59,13 @@ class HomeScreen implements IHomeScreen {
           continue;
         case '2':
           console.log('~~~~~판매자가 창고에 저장한 물건목록~~~~~');
-          const listOfProduct = await this.productService.getSellerProducts(user.email);
-          for (let i = 0; i < listOfProduct.length; i++) {
+          const SellerProductRow = await this.productService.getSellerProductsByEmail(user.email);
+          for (let i = 0; i < SellerProductRow.length; i++) {
             console.log(`[상품 ${i + 1}번]`);
-            console.log(listOfProduct[i].id);
-            console.log(listOfProduct[i].title);
-            console.log(listOfProduct[i].price);
-            console.log(listOfProduct[i].content + '\n');
+            console.log(SellerProductRow[i].id);
+            console.log(SellerProductRow[i].title);
+            console.log(SellerProductRow[i].price);
+            console.log(SellerProductRow[i].content + '\n');
           }
           continue;
         case '3':
@@ -88,7 +88,7 @@ class HomeScreen implements IHomeScreen {
 
           allProducts.forEach((e) => {
             console.log(
-              `상품고유아이디: ${e.id} 상품이름:${e.title} 상품가격:${e.price} 상품내용:${e.content}\n`,
+              `상품고유아이디: ${e.id} 상품이름:${e.title} 상품가격:${e.price} 상품내용:${e.content}`,
             );
           });
 
@@ -102,7 +102,16 @@ class HomeScreen implements IHomeScreen {
           console.log('!!물건 구매 성공!!');
           continue;
         case '2':
-          break;
+          console.log('~~~~~구매자가 구매한 물건목록~~~~~');
+          const BuyerProductRow = await this.productService.getBuyerProductsByEmail(user.email);
+          for (let i = 0; i < BuyerProductRow.length; i++) {
+            console.log(`[상품 ${i + 1}번]`);
+            console.log(BuyerProductRow[i].id);
+            console.log(BuyerProductRow[i].title);
+            console.log(BuyerProductRow[i].price);
+            console.log(BuyerProductRow[i].content + '\n');
+          }
+          continue;
         case '3':
           return false;
       }

@@ -12,11 +12,12 @@ export interface IProductRepository {
     buyerEmail: string;
     IsSoldOut: boolean;
   }): Promise<void>;
-  findProductsByEmail(type: 'seller' | 'buyer', email: string): Promise<ProductDomain[]>;
+  findSellerProductsByEmail(email: string): Promise<ProductDomain[]>;
   checkProductSoldOut(id: string): Promise<ProductDomain | undefined>;
   // updateProduct(properties: {id: string; buyerEmail: string; isSoldOut: boolean}): Promise<void>;
   updateProduct(willBuyProduct: IProductDomain): Promise<void>;
   findAllProducts(): Promise<ProductDomain[]>;
+  findBuyerProductsByEmail(email: string): Promise<ProductDomain[]>;
 }
 
 export default class ProductRepository implements IProductRepository {
@@ -39,38 +40,22 @@ export default class ProductRepository implements IProductRepository {
       `${productInfo.title},${productInfo.price},${productInfo.content},${productInfo.sellerEmail},${productInfo.buyerEmail},${productInfo.IsSoldOut}`,
     );
   };
-  findProductsByEmail = async (type: 'seller' | 'buyer', email: string) => {
+  findSellerProductsByEmail = async (email: string) => {
     const products: ProductDomain[] = [];
     const productRows = await this.db.readCSV<IProductEntity>('products.csv');
     for (let i = 0; i < productRows.length; i++) {
-      if (type === 'seller') {
-        if (email === productRows[i].sellerEmail) {
-          products.push(
-            new ProductDomain(
-              parseFloat(productRows[i].id),
-              productRows[i].title,
-              productRows[i].content,
-              parseFloat(productRows[i].price),
-              productRows[i].sellerEmail,
-              productRows[i].buyerEmail,
-              Boolean(productRows[i].isSoldOut),
-            ),
-          );
-        }
-      } else {
-        if (email === productRows[i].buyerEmail) {
-          products.push(
-            new ProductDomain(
-              parseFloat(productRows[i].id),
-              productRows[i].title,
-              productRows[i].content,
-              parseFloat(productRows[i].price),
-              productRows[i].sellerEmail,
-              productRows[i].buyerEmail,
-              Boolean(productRows[i].isSoldOut),
-            ),
-          );
-        }
+      if (email === productRows[i].sellerEmail) {
+        products.push(
+          new ProductDomain(
+            parseFloat(productRows[i].id),
+            productRows[i].title,
+            productRows[i].content,
+            parseFloat(productRows[i].price),
+            productRows[i].sellerEmail,
+            productRows[i].buyerEmail,
+            Boolean(productRows[i].isSoldOut),
+          ),
+        );
       }
     }
     return products;
@@ -147,5 +132,26 @@ export default class ProductRepository implements IProductRepository {
       );
     }
     return ProductDomainRows;
+  };
+
+  findBuyerProductsByEmail = async (email: string) => {
+    const products: ProductDomain[] = [];
+    const productRows = await this.db.readCSV<IProductEntity>('products.csv');
+    for (let i = 0; i < productRows.length; i++) {
+      if (email === productRows[i].buyerEmail) {
+        products.push(
+          new ProductDomain(
+            parseFloat(productRows[i].id),
+            productRows[i].title,
+            productRows[i].content,
+            parseFloat(productRows[i].price),
+            productRows[i].sellerEmail,
+            productRows[i].buyerEmail,
+            Boolean(productRows[i].isSoldOut),
+          ),
+        );
+      }
+    }
+    return products;
   };
 }
