@@ -19,14 +19,14 @@ export default class Buyer extends UserDomain {
     super(id, email, password, nickname, money, userType);
   }
 
-  public BUY(seller: Seller, price: number, product: ProductDomain) {
-    if (this.getMoney() < price) {
-      console.log('구매자의 잔액이 부족합니다.');
-      return;
-    }
-    seller.SELL(this, product);
-    this.setBuyHistory(product);
-  }
+  // public BUY(seller: Seller, price: number, product: ProductDomain) {
+  //   if (this.getMoney() < price) {
+  //     console.log('구매자의 잔액이 부족합니다.');
+  //     return;
+  //   }
+  //   seller.SELL(this, product);
+  //   this.setBuyHistory(product);
+  // }
 
   //product를 history에 저장, 구매한 product의 개수를 1개 증가
   public setBuyHistory(product: ProductDomain) {
@@ -45,7 +45,7 @@ export default class Buyer extends UserDomain {
   }
 
   //출금
-  public withdraw(money: number) {
-    this.money -= money;
-  }
+  // public withdraw(money: number) {
+  //   this.money -= money;
+  // }
 }

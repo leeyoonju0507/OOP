@@ -83,6 +83,15 @@ class HomeScreen implements IHomeScreen {
       const select = await inputReceiver('메뉴를 선택하세요: ');
       switch (select) {
         case '1':
+          //모든 상품 보여주기
+          const allProducts = await this.productService.getAllProduct();
+
+          allProducts.forEach((e) => {
+            console.log(
+              `상품고유아이디: ${e.id} 상품이름:${e.title} 상품가격:${e.price} 상품내용:${e.content}\n`,
+            );
+          });
+
           const id = await inputReceiver('구매할 물건의 id를 입력하세요:');
           const canBuy = await this.productService.buyProduct(id, user.email);
 

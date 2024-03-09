@@ -25,7 +25,7 @@ class AuthScreen implements IAuthScreen {
       console.log('이미 가입이 되어있는 email입니다. 인증스크린으로 돌아갑니다.');
       return false;
     }
-    console.log('사용가능한 이메일 입니다.');
+    console.log('사용가능 한 이메일 입니다.');
     const password = await inputReceiver('password를 입력하세요: ');
     const nickname = await inputReceiver('nickname을 입력하세요: ');
     const moneyString = await inputReceiver('money를 입력하세요: ');

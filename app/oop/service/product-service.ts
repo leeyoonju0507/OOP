@@ -8,6 +8,7 @@ export interface IProductService {
   getSellerProducts(email: string): Promise<IProductClient[]>;
   // checkSoldOutfProduct(id: string): Promise<boolean>;
   buyProduct(id: string, buyerEmail: string): Promise<boolean>;
+  getAllProduct(): Promise<IProductClient[]>;
 }
 
 export default class ProductService implements IProductService {
@@ -77,20 +78,6 @@ export default class ProductService implements IProductService {
     if (!구매하고싶은상품) {
       return false;
     }
-    // await this.repository.productRepository.updateProduct({
-    //   id,
-    //   buyerEmail,
-    //   isSoldOut: true,
-    // });
-    // const  구매할상품 = {
-    //   id: 구매하고싶은상품.id,
-    //   title:구매하고싶은상품.title,
-    //   content:구매하고싶은상품.content,
-    //   price:구매하고싶은상품.price,
-    //   sellerEmail:구매하고싶은상품.sellerEmail,
-    //   buyerEmail,
-    //   isSoldOut: true
-    // } as IProductDomain
     const 구매할상품 = {
       id: 구매하고싶은상품.getProductId(),
       title: 구매하고싶은상품.getTitle(),
@@ -102,5 +89,21 @@ export default class ProductService implements IProductService {
     } as IProductDomain;
     await this.repository.productRepository.updateProduct(구매할상품);
     return true;
+  };
+
+  getAllProduct = async () => {
+    const allProductRow: ProductDomain[] =
+      await this.repository.productRepository.findAllProducts();
+    const allProductClientRow: IProductClient[] = [];
+
+    for (let i = 0; i < allProductRow.length; i++) {
+      allProductClientRow.push({
+        id: allProductRow[i].getProductId(),
+        title: allProductRow[i].getTitle(),
+        price: allProductRow[i].getPrice(),
+        content: allProductRow[i].getContent(),
+      });
+    }
+    return allProductClientRow;
   };
 }
