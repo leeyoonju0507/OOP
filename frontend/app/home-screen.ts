@@ -177,17 +177,13 @@ class HomeScreen implements IHomeScreen {
     this.myShoppingListButton.style.display = 'block';
 
     //상품을 가져와서 판매목록 보여주기
-    await fetch('http://localhost:3000/showAllProduct')
-      .then((res) => res.json())
-      .then((allProduct: IProductClient[]) => {
-        allProduct.forEach((e: IProductClient) => {
-          const showlist = `<td>${e.id}</td><td>${e.title}</td><td>${e.price}</td><td>${e.content}</td>`;
-          this.AllProductList.insertAdjacentHTML('beforeend', showlist);
-        });
-      })
-      .catch((error) => {
-        console.error('상품 목록을 불러오는 도중 오류가 발생했습니다:', error);
-      });
+    const showAllProductResult = await fetch('http://localhost:3000/showAllProduct');
+    const showAllProductResultObject: IProductClient[] = await showAllProductResult.json();
+
+    showAllProductResultObject.forEach((e: IProductClient) => {
+      const showlist = `<td>${e.id}</td><td>${e.title}</td><td>${e.price}</td><td>${e.content}</td>`;
+      this.AllProductList.insertAdjacentHTML('beforeend', showlist);
+    });
 
     //상품아이디 입력했을때 구매하기
     this.wishProductId.addEventListener('input', () => {
@@ -212,22 +208,34 @@ class HomeScreen implements IHomeScreen {
     });
     //구매한 상품 목록보기 버튼 클릭했을때
     this.myShoppingListButton.addEventListener('click', async () => {
+      // let node = '';
+      // await fetch('http://localhost:3000/getBuyerShoppingList', {
+      //   method: 'POST',
+      //   body: JSON.stringify(user.email),
+      //   headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      // })
+      //   .then((res) => res.json())
+      //   .then((shoppinglist: IProductClient[]) => {
+      //     this.showBuyerProductListContainer.style.display = 'block';
+      //     shoppinglist.forEach((e: IProductClient) => {
+      //       node += `<li>상품아이디: ${e.id}, 상품이름:${e.title}, 상품가격:${e.price},상품내용:${e.content}</li>`;
+      //     });
+      //     this.showBuyerProductList.innerHTML = node;
+      //   });
       let node = '';
-      await fetch('http://localhost:3000/getBuyerShoppingList', {
+      const getBuyerShoppingListResult = await fetch('http://localhost:3000/getBuyerShoppingList', {
         method: 'POST',
         body: JSON.stringify(user.email),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      })
-        .then((res) => res.json())
-        .then((shoppinglist: IProductClient[]) => {
-          this.showBuyerProductListContainer.style.display = 'block';
-          shoppinglist.forEach((e: IProductClient) => {
-            // const node = `<li>상품아이디: ${e.id}, 상품이름:${e.title}, 상품가격:${e.price},상품내용:${e.content}</li>`;
-            // this.showBuyerProductList.insertAdjacentHTML('beforeend', node);
-            node += `<li>상품아이디: ${e.id}, 상품이름:${e.title}, 상품가격:${e.price},상품내용:${e.content}</li>`;
-          });
-          this.showBuyerProductList.innerHTML = node;
-        });
+      });
+      const getBuyerShoppingListResultObject: IProductClient[] =
+        await getBuyerShoppingListResult.json();
+
+      this.showBuyerProductListContainer.style.display = 'block';
+      getBuyerShoppingListResultObject.forEach((e: IProductClient) => {
+        node += `<li>상품아이디: ${e.id}, 상품이름:${e.title}, 상품가격:${e.price},상품내용:${e.content}</li>`;
+      });
+      this.showBuyerProductList.innerHTML = node;
     });
 
     return true;
