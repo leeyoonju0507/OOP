@@ -27,15 +27,9 @@
     <!-- 회원가입 -->
     <div id="signup-form" style="display: none">
       <div
-        style="
-          width: 27%;
-          margin: auto;
-          font-size: 70%;
-          padding: 50px;
-          box-sizing: border-box;
-          margin: auto;
-        ">
-        <h1 style="text-align: center">회원가입 form</h1>
+        id="signup-form-content-container"
+        style="margin: auto; font-size: 70%; padding: 50px; box-sizing: border-box; margin: auto">
+        <h1 style="text-align: center">회원가입</h1>
         <div>
           <input
             class="info-input"
@@ -76,15 +70,16 @@
     <br />
     <br />
     <br />
+    <!-- //////////////////////////////////// -->
 
     <!-- 로그인-->
     <div id="login-form" style="display: none">
-      <div style="width: 20%; margin: auto; box-sizing: border-box">
-        <h1 style="text-align: center; width: 100%">로그인 form</h1>
-        <div style="width: 100%; text-align: center">
+      <div id="login-form-content-container" style="margin: auto; box-sizing: border-box">
+        <h1 style="text-align: center">로그인</h1>
+        <div style="text-align: center">
           <input class="info-input" id="login-id-input" name="id" placeholder="이메일" />
         </div>
-        <div style="width: 100%; text-align: center; margin-top: 5px">
+        <div style="text-align: center; margin-top: 5px">
           <input
             class="info-input"
             id="login-password-input"
@@ -95,38 +90,31 @@
         <div class="button" id="login-button">로그인</div>
       </div>
     </div>
+    <!-- //////////////////////////////////// -->
     <br />
     <br />
     <br />
-
-    <div id="welcome" style="margin: auto; width: 50%; text-align: center"></div>
+    <!-- //////////////////////////////////// -->
+    <div id="welcome"></div>
 
     <!--  Seller_ProductList -->
     <div id="product-list-add" style="text-align: center; display: none">
       <!-- 상품 목록 보기 -->
       <div id="products-container" style="display: inline-block">
         <div class="product" id="showProductList"></div>
-        <h2>seller 상품 목록</h2>
-        <ul id="ul"></ul>
+        <h2 style="text-align: center">~~~~~~~~~~~~~~~~~~</h2>
+        <h2>My 판매 목록</h2>
+        <ul id="ul" style="text-align: left"></ul>
         <div
           class="button"
           id="show-productList"
-          style="
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 70%;
-            height: 35.2px;
-            margin-top: 10px;
-            margin-right: auto;
-            margin-left: auto;
-          ">
+          style="margin-top: 10px; display: flex; align-items: center; justify-content: center">
           목록보기
         </div>
       </div>
       <!-- 상품 추가 -->
-      <div style="width: 100%; margin-top: 10px; max-width: 25%; margin: auto">
-        <h2>seller 상품 추가 등록</h2>
+      <div class="add-container" style="margin-top: 10px; margin: auto">
+        <h2 style="text-align: center">상품 추가 등록</h2>
         <input
           id="product-title-input"
           type="text"
@@ -145,16 +133,7 @@
         <div
           class="button"
           id="add-button"
-          style="
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50%;
-            height: 35.2px;
-            margin-top: 10px;
-            margin-right: auto;
-            margin-left: auto;
-          ">
+          style="display: flex; align-items: center; justify-content: center">
           추가
         </div>
       </div>
@@ -162,9 +141,12 @@
 
     <!-- 구매자: 1. 모든 판매 상품 게시 & 구매하기 2. 내가 구매한 상품 목록보기 -->
     <!--1. 모든 판매 상품 게시 & 구매하기-->
-    <div id="buy-container" style="margin: auto; max-width: 75%; display: none">
+    <div id="buy-container" style="margin: auto; display: none">
       <div id="All_Product-list-container" style="margin: auto">
+        <h2 style="text-align: center">~~~~~~~~~~~~~~~~~~</h2>
+        <h2 style="text-align: center">모든 판매 상품 목록</h2>
         <table
+          id="table"
           style="
             border: 1px solid black;
             border-collapse: collapse;
@@ -223,9 +205,9 @@
       구매한 상품 목록보기
     </button>
     <div
-      style="display: none; text-align: center; margin: auto; max-width: 70%"
+      style="display: none; text-align: center; margin: auto"
       id="show-buyer-productlist-container">
-      <ol id="show-buyer-productlist"></ol>
+      <ol id="show-buyer-productlist" style="margin: auto; text-align: left"></ol>
     </div>
 
     <script type="module" src="./dist/index.js"></script>

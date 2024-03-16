@@ -13,13 +13,7 @@ body {
 div {
   box-sizing: border-box;
 }
-/* body {
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-} */
+
 td,
 th {
   border: 1px solid black;
@@ -36,7 +30,8 @@ th {
 }
 
 .button {
-  height: 20px;
+  width: 200px;
+  height: 40px;
   margin: 12px auto;
   padding: 12px;
   color: #ffffff;
@@ -45,25 +40,27 @@ th {
   font-size: 18px;
   text-align: center;
   cursor: pointer;
+  border: none;
 }
-/* 회원가입 */
+/* ??  */
 #signup-form > div div {
   padding: 5px;
   margin-bottom: 5px;
 }
+/* 회원가입 입력창 */
 #signup-form > div div input {
   width: 100%;
 }
+/* 로그인 입력창 */
+#login-form-content-container > div div input {
+  width: 100%;
+}
+/* 회원가입, 로그인 버튼  */
+/* #signup-button,#login-button  {
+  width: 200px;
+  height: 40px;
+} */
 
-#signup-button {
-  width: 200px;
-  height: 40px;
-}
-/* 로그인 */
-#login-button {
-  width: 200px;
-  height: 40px;
-}
 /* 상품구매,등록 */
 #product-title-input,
 #product-price-input,
@@ -75,4 +72,62 @@ th {
 }
 #buy-button {
   width: 100px;
+}
+#welcome {
+  width: 90%;
+  margin: auto;
+  /* width: 170px;  */
+  font-size: large;
+  text-align: center;
+}
+@media screen and (min-width: 768px) {
+  #signup-form-content-container {
+    width: 550px;
+  }
+  #login-form-content-container {
+    width: 550px;
+  }
+  .add-container {
+    width: 350px;
+  }
+  #table {
+    width: 700px;
+  }
+  #show-buyer-productlist {
+    width: 700px;
+  }
+}
+@media screen and (max-width: 768px) {
+  #signup-form-content-container {
+    width: 400px;
+  }
+  #login-form-content-container {
+    width: 400px;
+  }
+  .add-container {
+    width: 350px;
+  }
+  #table {
+    width: 550px;
+  }
+  #show-buyer-productlist {
+    width: 500px;
+  }
+}
+@media screen and (max-width: 576px) {
+  #signup-form-content-container {
+    width: 325px;
+  }
+  #login-form-content-container {
+    width: 325px;
+  }
+  .add-container {
+    width: 200px;
+  }
+  #table {
+    width: 300px;
+  }
+  #show-buyer-productlist {
+    width: 300px;
+  }
 }

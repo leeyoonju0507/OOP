@@ -11,7 +11,7 @@ interface IProductClient {
   price: number;
   content: string;
 }
-interface ServerResponse {
+interface checkSoldOutResponse {
   isSuccess: boolean;
   msg: string;
 }
@@ -72,9 +72,7 @@ class HomeScreen implements IHomeScreen {
   }
 
   mainUI = async (user: ILoginData) => {
-    this.welcome.innerHTML = `${user.nickname}님 환영합니다~^^
-      UserType: ${user.userType}
-      잔액: ${user.money}원`;
+    this.welcome.innerHTML = `${user.nickname}님 환영합니다^^ UserType: ${user.userType},잔액: ${user.money}원`;
 
     if (user.userType === 'seller') {
       return await this.sellerUI(user);
@@ -171,23 +169,22 @@ class HomeScreen implements IHomeScreen {
       if (!this.wishProductIdString) {
         alert('아이디를 입력해주세요');
       }
-      await fetch('http://localhost:3000/buyerClickBuyButton', {
+      const clickResult = await fetch('http://localhost:3000/buyerClickBuyButton', {
         method: 'POST',
         body: JSON.stringify({id: this.wishProductIdString, buyerEmail: user.email}),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      })
-        .then((res) => res.json())
-        .then((result: ServerResponse) => {
-          if (result.isSuccess === false) {
-            alert(`${result.msg}`);
-          } else {
-            alert(`${result.msg}`);
-          }
-          this.wishProductId.value = '';
-        });
+      });
+      const clickResultObject: checkSoldOutResponse = await clickResult.json();
+      if (clickResultObject.isSuccess === false) {
+        alert(`${clickResultObject.msg}`);
+      } else {
+        alert(`${clickResultObject.msg}`);
+      }
+      this.wishProductId.value = '';
     });
     //구매한 상품 목록보기 버튼 클릭했을때
     this.myShoppingListButton.addEventListener('click', async () => {
+      let node = '';
       await fetch('http://localhost:3000/getBuyerShoppingList', {
         method: 'POST',
         body: JSON.stringify(user.email),
@@ -197,9 +194,11 @@ class HomeScreen implements IHomeScreen {
         .then((shoppinglist: IProductClient[]) => {
           this.showBuyerProductListContainer.style.display = 'block';
           shoppinglist.forEach((e: IProductClient) => {
-            const node = `<li>상품아이디: ${e.id}, 상품이름:${e.title}, 상품가격:${e.price},상품내용:${e.content}</li>`;
-            this.showBuyerProductList.insertAdjacentHTML('beforeend', node);
+            // const node = `<li>상품아이디: ${e.id}, 상품이름:${e.title}, 상품가격:${e.price},상품내용:${e.content}</li>`;
+            // this.showBuyerProductList.insertAdjacentHTML('beforeend', node);
+            node += `<li>상품아이디: ${e.id}, 상품이름:${e.title}, 상품가격:${e.price},상품내용:${e.content}</li>`;
           });
+          this.showBuyerProductList.innerHTML = node;
         });
     });
 
