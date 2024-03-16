@@ -42,7 +42,7 @@ th {
   cursor: pointer;
   border: none;
 }
-/* ??  */
+
 #signup-form > div div {
   padding: 5px;
   margin-bottom: 5px;
@@ -76,7 +76,6 @@ th {
 #welcome {
   width: 90%;
   margin: auto;
-  /* width: 170px;  */
   font-size: large;
   text-align: center;
 }
@@ -96,6 +95,9 @@ th {
   #show-buyer-productlist {
     width: 700px;
   }
+  #wish-product-id {
+    width: 450px;
+  }
 }
 @media screen and (max-width: 768px) {
   #signup-form-content-container {
@@ -111,7 +113,13 @@ th {
     width: 550px;
   }
   #show-buyer-productlist {
-    width: 500px;
+    width: 550px;
+  }
+  #welcome #part2 {
+    display: block;
+  }
+  #wish-product-id {
+    width: 350px;
   }
 }
 @media screen and (max-width: 576px) {
@@ -129,5 +137,18 @@ th {
   }
   #show-buyer-productlist {
     width: 300px;
+  }
+  #welcome #part2 {
+    display: block;
+  }
+  #wish-product-id {
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 365px) {
+  #purchase-container {
+    flex-direction: column;
+    align-self: flex-start;
   }
 }

@@ -114,21 +114,42 @@ class AuthScreen implements IAuthScreen {
     }
   };
 
+  // login = async () => {
+  //   if (!this.loginEmail || !this.loginPassword) {
+  //     return undefined;
+  //   }
+  //   const loginResult = await fetch('http://localhost:3000/login', {
+  //     method: 'POST',
+  //     body: JSON.stringify({
+  //       loginUserEmail: this.loginEmail,
+  //       loginUserPassword: this.loginPassword,
+  //     }),
+  //     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+  //   });
+  //   const result = await loginResult.json();
+  //   console.log(result);
+  //   if (result.msg === '로그인 실패') {
+  //     return undefined;
+  //   } else {
+  //     return {
+  //       email: result.email,
+  //       nickname: result.nickname,
+  //       money: result.money,
+  //       userType: result.userType,
+  //     };
+  //   }
+  // };
   login = async () => {
     if (!this.loginEmail || !this.loginPassword) {
       return undefined;
     }
-    const loginResult = await fetch('http://localhost:3000/login', {
-      method: 'POST',
-      body: JSON.stringify({
-        loginUserEmail: this.loginEmail,
-        loginUserPassword: this.loginPassword,
-      }),
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-    });
+    const loginResult = await fetch(
+      `http://localhost:3000/login?loginUserEmail=${this.loginEmail}&loginUserPassword=${this.loginPassword}`,
+    );
     const result = await loginResult.json();
     console.log(result);
     if (result.msg === '로그인 실패') {
+      console.log(result.msg);
       return undefined;
     } else {
       return {

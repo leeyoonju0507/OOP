@@ -83,7 +83,8 @@ class HomeScreen implements IHomeScreen {
   mainUI = async (user: ILoginData) => {
     this.loginSignupSelectScreen.style.display = 'none';
     this.logOutScreen.style.display = 'block';
-    this.welcome.innerHTML = `${user.nickname}님 환영합니다^^ UserType: ${user.userType},잔액: ${user.money}원`;
+    this.welcome.innerHTML = `<span id="part1">${user.nickname}님 환영합니다^^</span>
+    <span id="part2"> UserType: ${user.userType},잔액: ${user.money}원</span>`;
 
     if (user.userType === 'seller') {
       return await this.sellerUI(user);
@@ -104,17 +105,11 @@ class HomeScreen implements IHomeScreen {
       this.productListAndAdd.style.display = 'none';
     });
     this.productListAndAdd.style.display = 'block';
-    const sellerProduct = await fetch('http://localhost:3000/getSellerProducts', {
-      method: 'POST',
-      //json문자열로 변환 후 전달
-      body: JSON.stringify({userEmail: user.email}),
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-    });
+    //Seller의 MY 판매목록
+    const sellerProduct = await fetch(
+      `http://localhost:3000/products?type=${user.userType}&email=${user.email}`,
+    );
     const sellerProductList = await sellerProduct.json();
-    sellerProductList.forEach((e: {id: number; title: string; price: number; content: string}) => {
-      console.log(`id:${e.id}, title:${e.title}, price:${e.price}, content:${e.content}`);
-    });
-    //판매자가 판매중인 상품목록 보기
     this.ProductListButton.addEventListener('click', async () => {
       let tag = ``;
       sellerProductList.forEach(
@@ -177,13 +172,21 @@ class HomeScreen implements IHomeScreen {
     this.myShoppingListButton.style.display = 'block';
 
     //상품을 가져와서 판매목록 보여주기
-    const showAllProductResult = await fetch('http://localhost:3000/showAllProduct');
+    // const showAllProductResult = await fetch('http://localhost:3000/showAllProduct');
+    // const showAllProductResultObject: IProductClient[] = await showAllProductResult.json();
+
+    // showAllProductResultObject.forEach((e: IProductClient) => {
+    //   const showlist = `<td>${e.id}</td><td>${e.title}</td><td>${e.price}</td><td>${e.content}</td>`;
+    //   this.AllProductList.insertAdjacentHTML('beforeend', showlist);
+    // });
+    const showAllProductResult = await fetch('http://localhost:3000/allProduct');
     const showAllProductResultObject: IProductClient[] = await showAllProductResult.json();
 
+    let node = '';
     showAllProductResultObject.forEach((e: IProductClient) => {
-      const showlist = `<td>${e.id}</td><td>${e.title}</td><td>${e.price}</td><td>${e.content}</td>`;
-      this.AllProductList.insertAdjacentHTML('beforeend', showlist);
+      node += `<tr><td>${e.id}</td><td>${e.title}</td><td>${e.price}</td><td>${e.content}</td></tr>`;
     });
+    this.AllProductList.innerHTML = node;
 
     //상품아이디 입력했을때 구매하기
     this.wishProductId.addEventListener('input', () => {
@@ -208,26 +211,10 @@ class HomeScreen implements IHomeScreen {
     });
     //구매한 상품 목록보기 버튼 클릭했을때
     this.myShoppingListButton.addEventListener('click', async () => {
-      // let node = '';
-      // await fetch('http://localhost:3000/getBuyerShoppingList', {
-      //   method: 'POST',
-      //   body: JSON.stringify(user.email),
-      //   headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      // })
-      //   .then((res) => res.json())
-      //   .then((shoppinglist: IProductClient[]) => {
-      //     this.showBuyerProductListContainer.style.display = 'block';
-      //     shoppinglist.forEach((e: IProductClient) => {
-      //       node += `<li>상품아이디: ${e.id}, 상품이름:${e.title}, 상품가격:${e.price},상품내용:${e.content}</li>`;
-      //     });
-      //     this.showBuyerProductList.innerHTML = node;
-      //   });
       let node = '';
-      const getBuyerShoppingListResult = await fetch('http://localhost:3000/getBuyerShoppingList', {
-        method: 'POST',
-        body: JSON.stringify(user.email),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      });
+      const getBuyerShoppingListResult = await fetch(
+        `http://localhost:3000/shoppingList?email=${user.email}`,
+      );
       const getBuyerShoppingListResultObject: IProductClient[] =
         await getBuyerShoppingListResult.json();
 
