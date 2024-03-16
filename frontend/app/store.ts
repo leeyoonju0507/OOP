@@ -5,6 +5,7 @@ import {ILoginData} from '../specification/interfaces';
 class Store {
   private authScreen: IAuthScreen;
   private homeScreen: HomeScreen;
+  private loginSignupSelectScreen: HTMLElement;
   //////////////////////////////
   private signupButton: HTMLElement;
   private loginButton: HTMLElement;
@@ -18,6 +19,9 @@ class Store {
   constructor() {
     this.authScreen = new AuthScreen();
     this.homeScreen = new HomeScreen();
+    this.loginSignupSelectScreen = document.getElementById(
+      'login-signup-select-screen',
+    ) as HTMLElement;
 
     this.signupButton = document.getElementById('signup-button') as HTMLElement;
     this.loginButton = document.getElementById('login-button') as HTMLElement;
@@ -31,6 +35,8 @@ class Store {
   }
 
   init() {
+    // this.loginSignupSelectScreen.style.display = 'block';
+
     this.showSignUpScreen.addEventListener('click', async () => {
       if (this.signupForm.style.display === 'block') {
         this.signupForm.style.display = 'none';
@@ -63,7 +69,6 @@ class Store {
             if (!checkLogout) {
               this.init();
             }
-            // this.registerOrBuyScreen.style.display = 'block';
           }
         });
       }

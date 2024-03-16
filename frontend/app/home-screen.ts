@@ -1,9 +1,9 @@
 import {ILoginData} from '../specification/interfaces';
 
 export interface IHomeScreen {
-  mainUI(user: ILoginData): Promise<undefined | boolean>;
-  sellerUI(user: ILoginData): Promise<undefined | boolean>;
-  buyerUI(user: ILoginData): Promise<undefined | boolean>;
+  mainUI(user: ILoginData): Promise<boolean | undefined>;
+  sellerUI(user: ILoginData): Promise<boolean>;
+  buyerUI(user: ILoginData): Promise<boolean>;
 }
 interface IProductClient {
   id: number;
@@ -16,6 +16,9 @@ interface checkSoldOutResponse {
   msg: string;
 }
 class HomeScreen implements IHomeScreen {
+  private loginSignupSelectScreen: HTMLElement;
+  private logOutScreen: HTMLElement;
+  //
   private welcome: HTMLElement;
   private ProductListButton: HTMLElement;
   private productTitleInput: HTMLInputElement;
@@ -43,6 +46,12 @@ class HomeScreen implements IHomeScreen {
   // private selectedProductIndexList: number[];
 
   constructor() {
+    this.loginSignupSelectScreen = document.getElementById(
+      'login-signup-select-screen',
+    ) as HTMLElement;
+    this.logOutScreen = document.getElementById('logout-screen') as HTMLElement;
+
+    //
     this.welcome = document.getElementById('welcome') as HTMLElement;
     this.productListAndAdd = document.getElementById('product-list-add') as HTMLElement;
     this.ProductListButton = document.getElementById('show-productList') as HTMLElement;
@@ -72,6 +81,8 @@ class HomeScreen implements IHomeScreen {
   }
 
   mainUI = async (user: ILoginData) => {
+    this.loginSignupSelectScreen.style.display = 'none';
+    this.logOutScreen.style.display = 'block';
     this.welcome.innerHTML = `${user.nickname}님 환영합니다^^ UserType: ${user.userType},잔액: ${user.money}원`;
 
     if (user.userType === 'seller') {
@@ -84,6 +95,14 @@ class HomeScreen implements IHomeScreen {
   };
 
   sellerUI = async (user: ILoginData) => {
+    this.logOutScreen.addEventListener('click', () => {
+      // return false
+      this.loginSignupSelectScreen.style.display = 'block';
+      this.logOutScreen.style.display = 'none';
+      this.welcome.style.display = 'none';
+      this.productContentInput.style.display = 'none';
+      this.productListAndAdd.style.display = 'none';
+    });
     this.productListAndAdd.style.display = 'block';
     const sellerProduct = await fetch('http://localhost:3000/getSellerProducts', {
       method: 'POST',
@@ -145,6 +164,15 @@ class HomeScreen implements IHomeScreen {
   };
 
   buyerUI = async (user: ILoginData) => {
+    this.logOutScreen.addEventListener('click', () => {
+      // return false
+      this.loginSignupSelectScreen.style.display = 'block';
+      this.logOutScreen.style.display = 'none';
+      this.welcome.style.display = 'none';
+      this.buyContainer.style.display = 'none';
+      this.myShoppingListButton.style.display = 'none';
+      this.showBuyerProductListContainer.style.display = 'none';
+    });
     this.buyContainer.style.display = 'block';
     this.myShoppingListButton.style.display = 'block';
 
