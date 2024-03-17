@@ -1,34 +1,29 @@
-// import {IDomain} from '../../specification/interfaces';
+import {IDomain, IEntity} from '../../specification/interfaces.js';
 
-import {IDomain} from '../../specification/interfaces.js';
-
-// 데이터 타입 1: 리포지토리에서 사용합니다
-export interface IUserEntity {
-  id: number;
-  email: string;
-  password: string;
-  nickname: string;
-  money: number;
-  userType: 'seller' | 'buyer';
+export interface IUserEntity extends IEntity {
+  readonly email: string;
+  readonly password: string;
+  readonly nickname: string;
+  readonly money: number;
+  readonly userType: 'seller' | 'buyer';
 }
 
-// 데이터 타입 2: 서비스에서 사용합니다
 export interface IUser {
-  id: number;
-  email: string;
-  password: string;
-  nickname: string;
-  money: number;
-  userType: any;
+  Email: string;
+  Money: number;
+  Password: string;
+  Nickname: string;
+  UserType: 'seller' | 'buyer';
+  useMoney: (money: number) => void;
+  earnMoney: (money: number) => void;
 }
 export default class UserDomain implements IUser, IDomain {
-  // 데이터: 인스턴스 속성
-  public readonly id: number;
-  public readonly email: string;
-  public readonly password: string;
-  public readonly nickname: string;
-  public readonly money: number;
-  public readonly userType: any;
+  public id: number;
+  private email: string;
+  private password: string;
+  private nickname: string;
+  private money: number;
+  private userType: 'seller' | 'buyer';
 
   // 생성자
   constructor(
@@ -47,41 +42,44 @@ export default class UserDomain implements IUser, IDomain {
     this.userType = userType;
   }
 
-  // 함수: 인스턴스 메소드
-  public getEmail() {
+  public get Email() {
     return this.email;
   }
-
-  // public setEmail(newEmail: string) {
-  //   this.email = newEmail;
-  // }
-
-  // public setMoneyByStorage(money: number) {
-  //   this.money -= money;
-  // }
-
-  public getMoney() {
+  public get Money() {
     return this.money;
   }
-
-  public getPassword() {
+  public get Password() {
     return this.password;
   }
-
-  public getNickname() {
+  public get Nickname() {
     return this.nickname;
   }
-  public getUserType() {
+  public get UserType() {
     return this.userType;
   }
 
-  //CSV에 저장해야되는 문자형태를 스스로 return
-  convertStringForCSV(): string {
-    return `${this.id},${this.email},${this.password},${this.nickname},${this.money},${this.userType}`;
+  public useMoney(money: number) {
+    if (this.money < money) {
+      return;
+    }
+
+    this.money -= money;
+  }
+  public earnMoney(money: number) {
+    this.money += money;
+  }
+  public convertEntity(): IUserEntity {
+    return {
+      id: this.id,
+      email: this.email,
+      password: this.password,
+      nickname: this.nickname,
+      money: this.money,
+      userType: this.userType,
+    };
   }
 }
 
-// 데이터 타입 3: 클라이언트에서 사용합니다
 export interface IUserClient {
   email: string;
   nickname: string;

@@ -44,11 +44,15 @@ class Store {
         this.loginForm.style.display = 'none';
         this.signupForm.style.display = 'block';
         this.signupButton.addEventListener('click', async () => {
-          const signupResult = await this.authScreen.signUp();
-          if (signupResult === undefined) {
-            alert('회원 정보 다시 입력해주세요');
+          const result = await this.authScreen.signUp();
+          if (!result) {
+            alert('입력을 확인하세요');
           } else {
-            alert('회원가입 성공!');
+            if (!result.isSuccess) {
+              alert(result.message);
+            } else {
+              alert(result.message);
+            }
           }
         });
       }

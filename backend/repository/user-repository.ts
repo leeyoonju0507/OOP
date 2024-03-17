@@ -1,28 +1,18 @@
-// import Database from '../database/database';
-// import Buyer from '../domain/user/buyer';
-// import Seller from '../domain/user/seller';
-// import {IUserEntity} from '../domain/user/user';
-// import {ISignUpData} from '../specification/interfaces';
-
-import Database from '../database/database.js';
-import Buyer from '../domain/user/buyer.js';
-import Seller from '../domain/user/seller.js';
-import {IUserEntity} from '../domain/user/user.js';
+import UserDomain, {IUserEntity} from '../domain/user/user.js';
 import {ISignUpData} from '../specification/interfaces.js';
+import BaseRepository, {IBaseRepository} from './base-repository.js';
 
-export interface IUserRepository {
+export interface IUserRepository extends IBaseRepository {
   createUser(user: ISignUpData): Promise<void>;
-  findUserByEmail(email: string): Promise<Seller | Buyer | undefined>;
+  findUserByEmail(email: string): Promise<UserDomain | undefined>;
 }
 
-class UserRepository implements IUserRepository {
-  private db: Database;
-
+export default class UserRepository extends BaseRepository implements IUserRepository {
   constructor() {
-    this.db = new Database();
+    super('users.csv');
   }
 
-  //회원가입할때 CSV에 유저정보를 저장하고
+  // 생성, 검색, 업데이트, 삭제
   createUser = async (user: ISignUpData) => {
     await this.db.appendCSV(
       'users.csv',
@@ -35,7 +25,7 @@ class UserRepository implements IUserRepository {
       if (email === userRows[i].email) {
         const userObject = userRows[i];
         if (userObject.userType === 'seller') {
-          return new Seller(
+          return new UserDomain(
             userObject.id,
             userObject.email,
             userObject.password,
@@ -44,7 +34,7 @@ class UserRepository implements IUserRepository {
             userObject.userType as 'seller' | 'buyer',
           );
         } else {
-          return new Buyer(
+          return new UserDomain(
             userObject.id,
             userObject.email,
             userObject.password,
@@ -57,5 +47,3 @@ class UserRepository implements IUserRepository {
     }
   };
 }
-
-export default UserRepository;

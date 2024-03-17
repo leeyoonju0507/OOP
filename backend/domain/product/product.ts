@@ -1,43 +1,32 @@
-// 데이터 타입 1: 리포지토리에서 사용합니다
-// import {IDomain} from '../../specification/interfaces';
+import {IDomain, IEntity} from '../../specification/interfaces.js';
 
-import {IDomain} from '../../specification/interfaces.js';
-
-export interface IProductEntity {
-  id: string;
+export interface IProductEntity extends IEntity {
   title: string;
   content: string;
-  price: string;
-  sellerEmail: string;
-  buyerEmail: string;
-  isSoldOut: 'true' | 'false';
-}
-
-// 데이터 타입 2: 서비스에서 사용합니다
-export interface IProductDomain {
-  id: number;
-  title: string;
   price: number;
-  content: string;
   sellerEmail: string;
   buyerEmail: string;
   isSoldOut: boolean;
 }
 
+export interface IProductDomain {
+  ID: number;
+  Title: string;
+  Price: number;
+  Content: string;
+  SellerEmail: string;
+  BuyerEmail: string;
+  IsSoldOut: boolean;
+  setSoldOut: (buyerEmail: string) => void;
+}
 export class ProductDomain implements IProductDomain, IDomain {
-  public readonly id: number;
-  public readonly title: string;
-  public readonly content: string;
-  public readonly price: number;
-  public readonly sellerEmail: string;
-  public readonly buyerEmail: string;
-  public readonly isSoldOut: boolean;
-  // private id: number;
-  // private title: string;
-  // private content: string;
-  // private price: number;
-  // private sellerEmail: string;
-  // private isSoldOut: boolean;
+  public id: number;
+  private title: string;
+  private content: string;
+  private price: number;
+  private sellerEmail: string;
+  private buyerEmail: string;
+  private isSoldOut: boolean;
 
   constructor(
     id: number,
@@ -57,38 +46,45 @@ export class ProductDomain implements IProductDomain, IDomain {
     this.isSoldOut = isSoldOut;
   }
 
-  public getProductId() {
+  public get ID() {
     return this.id;
   }
-  public getPrice() {
+  public get Price() {
     return this.price;
   }
-  public getTitle() {
+  public get Title() {
     return this.title;
   }
-  public getContent() {
+  public get Content() {
     return this.content;
   }
-  public getSellerEmail(): string {
+  public get SellerEmail(): string {
     return this.sellerEmail;
   }
-  public getBuyerEmail(): string {
+  public get BuyerEmail(): string {
     return this.buyerEmail;
   }
-  public getIsSoldOut() {
+  public get IsSoldOut() {
     return this.isSoldOut;
   }
-  //csv파일에서 읽어서 재고있으면 false, 재고없으면true로 setting
-  // public setIsSoldOut(numOfSellerProduct: number) {
-  //   this.isSoldOut = numOfSellerProduct > 0;
-  // }
 
-  convertStringForCSV(): string {
-    return `${this.id},${this.title},${this.price},${this.content},${this.sellerEmail},${this.buyerEmail},${this.isSoldOut}`;
+  public setSoldOut(buyerEmail: string) {
+    this.isSoldOut = true;
+    this.buyerEmail = buyerEmail;
+  }
+  public convertEntity(): IProductEntity {
+    return {
+      id: this.id,
+      title: this.title,
+      content: this.content,
+      price: this.price,
+      sellerEmail: this.sellerEmail,
+      buyerEmail: this.buyerEmail,
+      isSoldOut: this.isSoldOut,
+    };
   }
 }
 
-// 데이터 타입 3: 클라이언트에서 사용합니다
 export interface IProductClient {
   id: any;
   title: string;

@@ -1,14 +1,3 @@
 id,email,password,nickname,money,userType
-1,dldbswn,123,dldbswn,100200,seller
-2,asd,1234,123asd,2000,seller
-3,a,1111,12a,20000,buyer
-4,aaa,kkk,k,5000,seller
-1697947276438.6958,hahaha.com,1234,hahah,100,buyer
-1697947402541.2852,haha.com,1234,haha,100,seller
-1708358102053.4155,1,1,1,1,seller
-1708358118510.9807,1,1,1,1,seller
-1708358196721.0098,2,2,2,2,buyer
-1708358211211.6765,3,3,3,3,buyer
-1708776708792.4976,7,7,7,700,seller
-1708777617560.1416,8,8,8,800,buyer
-1708777639146.806,9,9,9,900,buyer
+1710645492447,qwe@qwe.com,qwe,qwe,1001000,seller
+1710645924515,asd@asd.com,asd,asd,0,buyer

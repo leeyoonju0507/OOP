@@ -1,13 +1,3 @@
-// import UserRepository, {IUserRepository} from '../repository/user-repository';
-// import Buyer from '../domain/user/buyer';
-// import Seller from '../domain/user/seller';
-// import ProductRepository, {IProductRepository} from '../repository/product-repository';
-// import {ProductDomain} from '../domain/product/product';
-// import Repository, {IRepository} from '../repository/repository';
-// import {IUserClient, IUserEntity} from '../domain/user/user';
-// import {ISignUpData} from '../specification/interfaces';
-// import User from '../../fp/domain/user/user';
-
 import {IUserClient} from '../domain/user/user.js';
 import ProductRepository, {IProductRepository} from '../repository/product-repository.js';
 import Repository, {IRepository} from '../repository/repository.js';
@@ -23,14 +13,10 @@ export interface IUserService {
   login(email: string, password: string): Promise<IUserClient | undefined>;
 }
 export default class UserService implements IUserService {
-  private userRepository: IUserRepository;
-  private ProductRepository: IProductRepository;
   private repository: IRepository;
 
   constructor() {
     this.repository = Repository.getInstance();
-    this.userRepository = new UserRepository();
-    this.ProductRepository = new ProductRepository();
   }
 
   checkSignedUpByEmail = async (email: string) => {
@@ -58,15 +44,15 @@ export default class UserService implements IUserService {
       return;
     }
 
-    if (user.getPassword() !== password) {
+    if (user.Password !== password) {
       return;
     }
 
     return {
-      email: user.getEmail(),
-      nickname: user.getNickname(),
-      money: user.getMoney(),
-      userType: user.getUserType(),
+      email: user.Email,
+      nickname: user.Nickname,
+      money: user.Money,
+      userType: user.UserType,
     };
   };
 }

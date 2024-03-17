@@ -1,11 +1,12 @@
 import fs from 'fs';
 import csvParser from 'csv-parser';
 import * as path from 'path';
+import {IEntity} from '../specification/interfaces.js';
 
 export interface IDatabase {
-  readCSV<T>(filename: string): Promise<T[]>;
+  readCSV<T extends IEntity>(filename: string): Promise<T[]>;
   appendCSV(filename: string, content: string): Promise<any>;
-  writeAllCSV(filename: string, contentList: string[]): Promise<void>;
+  writeAllCSV(filename: string, entityList: IEntity[]): Promise<void>;
 }
 
 export default class Database implements IDatabase {
@@ -16,12 +17,26 @@ export default class Database implements IDatabase {
     this.dataFolderPath = path.join(__dirname, '../backend/data');
   }
 
-  readCSV = <T>(filename: string): Promise<T[]> => {
+  readCSV = <T extends IEntity>(filename: string): Promise<T[]> => {
     return new Promise((resolve) => {
       const results: T[] = [];
       fs.createReadStream(path.join(this.dataFolderPath, filename))
         .pipe(csvParser())
-        .on('data', (data: T) => results.push(data))
+        .on('data', (data: {[key: string]: string}) => {
+          const entityData: {[key: string]: any} = {};
+          Object.entries(data).forEach(([k, v]) => {
+            if (k === 'id' || k === 'money' || k === 'price') {
+              entityData[k] = parseInt(v);
+            } else if (k === 'isSoldOut') {
+              entityData[k] = v === 'true';
+            } else if (k === 'buyerEmail' && v === 'null') {
+              entityData[k] = null;
+            } else {
+              entityData[k] = v;
+            }
+          });
+          results.push(entityData as T);
+        })
         .on('end', () => {
           resolve(results);
         });
@@ -32,14 +47,14 @@ export default class Database implements IDatabase {
       const fileStream = fs.createWriteStream(path.join(this.dataFolderPath, filename), {
         flags: 'a',
       });
-      const randomId = Math.random() + Date.now();
-      fileStream.write(`${randomId},${content}\n`);
+      const id = Date.now();
+      fileStream.write(`${id},${content}\n`);
       fileStream.end(() => {
         resolve(true);
       });
     });
   };
-  writeAllCSV = (filename: string, contentList: string[]): Promise<void> => {
+  writeAllCSV = (filename: string, entityList: IEntity[]): Promise<void> => {
     return new Promise((resolve) => {
       const fileStream = fs.createWriteStream(path.join(this.dataFolderPath, filename), {
         flags: 'w',
@@ -51,10 +66,9 @@ export default class Database implements IDatabase {
       } else if (filename === 'users.csv') {
         totalContent += 'id,email,password,nickname,money,userType\n';
       }
-      for (let i = 0; i < contentList.length; i++) {
-        totalContent += contentList[i];
+      for (let i = 0; i < entityList.length; i++) {
+        totalContent += Object.values(entityList[i]).join(',');
         totalContent += `\n`;
-        // totalContent += `${contentList[i]}\n`;
       }
       fileStream.write(totalContent);
       fileStream.end(() => {

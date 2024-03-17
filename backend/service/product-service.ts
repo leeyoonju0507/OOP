@@ -1,22 +1,14 @@
-// import {IProductClient, IProductDomain, ProductDomain} from '../domain/product/product';
-// import Buyer from '../domain/user/buyer';
-// import Seller from '../domain/user/seller';
-// import Repository, {IRepository} from '../repository/repository';
-
 import {IProductClient, IProductDomain, ProductDomain} from '../domain/product/product.js';
-import Buyer from '../domain/user/buyer.js';
-import Seller from '../domain/user/seller.js';
 import Repository, {IRepository} from '../repository/repository.js';
+import UserDomain from '../domain/user/user.js';
 
 export interface IProductService {
   registerProduct(email: string, title: string, price: number, content: string): Promise<boolean>;
-  getSellerProductsByEmail(email: string): Promise<IProductClient[]>;
-  // checkSoldOutfProduct(id: string): Promise<boolean>;
+  getSellerProducts(email: string): Promise<IProductClient[]>;
   getAllProduct(): Promise<IProductClient[]>;
-  buyProduct(id: string, buyerEmail: string): Promise<boolean>;
+  buyProduct(id: number, buyerEmail: string): Promise<boolean>;
   getBuyerProductsByEmail(email: string): Promise<IProductClient[]>;
 }
-
 export default class ProductService implements IProductService {
   private repository: IRepository;
 
@@ -30,10 +22,7 @@ export default class ProductService implements IProductService {
     if (!checkIsMember) {
       return false;
     }
-    if (checkIsMember instanceof Buyer) {
-      return false;
-    }
-    //상품을 등록하고 등록성공 여부 return
+
     await this.repository.productRepository.createProduct({
       title,
       content,
@@ -42,77 +31,48 @@ export default class ProductService implements IProductService {
       buyerEmail: 'null',
       IsSoldOut: false,
     });
+
     return true;
   };
-
-  getSellerProductsByEmail = async (email: string) => {
-    const seller = await this.repository.userRepository.findUserByEmail(email);
-    if (!seller || seller instanceof Buyer) {
+  getSellerProducts = async (sellerEmail: string) => {
+    const seller = await this.repository.userRepository.findUserByEmail(sellerEmail);
+    if (!seller) {
       return [];
     }
 
-    const sellerProducts = await this.repository.productRepository.findSellerProductsByEmail(email);
-    const productClients: IProductClient[] = [];
+    const sellerProducts =
+      await this.repository.productRepository.findSellerProductsByEmail(sellerEmail);
+
+    const products: IProductClient[] = [];
     for (let i = 0; i < sellerProducts.length; i++) {
-      const product = sellerProducts[i];
-      productClients.push({
-        id: product.getProductId(),
-        title: product.getTitle(),
-        price: product.getPrice(),
-        content: product.getContent(),
+      products.push({
+        id: sellerProducts[i].ID,
+        title: sellerProducts[i].Title,
+        price: sellerProducts[i].Price,
+        content: sellerProducts[i].Content,
       });
     }
-    return productClients;
-  };
-  // checkSoldOutfProduct = async (id: string) => {
-  //   const ExistOfProduct = await this.repository.productRepository.getIsProductExist(id);
-  //   if (!ExistOfProduct) {
-  //     return false;
-  //   }
-  //   return true;
-  // };
 
-  buyProduct = async (id: string, buyerEmail: string) => {
-    const buyer = await this.repository.userRepository.findUserByEmail(buyerEmail);
-    if (!buyer) {
-      return false;
-    }
-    const 구매하고싶은상품 = await this.repository.productRepository.checkProductSoldOut(id);
-    if (!구매하고싶은상품) {
-      return false;
-    }
-    const 구매할상품 = {
-      id: 구매하고싶은상품.getProductId(),
-      title: 구매하고싶은상품.getTitle(),
-      content: 구매하고싶은상품.getContent(),
-      price: 구매하고싶은상품.getPrice(),
-      sellerEmail: 구매하고싶은상품.getSellerEmail(),
-      buyerEmail,
-      isSoldOut: true,
-    } as IProductDomain;
-    await this.repository.productRepository.updateProduct(구매할상품);
-    return true;
+    return products;
   };
-
   getAllProduct = async () => {
-    const allProductRow: ProductDomain[] =
-      await this.repository.productRepository.findAllProducts();
-    const allProductClientRow: IProductClient[] = [];
+    const products: IProductClient[] = [];
 
-    for (let i = 0; i < allProductRow.length; i++) {
-      allProductClientRow.push({
-        id: allProductRow[i].getProductId(),
-        title: allProductRow[i].getTitle(),
-        price: allProductRow[i].getPrice(),
-        content: allProductRow[i].getContent(),
+    const productDomains: ProductDomain[] =
+      await this.repository.productRepository.findAllProducts();
+    for (let i = 0; i < productDomains.length; i++) {
+      products.push({
+        id: productDomains[i].ID,
+        title: productDomains[i].Title,
+        price: productDomains[i].Price,
+        content: productDomains[i].Content,
       });
     }
-    return allProductClientRow;
+    return products;
   };
-
   getBuyerProductsByEmail = async (email: string) => {
     const buyer = await this.repository.userRepository.findUserByEmail(email);
-    if (!buyer || buyer instanceof Seller) {
+    if (!buyer || buyer instanceof UserDomain) {
       return [];
     }
 
@@ -121,12 +81,48 @@ export default class ProductService implements IProductService {
     for (let i = 0; i < buyerProducts.length; i++) {
       const product = buyerProducts[i];
       productClients.push({
-        id: product.getProductId(),
-        title: product.getTitle(),
-        price: product.getPrice(),
-        content: product.getContent(),
+        id: product.id,
+        title: product.Title,
+        price: product.Price,
+        content: product.Content,
       });
     }
     return productClients;
+  };
+  buyProduct = async (id: number, buyerEmail: string) => {
+    const buyer = await this.repository.userRepository.findUserByEmail(buyerEmail);
+    if (!buyer) {
+      console.log(1);
+      return false;
+    }
+
+    const product = await this.repository.productRepository.checkProductSoldOut(id);
+    if (!product) {
+      console.log(2);
+      return false;
+    }
+
+    const seller = await this.repository.userRepository.findUserByEmail(product.SellerEmail);
+    if (!seller) {
+      console.log(3);
+      return false;
+    }
+
+    if (buyer.Money < product.Price) {
+      console.log(4);
+      return false;
+    }
+
+    // 도메인 객체 변경
+    buyer.useMoney(product.Price);
+    seller.earnMoney(product.Price);
+    product.setSoldOut(buyerEmail);
+
+    // 리포지토리를 이용해서 영구 변경
+    await this.repository.userRepository.save(buyer);
+    await this.repository.userRepository.save(seller);
+    await this.repository.productRepository.save(product);
+
+    return true;
   };
 }

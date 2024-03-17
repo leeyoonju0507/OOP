@@ -1,5 +1,9 @@
+export interface IEntity {
+  id: number;
+}
 export interface IDomain {
-  convertStringForCSV(): string;
+  readonly id: number;
+  convertEntity(): IEntity;
 }
 export interface ISignUpData {
   email: string;

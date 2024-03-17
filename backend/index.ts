@@ -75,21 +75,23 @@ app.post(
   setHeader,
   parseBody,
   async (req: Request, res: Response, next: NextFunction) => {
-    // const key = Object.keys(req.body);
-    // // let id: number = 1;
-    // const email = JSON.parse(key[0]).signupEmail as string;
-    // const password = JSON.parse(key[0]).signupPassword as string;
-    // const nickname = JSON.parse(key[0]).signupNickname as string;
-    // const money = JSON.parse(key[0]).signupMoney as number;
-    // const userType = JSON.parse(key[0]).signupUserType as 'seller' | 'buyer';
     const {signupEmail, signupPassword, signupNickname, signupMoney, signupUserType} = req.body;
     const email = signupEmail;
     const password = signupPassword;
     const nickname = signupNickname;
     const money = signupMoney;
     const userType = signupUserType;
-    await userService.signUp({email, password, nickname, money, userType});
-    return res.json(true);
+    const {isSuccess, message} = await userService.signUp({
+      email,
+      password,
+      nickname,
+      money,
+      userType,
+    });
+    return res.json({
+      isSuccess,
+      message,
+    });
   },
 );
 //Seller의 MY 판매목록
@@ -99,7 +101,7 @@ app.get('/products', setHeader, async (req: Request, res: Response, next: NextFu
     return res.json({msg: '이메일을 입력해주세요'});
   }
   if (type === 'seller') {
-    const sellerProductList = await productService.getSellerProductsByEmail(email);
+    const sellerProductList = await productService.getSellerProducts(email);
     return res.json(sellerProductList);
   } else if (type === 'buyer') {
     return res.json([]);
@@ -116,7 +118,12 @@ app.post(
     const price = productPrice;
     const content = productContent;
 
-    const ProductregisterResult = productService.registerProduct(email, title, price, content);
+    const ProductregisterResult = await productService.registerProduct(
+      email,
+      title,
+      price,
+      content,
+    );
     if (!ProductregisterResult) {
       return res.json(false);
     } else {
@@ -135,10 +142,10 @@ app.post(
   parseBody,
   async (req: Request, res: Response, next: NextFunction) => {
     const {id, buyerEmail} = req.body;
-    const productId = id;
-    const buyer_Email = buyerEmail;
-    const buyResult = await productService.buyProduct(productId, buyer_Email);
-    if (buyResult === false) {
+    const productId = parseInt(id);
+
+    const buyResult = await productService.buyProduct(productId, buyerEmail);
+    if (!buyResult) {
       return res.json({
         isSuccess: false,
         msg: '현재 재고가 없습니다.',

@@ -1,7 +1,7 @@
 import {ILoginData} from '../specification/interfaces';
 
 export interface IAuthScreen {
-  signUp(): Promise<boolean | undefined>;
+  signUp(): Promise<{isSuccess: boolean; message: string} | undefined>;
   login(): Promise<ILoginData | undefined>;
 }
 
@@ -76,17 +76,6 @@ class AuthScreen implements IAuthScreen {
   }
 
   signUp = async () => {
-    console.log(
-      this.signupEmail +
-        ' ' +
-        this.signupPassword +
-        ' ' +
-        this.signupNickname +
-        ' ' +
-        this.signupMoney +
-        ' ' +
-        this.signupUserType,
-    );
     if (
       !this.signupEmail ||
       !this.signupPassword ||
@@ -107,10 +96,11 @@ class AuthScreen implements IAuthScreen {
       }),
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
     });
-    const result = await signupResult.json();
-    console.log(result);
-    if (result === true) {
-      return true;
+    const {isSuccess, message} = await signupResult.json();
+    if (isSuccess === true) {
+      return {isSuccess, message};
+    } else {
+      return {isSuccess, message};
     }
   };
 
