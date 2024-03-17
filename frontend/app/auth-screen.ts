@@ -96,7 +96,7 @@ class AuthScreen implements IAuthScreen {
     ) {
       return undefined;
     }
-    const signupResult = await fetch('http://localhost:3000/signup', {
+    const signupResult = await fetch('http://localhost:3000/user/signup', {
       method: 'POST',
       body: JSON.stringify({
         signupEmail: this.signupEmail,
@@ -144,7 +144,14 @@ class AuthScreen implements IAuthScreen {
       return undefined;
     }
     const loginResult = await fetch(
-      `http://localhost:3000/login?loginUserEmail=${this.loginEmail}&loginUserPassword=${this.loginPassword}`,
+      `http://localhost:3000/user/login?loginUserEmail=${this.loginEmail}`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          loginUserPassword: this.loginPassword,
+        }),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      },
     );
     const result = await loginResult.json();
     console.log(result);

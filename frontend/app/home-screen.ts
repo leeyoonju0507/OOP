@@ -136,7 +136,7 @@ class HomeScreen implements IHomeScreen {
       if (!this.productTitle || !this.productPrice || !this.productContent) {
         alert('상품의 정보를 모두 입력하세요');
       } else {
-        const addProductResult = await fetch('http://localhost:3000/addProduct', {
+        const addProductResult = await fetch('http://localhost:3000/product', {
           method: 'POST',
           body: JSON.stringify({
             userEmail: user.email,
@@ -172,14 +172,14 @@ class HomeScreen implements IHomeScreen {
     this.myShoppingListButton.style.display = 'block';
 
     //상품을 가져와서 판매목록 보여주기
-    // const showAllProductResult = await fetch('http://localhost:3000/showAllProduct');
+    // const showAllProductResult = await fetch('http://localhost:3000/allProduct');
     // const showAllProductResultObject: IProductClient[] = await showAllProductResult.json();
 
     // showAllProductResultObject.forEach((e: IProductClient) => {
     //   const showlist = `<td>${e.id}</td><td>${e.title}</td><td>${e.price}</td><td>${e.content}</td>`;
     //   this.AllProductList.insertAdjacentHTML('beforeend', showlist);
     // });
-    const showAllProductResult = await fetch('http://localhost:3000/allProduct');
+    const showAllProductResult = await fetch('http://localhost:3000/products/selling');
     const showAllProductResultObject: IProductClient[] = await showAllProductResult.json();
 
     let node = '';
@@ -196,7 +196,7 @@ class HomeScreen implements IHomeScreen {
       if (!this.wishProductIdString) {
         alert('아이디를 입력해주세요');
       }
-      const clickResult = await fetch('http://localhost:3000/buyerClickBuyButton', {
+      const clickResult = await fetch('http://localhost:3000/product/buy', {
         method: 'POST',
         body: JSON.stringify({id: this.wishProductIdString, buyerEmail: user.email}),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -213,7 +213,7 @@ class HomeScreen implements IHomeScreen {
     this.myShoppingListButton.addEventListener('click', async () => {
       let node = '';
       const getBuyerShoppingListResult = await fetch(
-        `http://localhost:3000/shoppingList?email=${user.email}`,
+        `http://localhost:3000/product/shopping-list?email=${user.email}`,
       );
       const getBuyerShoppingListResultObject: IProductClient[] =
         await getBuyerShoppingListResult.json();

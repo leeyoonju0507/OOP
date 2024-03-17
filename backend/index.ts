@@ -50,23 +50,28 @@ app.get('/', setHeader, (req: Request, res: Response, next: NextFunction) => {
 //     res.json(result);
 //   }
 // });
-app.get('/login', setHeader, async (req: Request, res: Response, next: NextFunction) => {
-  const {loginUserEmail, loginUserPassword} = req.query as {
-    loginUserEmail: string;
-    loginUserPassword: string;
-  };
-  const email = loginUserEmail;
-  const password = loginUserPassword;
-
-  const result = await userService.login(email, password);
-  if (!result) {
-    return res.json({msg: '로그인 실패'});
-  } else {
-    return res.json(result);
-  }
-});
 app.post(
-  '/signup',
+  '/user/login',
+  setHeader,
+  parseBody,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {loginUserEmail} = req.query as {
+      loginUserEmail: string;
+    };
+    const {loginUserPassword} = req.body as {loginUserPassword: string};
+    const email = loginUserEmail;
+    const password = loginUserPassword;
+
+    const result = await userService.login(email, password);
+    if (!result) {
+      return res.json({msg: '로그인 실패'});
+    } else {
+      return res.json(result);
+    }
+  },
+);
+app.post(
+  '/user/signup',
   setHeader,
   parseBody,
   async (req: Request, res: Response, next: NextFunction) => {
@@ -101,7 +106,7 @@ app.get('/products', setHeader, async (req: Request, res: Response, next: NextFu
   }
 });
 app.post(
-  '/addProduct',
+  '/product',
   setHeader,
   parseBody,
   async (req: Request, res: Response, next: NextFunction) => {
@@ -120,12 +125,12 @@ app.post(
   },
 );
 //구매자 로그인 후 모든 판매상품 게시
-app.get('/allProduct', setHeader, async (req: Request, res: Response, next: NextFunction) => {
+app.get('/products/selling', setHeader, async (req: Request, res: Response, next: NextFunction) => {
   const AllProductList = await productService.getAllProduct();
   return res.json(AllProductList);
 });
 app.post(
-  '/buyerClickBuyButton',
+  '/product/buy',
   setHeader,
   parseBody,
   async (req: Request, res: Response, next: NextFunction) => {
@@ -146,12 +151,17 @@ app.post(
     }
   },
 );
-app.get('/shoppingList', setHeader, async (req: Request, res: Response, next: NextFunction) => {
-  const {email} = req.query as {email: string};
-  const buyerEmail = email;
-  const buyerProductList = await productService.getBuyerProductsByEmail(buyerEmail);
-  return res.json(buyerProductList);
-});
+//buyer의 구매목록
+app.get(
+  '/product/shopping-list',
+  setHeader,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {email} = req.query as {email: string};
+    const buyerEmail = email;
+    const buyerProductList = await productService.getBuyerProductsByEmail(buyerEmail);
+    return res.json(buyerProductList);
+  },
+);
 app.listen(parseInt(process.env.PORT ?? '3000'), () => {
   console.log('Server listenning on port:3000');
 });
